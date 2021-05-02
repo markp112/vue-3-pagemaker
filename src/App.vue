@@ -1,9 +1,10 @@
 <template>
-  <div id="nav" class="bg-gray-500">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+  <div
+    class="min-w-screen max-w-screen border-box font-body flex flex-col h-screen overflow-hidden"
+  >
+    <nav-bar></nav-bar>
+    <router-view />
   </div>
-  <router-view />
 </template>
 
 <style lang="scss">
@@ -28,3 +29,17 @@
   }
 }
 </style>
+
+<script lang="ts">
+import { Options, Vue } from "vue-class-component";
+import NavMenuComponent from "@/components/core/navbar/nav.vue";
+
+@Options({
+  components: {
+    "nav-bar": NavMenuComponent,
+  },
+})
+export default class MainApp extends Vue {
+  name = "main-app";
+}
+</script>

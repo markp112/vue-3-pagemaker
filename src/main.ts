@@ -6,8 +6,31 @@ import './index.css';
 // import { firestorePlugin } from "vuefire";
 import Firebase from "firebase/app";
 import "firebase/firestore";
+import { secrets } from "./firebase/config";
 
 
-// export const firebaseApp = Firebase.initializeApp(secrets.google);
+export const firebaseApp = Firebase.initializeApp(secrets.google);
 
-createApp(App).use(store).use(router).mount("#app");
+firebaseApp.firestore().settings({
+  cacheSizeBytes: 4000000
+});
+
+firebaseApp
+  .firestore()
+  .enablePersistence()
+  .catch(err => {
+    if (err.code == "failed-precondition") {
+      // Multiple tabs open, persistence can only be enabled
+      // in one tab at a a time.
+      // ...
+    } else if (err.code == "unimplemented") {
+      // The current browser does not support all of the
+      // features required to enable persistence
+      // ...
+    }
+  });
+
+createApp(App)
+  .use(store)
+  .use(router)
+  .mount("#app");
