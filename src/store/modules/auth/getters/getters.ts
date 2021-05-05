@@ -1,6 +1,6 @@
 import { GetterTree } from 'vuex';
 import { State } from '../state/state';
-import { State as RootState } from '@/store';
+import { RootState } from '@/store';
 import { AUser } from '@/classes/base/user/user';
 
 export type Getters = {

@@ -3,9 +3,9 @@ import { State, state } from './state/state';
 import { Getters, getters } from './getters/getters';
 import { Actions, actions, ActionTypes } from './actions/actions';
 import { Mutations, mutations, MutationTypes  } from './mutations/mutations';
-import { State as RootState } from '@/store';
+import { RootState } from '@/store';
 
-export type Store <S = State> = 
+export type Store <S = State> =
 Omit <VuexStore<S>, 'commit' | 'getters' | 'dispatch'>
 & {
   commit<K extends keyof Mutations, P extends Parameters<Mutations[K]>[1]> (
@@ -13,7 +13,7 @@ Omit <VuexStore<S>, 'commit' | 'getters' | 'dispatch'>
     payload: P,
     options?: CommitOptions,
   ): ReturnType<Mutations[K]>
-} 
+}
 & {
   getters: {
     [K in keyof Getters]: ReturnType<Getters[K]>

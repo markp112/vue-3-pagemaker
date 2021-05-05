@@ -7,16 +7,16 @@ export enum MutationTypes {
   INIT_NAV_MENU_ITEMS = 'Init_Nav_Menu_Items',
 };
 
-export type Mutations = {
-  [MutationTypes.ADD_NAV_MENU_ITEM](state: State, payload: NavMenuItem): void,
-  [MutationTypes.INIT_NAV_MENU_ITEMS](state: State, payload: boolean): void,
+export type Mutations<S = State> = {
+  [MutationTypes.INIT_NAV_MENU_ITEMS](state: S, payload: boolean): void,
+  [MutationTypes.ADD_NAV_MENU_ITEM](state: S, payload: NavMenuItem): void,
 };
 
 export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.ADD_NAV_MENU_ITEM](state, payload: NavMenuItem) {
-    state.navMenutItems.push(payload)
+    state.navMenutItems.push(payload);
   },
-  [MutationTypes.INIT_NAV_MENU_ITEMS](state, dummy: boolean) {
+  [MutationTypes.INIT_NAV_MENU_ITEMS](state, payload: boolean) {
     state.navMenutItems = [];
   }
 };

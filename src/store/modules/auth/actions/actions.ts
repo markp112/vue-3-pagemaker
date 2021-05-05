@@ -1,15 +1,15 @@
 import { ActionContext, ActionTree } from 'vuex';
 import {  Mutations, MutationTypes } from '../mutations/mutations';
 import { State } from '../state/state';
-import { State as RootState } from '@/store';
+import { RootState } from '@/store';
 import { AUser } from '@/classes/base/user/user';
 import firebase from "firebase";
 import { ErrorCodes } from '@/common/types/errors/errors';
 
 export enum ActionTypes {
-  REGISTER_USER = 'registerUser',
+  REGISTER_USER = 'REGISTER_USER',
   LOGIN = 'login',
-  SET_USER_FROM_LOCAL_STORAGE = 'setUserFromLocalStorage',
+  SET_USER_FROM_LOCAL_STORAGE = 'SET_USER_FROM_LOCAL_STORAGE',
   TOGGLE_IS_LOGGED_IN = 'toggleIsLoggedIn',
 };
 
@@ -23,11 +23,9 @@ type ActionArguments = Omit<ActionContext<State, RootState>, 'commit'> & {
 export type Actions = {
   [ActionTypes.LOGIN](context: ActionArguments, user: AUser): void,
   [ActionTypes.REGISTER_USER](context: ActionArguments, payload: AUser): void,
-  [ActionTypes.SET_USER_FROM_LOCAL_STORAGE](context: ActionArguments): void,
+  [ActionTypes.SET_USER_FROM_LOCAL_STORAGE](context: ActionArguments, payload: boolean): void,
   [ActionTypes.TOGGLE_IS_LOGGED_IN](context: ActionArguments, payload: boolean): void,
 };
-
-
 
 
 export const actions: ActionTree<State, RootState> & Actions = {
@@ -75,7 +73,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     });
   },
 
-  async [ActionTypes.SET_USER_FROM_LOCAL_STORAGE]({ commit }) {
+  async [ActionTypes.SET_USER_FROM_LOCAL_STORAGE]({ commit }, payload: boolean) {
     const refreshToken = window.localStorage.getItem("pmToken");
     if (refreshToken !== null) {
       const email = window.localStorage.getItem("pmEmail");

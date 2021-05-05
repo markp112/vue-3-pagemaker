@@ -1,12 +1,12 @@
 import { UserInterface } from './model/';
 
 export class AUser implements UserInterface {
-  _email: string = '';
-  _password: string = '';
-  _isSignedIn: boolean = false;;
-  _id: string = '';
-  _refreshToken: string = '';
-  _displayName: string = '';
+  _email = '';
+  _password = '';
+  _isSignedIn = false;;
+  _id = '';
+  _refreshToken = '';
+  _displayName = '';
 
 
   constructor();
@@ -28,12 +28,11 @@ export class AUser implements UserInterface {
   }
 
   public get password(): string {
-    return this._password;
+    return atob(this._password);
   }
 
   public set password(password: string) {
-    this._password = password;
-    
+    this._password = btoa(password);
   }
 
   public get isSignedIn(): boolean {
@@ -67,5 +66,4 @@ export class AUser implements UserInterface {
   public set displayName(displayName: string) {
     this._displayName = displayName;
   }
-
 }

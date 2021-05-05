@@ -7,6 +7,7 @@ import './index.css';
 import Firebase from "firebase/app";
 import "firebase/firestore";
 import { secrets } from "./firebase/config";
+import "@/assets/styles/custom-styles.css";
 
 
 export const firebaseApp = Firebase.initializeApp(secrets.google);
