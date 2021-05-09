@@ -4,7 +4,6 @@ import { State } from '../state/state';
 import { RootState } from '@/store';
 import { AUser } from '@/classes/base/user/user';
 import firebase from "firebase";
-import { ErrorCodes } from '@/common/types/errors/errors';
 
 export enum ActionTypes {
   REGISTER_USER = 'REGISTER_USER',

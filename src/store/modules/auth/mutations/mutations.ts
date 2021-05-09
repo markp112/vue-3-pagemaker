@@ -22,4 +22,4 @@ export const mutations: MutationTree<State> & Mutations = {
     state.user = payload;
     return state;
   },
-}
+};

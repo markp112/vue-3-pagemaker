@@ -16,6 +16,15 @@ const routes: Array<RouteRecordRaw> = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/About.vue"),
   },
+  {
+    path: '/login',
+    name: 'login',
+    component:() =>
+      import ('../views/auth/login.vue'),
+    // meta: {
+    //   breadcrumb: [{ name: 'home', link: 'home' }, { name: 'login' }]
+    // }
+  },
 ];
 
 const router = createRouter({

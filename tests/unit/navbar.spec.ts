@@ -26,13 +26,17 @@ describe("nav.vue", () => {
     expect(imageArray.length).toEqual(2);
     const itemList = wrapper.classes('toggleable');
     expect(itemList).toBe(false);
+    // const x = imageArray.filter(img => img.attributes('src') === '@/assets/icons/menu-48.png')[0];
+    // expect(x).toBeTruthy()
     const hamburger = imageArray[0];  //assumes the hamburger will always be the second image
     hamburger.trigger('click');
     const menuList = wrapper.find('ul');
     expect(menuList).toBeTruthy();
+    // expect(menuList.classes).toContain('dropdown-menu-background');
+    const li = wrapper.findAll('li');
+    const menuItem = li[0];
+    // menuItem.trigger('click');
+
   })
 
-  it ("should display a menu to login / register if the user is not logged in", () => {
-
-  })
 });

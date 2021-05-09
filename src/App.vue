@@ -1,6 +1,6 @@
 <template>
   <div
-    class="min-w-screen max-w-screen border-box font-body flex flex-col h-screen overflow-hidden"
+    class="min-w-screen max-w-screen border-box font-body flex flex-col h-screen overflow-hidden "
   >
     <nav-bar></nav-bar>
     <router-view />
