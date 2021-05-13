@@ -33,5 +33,5 @@ export const mutations: MutationTree<State> & Mutations = {
     const sites = state.sites.filter(existingSite => existingSite.siteId !== site.siteId);
     sites.push(site);
     state.sites.push(site);
-  }
+  },
 }

@@ -16,8 +16,8 @@
 
 <script lang="ts">
 import {Vue, Options} from "vue-class-component";
-import { ASite } from "@classes/base/sites/ASite"
-import { SitesModule } from "@/store/sites/sites";
+import { ASite } from "@classes/base/sites/ASite";
+import { AllActionTypes, useStore } from '@/store';
 import { SidebarModule } from "@/store/sidebar//sidebar";
 import CreateNewButton from "@/components/base/buttons/create-new/create-new.vue";
 import SiteCard from "@/components/base/cards/site-card/site-card.vue";
@@ -30,9 +30,11 @@ import SiteCard from "@/components/base/cards/site-card/site-card.vue";
 })
 export default class SitesList extends Vue {
   name = "SitesList";
+  store = useStore();
+  userId = useStore().getters.user.id;
 
   created() {
-    SitesModule.getSites();
+    this.store.dispatch(AllActionTypes.LOAD_SITES, this.userId);
     SidebarModule.setSidebarMenuTo("sites-menu");
   }
 
@@ -49,7 +51,7 @@ export default class SitesList extends Vue {
   }
 
   get sites(): ASite[] {
-    return SitesModule.getListofSites;
+    return this.store.getters.siteList;
   }
 }
 </script>

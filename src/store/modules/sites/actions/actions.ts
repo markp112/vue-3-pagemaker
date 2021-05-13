@@ -96,7 +96,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
   },
 
   [ActionTypes.SET_CURRENT_SITE]({commit}, siteid: string) {
-    throw new Error('pending implementation')
+    commit(MutationTypes.SET_SITE, siteid);
   },
 
   [ActionTypes.UPDATE_SITE]({commit}, site: ASite) {
