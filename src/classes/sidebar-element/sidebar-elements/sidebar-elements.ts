@@ -48,4 +48,12 @@ export class SidebarElements {
   componentDefinitions(): ASidebarElement[] {
     return this._componentDefinitions;
   }
+
+  containersOnly(): ASidebarElement[] {
+    return this._componentDefinitions.filter(item => item.isContainer === true);
+  }
+
+  pageElementsOnly(): ASidebarElement[] {
+    return this._componentDefinitions.filter(item => item.isContainer === false);
+  }
 }

@@ -11,7 +11,8 @@ export class ASidebarElement implements SidebarElement {
   type: ComponentTypesString = 'container';
   location = new ALocation( 0, 0, 'px');
   dimension = new ADimension(0, 0, 'px');
-  get toObject(): Record<string, any> {
+
+  toObject(): Record<string, any> {
     return {
       componentName: this.componentName,
       class: this.classes,

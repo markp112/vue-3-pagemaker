@@ -8,6 +8,7 @@ import { Notification, notificationDefault } from '@/models/notification/notific
 import { SidebarElement, SideBarElementFlattend } from '@/classes/sidebar-element/sidebar-element/model/sidebar-element';
 import { ADimension } from '@/classes/base/dimension/a-dimension';
 import { ALocation } from '@/classes/base/location/a-location';
+import { SidebarComponentMenus } from '@/common/types/sidebar-component-menus/sidebar-component-menus';
 
 const SIDEBARCOLLECTION = 'component-definitions';
 
@@ -31,11 +32,12 @@ export type Actions = {
   [ActionTypes.LOAD_SIDEBAR_ELEMENTS](context: ActionArguments): Promise<Notification>,
   [ActionTypes.SAVE_SIDEBAR_EDITOR_ELEMENT](context: ActionArguments, editorComponent: ASidebarElement): Promise<Notification>,
   [ActionTypes.SET_SETTINGS_PAGE_ACTIVE_PAGE](context: ActionArguments, activePage: string): void,
-  [ActionTypes.SHOW_SIDEBAR_ACTIVE_MENU](context: ActionArguments, whichComponent: string, showTextModal: boolean): void,
+  [ActionTypes.SHOW_SIDEBAR_ACTIVE_MENU](context: ActionArguments, whichComponent: SidebarComponentMenus): void,
   [ActionTypes.SHOW_TEXT_MODAL](context: ActionArguments, showTextModal: boolean): void,
 };
 
 export const actions: ActionTree<State, RootState> & Actions = {
+
   [ActionTypes.LOAD_SIDEBAR_ELEMENTS]({commit}): Promise<Notification> {
     const firestore = firebase.firestore();
     const notification: Notification = notificationDefault;
@@ -59,8 +61,43 @@ export const actions: ActionTree<State, RootState> & Actions = {
           reject(notification);
         });
     });
-  }
-}
+  },
+
+  [ActionTypes.SAVE_SIDEBAR_EDITOR_ELEMENT]({commit}, editorComponent: ASidebarElement):Promise<Notification> {
+    const notification: Notification = notificationDefault;
+    return new Promise((resolve, reject) => {
+      const firestore = firebase.firestore();
+      const data = editorComponent.toObject();
+      firestore
+        .collection(SIDEBARCOLLECTION)
+        .doc(data.componentName)
+        .set(data)
+        .then(() => {
+        commit(MutationTypes.ADD_SIDEBAR_ELEMENT, editorComponent);
+        notification.status = 'ok';
+        notification.message = 'Element saved'
+          resolve(notification);
+        })
+        .catch(err => {
+          notification.status = 'Error';
+          notification.message = err;
+          reject(notification);
+        });
+    });
+  },
+
+  [ActionTypes.SET_SETTINGS_PAGE_ACTIVE_PAGE]({commit}, activePageName: string) {
+    commit(MutationTypes.SET_SETTINGS_PAGE_ACTIVE_PAGE, activePageName);
+  },
+
+  [ActionTypes.SHOW_SIDEBAR_ACTIVE_MENU]({commit}, whichComponent: SidebarComponentMenus) {
+    commit(MutationTypes.SET_SIDEBAR_COMPONENT_MENU, whichComponent);
+  },
+
+  [ActionTypes.SHOW_TEXT_MODAL]({commit}, showTextModal: boolean) {
+    commit(MutationTypes.SET_SHOW_TEXT_MODAL, showTextModal);
+  },
+};
 
 const getSideBarElement = (sidebarElement: SideBarElementFlattend): ASidebarElement => {
   const aSidebarElement = new ASidebarElement();

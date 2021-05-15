@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import Home from "../views/Home.vue";
+import Sites from '@/views/sites/sites.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -24,6 +25,11 @@ const routes: Array<RouteRecordRaw> = [
     // meta: {
     //   breadcrumb: [{ name: 'home', link: 'home' }, { name: 'login' }]
     // }
+  },
+  {
+    path: '/sites',
+    name: '/sites',
+    component: Sites,
   },
 ];
 
