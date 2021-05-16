@@ -2,14 +2,21 @@
   <section>
     <div class="flex flex-row justify-between text-accent1">
       <h2 class="page-heading">My Sites</h2>
-      <create-new-button @onClick="createNewSite()"></create-new-button>
+      <base-button
+        buttonType="primary"
+        variant="solid"
+        @onClick="createNewSite()"
+      >
+        Create New
+      </base-button>
     </div>
     <ul class="flex flex-row justify-evenly w-full mt-20">
       <li class="rounded-md ml-3" v-for="site in sites" :key="site.siteId">
-        <site-card :site="site"></site-card>
+        <site-card :site="site" ></site-card>
       </li>
     </ul>
   </section>
+
 </template>
 
 
@@ -19,22 +26,24 @@ import { Vue, Options } from "vue-class-component";
 import { ASite } from "@classes/base/sites/ASite";
 import { AllActionTypes, useStore } from '@/store';
 import { sidebarActionTypes } from "@/store/modules/sidebar";
-import CreateNewButton from "@/components/base/buttons/create-new/create-new.vue";
+import BaseButton from "@/components/base/base-button/baseButton.vue";
 import SiteCard from "@/components/base/cards/site-card/site-card.vue";
 
 @Options({
   components: {
-    "create-new-button": CreateNewButton,
-    "site-card": SiteCard
+    "base-button": BaseButton,
+    "site-card": SiteCard,
   }
 })
 export default class SitesList extends Vue {
-  name = "SitesList";
+  name = "sites-list";
   store = useStore();
   userId = useStore().getters.user.id;
 
   created() {
     this.store.dispatch(AllActionTypes.LOAD_SITES, this.userId);
+
+    this.sites.forEach(site => console.log(site))
     this.store.dispatch(sidebarActionTypes.SHOW_SIDEBAR_ACTIVE_MENU,'sites-menu');
   }
 
@@ -51,7 +60,6 @@ export default class SitesList extends Vue {
   }
 
   get sites(): ASite[] {
-
     return this.store.getters.siteList;
   }
 }

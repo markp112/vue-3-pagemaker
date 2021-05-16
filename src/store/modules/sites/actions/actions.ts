@@ -67,11 +67,13 @@ export const actions: ActionTree<State, RootState> & Actions = {
     const notification = notificationDefault;
     return new Promise((resolve, reject) => {
       const collectionId = getCollectionId(userId);
+      console.log('%c%s', 'color: #731d6d', userId);
       const firestore = firebase.firestore();
       firestore
         .collection(collectionId)
         .get()
         .then(result => {
+          console.log('%c⧭', 'color: #006dcc', result);
           commit(MutationTypes.INITIALISE, true);
           result.forEach(doc => {
             const site: FirebaseData = doc.data() as Site;
@@ -109,5 +111,5 @@ const getDocumentId = function(id: string): string {
 };
 
 const getCollectionId = function(id: string): string {
-  return `sites::${id}`;
+  return `${id}::sites`;
 }

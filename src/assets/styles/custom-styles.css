@@ -6,7 +6,7 @@
 
 .page-heading {
   @apply font-bold;
-  @apply text-onSurface;
+  @apply text-on-surface;
 }
 
 .form-page-wrapper {
@@ -20,14 +20,14 @@
 
 .sidebar-panel {
   @apply mt-3;
-  @apply bg-siteDark;
+  @apply bg-site-primary-dark;
   @apply h-full;
   @apply p-2;
   @apply px-2;
   @apply flex;
   @apply flex-col;
   @apply justify-start;
-  @apply text-onPrimary;
+  @apply text-on-primary;
   @apply shadow-lg;
 }
 
@@ -87,19 +87,19 @@
 
 
 .dropdown-menu-background {
-  @apply bg-siteSurface;
+  @apply bg-site-surface;
 }
 
 .dropdown-menu-item {
-  @apply text-onSurface;
+  @apply text-on-surface;
 }
 
 .dropdown-menu-selected {
-  @apply text-onPrimary;
-  @apply bg-siteLight;
+  @apply text-on-primary;
+  @apply bg-site-primary-light;
 }
 
 .dropdown-menu-item:hover {
-  @apply  bg-siteDark;
-  @apply  text-onPrimary;
+  @apply  bg-site-primary-dark;
+  @apply  text-on-primary;
 }

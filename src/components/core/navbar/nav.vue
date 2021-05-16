@@ -1,6 +1,6 @@
 <template>
-  <div class="py-2 bg-sitePrimary shadow-lg h-16 z-20">
-    <nav class="text-onPrimary flex items-center justify-between">
+  <div class="py-2 bg-site-primary shadow-lg h-16 z-20">
+    <nav class="text-on-primary flex items-center justify-between">
       <div class="ml-8">
         <img
           src="@/assets/icons/layout-48.png"
@@ -10,7 +10,7 @@
       <div class="mr-2 flex justify-between relative">
         <img
           src="@/assets/icons/menu-48.png"
-          class="ml-2 text-primary-200 cursor-pointer hover:bg-siteSecondary self-start"
+          class="ml-2 text-primary-200 cursor-pointer hover:bg-site-secondary self-start"
           @click="toggleMenu=!toggleMenu"
         />
 
@@ -19,7 +19,7 @@
           v-if="toggleMenu"
         >
           <ul
-            class="w-20 mr-1 dropdown-menu-background z-10 rounded-lg shadow-lg"
+            class="w-20 mr-1 dropdown-menu-background z-10 rounded-lg shadow-lg text-sm"
             @mouseleave="toggleMenu = !toggleMenu"
           >
             <li

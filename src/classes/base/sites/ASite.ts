@@ -9,9 +9,9 @@ export class ASite implements Site {
   _siteId: string;
   _name: string;
   _created: Date;
-  _description: string = '';
-  _url: string = '';
-  _image: string = '';
+  _description = '';
+  _url = '';
+  _image = 'https://firebasestorage.googleapis.com/v0/b/page-maker-69fb1.appspot.com/o/hDkHXv0i06dVCPmIfRKefti9t4p1%2Fimages%2Fsite2.png?alt=media&token=46a82b23-1066-4c78-b70a-d7b69728e531';
   _published: Date = new Date(this.DEFAULT_DATE);
 
   constructor();
@@ -67,7 +67,7 @@ export class ASite implements Site {
   }
 
   toObject() {
-    let site:FirebaseData = {
+    const site: FirebaseData = {
       siteId: this._siteId,
       name: this._name,
       created: this._created,

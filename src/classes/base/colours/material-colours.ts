@@ -7,7 +7,6 @@ export interface AColour {
 };
 
 export interface MaterialColoursInterface {
-  colours: ASingleColour[];
   addColour(colour: AColour): void;
-  getColour(): ASingleColour;
+  getColour(colourName: string): ASingleColour;
 };

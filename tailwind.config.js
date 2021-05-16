@@ -30,17 +30,18 @@ module.exports = {
     },
     extend: {
       colors: {
-        sitePrimary: "#323673",
-        siteDark: "#26265c",
-        siteLight: "#39407f",
-        onPrimary: "#fffffe",
-        siteBackground: "#ffeeff",
-        siteSurface: "#ffffff",
-        onSurface: "#000000",
-        siteSecondary: "#61527a",
-        "site-secondary-light": "#9f91b6",
-        accent1: "#D9C4B8",
-        accent2: "#F2E3D5"
+        'site-primary': "#323673",
+        'site-secondary': "#964614",
+        'site-primary-dark': "#001147",
+        'site-primary-light': "#6160a2",
+        'on-primary': "#fffffe",
+        'on-surface': "#000000",
+        'on-secondary': "#ffeefb",
+        'site-background': "#ffeeff",
+        'site-surface': "#ffffff",
+        "site-secondary-light": "#cc733f",
+        'accent-1': "#D9C4B8",
+        'accent-2': "#F2E3D5",
       },
       backgroundImage: theme => ({
         "diskette-save": "url('/assets/icons/diskette-dark-48.png')"

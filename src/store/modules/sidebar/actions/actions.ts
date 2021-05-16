@@ -5,7 +5,7 @@ import { Mutations, MutationTypes } from '../mutations/mutations';
 import { ASidebarElement } from '@/classes/sidebar-element/sidebar-element/aSidebar-element';
 import firebase from "firebase";
 import { Notification, notificationDefault } from '@/models/notification/notification';
-import { SidebarElement, SideBarElementFlattend } from '@/classes/sidebar-element/sidebar-element/model/sidebar-element';
+import { SideBarElementFlattend } from '@/classes/sidebar-element/sidebar-element/model/sidebar-element';
 import { ADimension } from '@/classes/base/dimension/a-dimension';
 import { ALocation } from '@/classes/base/location/a-location';
 import { SidebarComponentMenus } from '@/common/types/sidebar-component-menus/sidebar-component-menus';
