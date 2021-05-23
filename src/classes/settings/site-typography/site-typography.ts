@@ -1,4 +1,4 @@
-import { TypographyInterface } from './site-defaults/models/typography';
+import { TypographyInterface } from './models/typogrpahy';
 
 export class SiteTypography implements TypographyInterface {
   fontName: string = '';

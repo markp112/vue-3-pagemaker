@@ -1,17 +1,18 @@
-import { MaterialColoursInterface } from '../../base/colours/material-colours';
-import { SiteColours, siteDefaultColours } from '../site-colours';
-import { SiteTypography } from '../site-typography';
-import { SiteDefaultsInterface } from './models/SiteDefaultSettings';
-import { TypographyInterface } from './models/typography';
-import { useStore } from '@/store/';
+import { MaterialColoursInterface } from '@/classes/base/colours/models/material-colours';
+import { TypographyInterface } from '../site-typography/models/typogrpahy';
+import { SiteDefaultsInterface } from './models';
+import { siteDefaultSettings } from './models/defaults';
+import { firestoreGetSiteDefaultSettings, firestoreSaveSiteDefaults } from '@/classes/settings/firebase';
+import { SiteAndUser } from '@/common/types/site-and-user';
+import { useStore } from '@/store';
+import { Notification } from '@/models/notification/notification';
 
 export class SiteDefaults implements SiteDefaultsInterface {
-  #_colours: SiteColours = siteDefaultColours();
-  #_typography: SiteTypography = new SiteTypography();
-  #isLoaded: boolean = false;
-  store = useStore();
-
+  private _colours: MaterialColoursInterface = siteDefaultSettings.colours;
+  private _typography: TypographyInterface = siteDefaultSettings.typography;
+  private _isLoaded = false;
   private static instance: SiteDefaults;
+  #store = useStore();
 
   public static getInstance(): SiteDefaults {
     if (!SiteDefaults.instance) {
@@ -20,40 +21,40 @@ export class SiteDefaults implements SiteDefaultsInterface {
     return SiteDefaults.instance;
   }
 
-  public get colours(): SiteColours {
-    return this.#_colours;
+  public get colours(): MaterialColoursInterface {
+    return this._colours;
   }
 
   public get typography(): TypographyInterface {
-    return this.#_typography;
+    return this._typography;
   }
 
   public get isLoaded(): boolean {
-    return this.#isLoaded;
-  }
-
-  public get siteId(): string {
-    return this.store.getters.currentSite.siteId;
+    return this._isLoaded;
   }
 
   public get userId(): string {
-    return this.store.getters.user.id;
+    return this.#store.getters.user.id;
   }
 
+  public get siteId(): string {
+    return this.#store.getters.currentSite.siteId;
+  }
+
+
+  // class should be passed function to get user and siteud
   public loadDefaults(): Promise<Notification> {
-    const data = {
-      userId: this.userId,
-      siteId: this.siteId
-    };
+
     return new Promise((resolve, reject) => {
-      ServicesModule.firestoreGetSiteDefaultSettings(data)
+      const siteAndUser: SiteAndUser = { siteId: this.siteId, userId: this.userId };
+      firestoreGetSiteDefaultSettings(siteAndUser)
         .then(response => {
           const siteDefaults: SiteDefaultsInterface = response as SiteDefaultsInterface;
           this._colours = siteDefaults.colours;
           this._typography = siteDefaults.typography;
           this._isLoaded = true;
           const notification: Notification = {
-            message: "Sucess",
+            message: "sucess",
             status: "ok"
           };
           resolve(notification);
@@ -70,24 +71,21 @@ export class SiteDefaults implements SiteDefaultsInterface {
     });
   }
 
-  public saveDefaults(siteId: string, userId: string): Promise<Notification> {
-    const data = {
-      siteDefaults: {
+  public saveDefaults(): Promise<Notification> {
+    const siteDefaults: SiteDefaultsInterface = {
         colours: this._colours,
         typography: this._typography,
-        siteId: siteId,
-        userId: AuthModule.currentUser.id
-      }
-    };
+            }
     return new Promise((resolve, reject) => {
-      ServicesModule.firestoreSaveSiteDefaults(data)
+      firestoreSaveSiteDefaults(this.getSiteAndUser(), siteDefaults)
         .then(notificaton => {
           resolve(notificaton);
         })
         .catch(notification => reject(notification));
     });
   }
-}
 
-
+  public getSiteAndUser(): SiteAndUser {
+    return { siteId: this.siteId, userId: this.userId }
+  }
 }

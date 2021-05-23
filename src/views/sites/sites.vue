@@ -1,8 +1,9 @@
 <template>
   <section>
-    <div class="flex flex-row justify-between text-accent1">
-      <h2 class="page-heading">My Sites</h2>
+    <div class="flex flex-row justify-between text-accent1 mt-2">
+      <h2 class="page-heading ml-4">My Sites</h2>
       <base-button
+        class="mr-4"
         buttonType="primary"
         variant="solid"
         @onClick="createNewSite()"
@@ -16,18 +17,16 @@
       </li>
     </ul>
   </section>
-
 </template>
 
-
-
 <script lang="ts">
-import { Vue, Options } from "vue-class-component";
-import { ASite } from "@classes/base/sites/ASite";
+import { Vue, Options } from 'vue-class-component';
+import { ASite } from '@classes/base/sites/ASite';
 import { AllActionTypes, useStore } from '@/store';
-import { sidebarActionTypes } from "@/store/modules/sidebar";
-import BaseButton from "@/components/base/base-button/baseButton.vue";
-import SiteCard from "@/components/base/cards/site-card/site-card.vue";
+import { sidebarActionTypes } from '@/store/modules/sidebar';
+import BaseButton from '@/components/base/base-button/baseButton.vue';
+import SiteCard from '@/components/base/cards/site-card/site-card.vue';
+
 
 @Options({
   components: {
@@ -42,7 +41,6 @@ export default class SitesList extends Vue {
 
   created() {
     this.store.dispatch(AllActionTypes.LOAD_SITES, this.userId);
-
     this.sites.forEach(site => console.log(site))
     this.store.dispatch(sidebarActionTypes.SHOW_SIDEBAR_ACTIVE_MENU,'sites-menu');
   }

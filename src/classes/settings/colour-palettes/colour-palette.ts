@@ -1,9 +1,13 @@
 import { ColourSchemes, PalettesInterface } from './model/colour-palette';
 import Color from "color";
 import { useStore } from '@/store';
-import { ActionTypes } from '@/store/modules/firebase/actions/actions';
+import { storeSiteColourPalette, loadSitePalette } from '@/classes/settings/firebase/index';
+import { SiteAndUser } from '@/common/types/site-and-user';
+import { Notification, notificationDefault } from '@/models/notification/notification';
+import { siteDefaultsActionTypes } from '@/store/modules/site-defaults';
 
 const contrastRatios = [0.15, 0.3, 0.5, 0.7, 0.85, 1, 0.85, 0.7, 0.5, 0.35];
+let notification = notificationDefault;
 
 export class ColourPalettes implements PalettesInterface {
   private _colour = "#0";
@@ -13,7 +17,7 @@ export class ColourPalettes implements PalettesInterface {
   private _accentAngle = 30;
   private _secondaryAngle = 180;
   private _colourScheme: ColourSchemes = "Complementary";
-  #store = useStore();
+  store = useStore();
 
   private MAX_SHADES = 10;
 
@@ -71,6 +75,13 @@ export class ColourPalettes implements PalettesInterface {
     }
   }
 
+  private getSiteAndUser(): SiteAndUser {
+    return {
+      siteId: this.store.getters.currentSite.siteId,
+      userId: this.store.getters.currentSite.siteId
+    }
+  };
+
   public newPalette(colour: string) {
     this._colour = colour;
     this._primary = this.generate(colour);
@@ -108,25 +119,20 @@ export class ColourPalettes implements PalettesInterface {
       secondary: this.secondary,
       accent: this.accent
     };
-    const data = {
-      siteAndUserId: `${this.#store.getters.currentSite.Id}${this.#store.getters.user.id}`,
-      colourPalette: selectedPalette
-    };
     return new Promise((resolve, reject) => {
-      this.#store.dispatch(ActionTypes.FIREBASE_SAVE_COLOUR_PALETTE, data);
-      ServicesModule.firestoreSaveColourPalette(data)
-        .then((response: Notification) => {
-          resolve(response);
-        })
+      storeSiteColourPalette(this.getSiteAndUser(), selectedPalette)
+        .then((response: Notification)  => {
+            resolve(response);
+          })
         .catch((err: Notification) => {
           reject(err);
         });
     });
   }
 
-  public loadPalette(siteAndUserId: SiteIdAndUserId): Promise<Notification> {
+  public loadPalette(): Promise<Notification> {
     return new Promise((resolve, reject) => {
-      ServicesModule.firestoreLoadSitePalette(siteAndUserId)
+      loadSitePalette(this.getSiteAndUser())
         .then(response => {
           const palettes = response as PalettesInterface;
           this._colour = palettes.colour;

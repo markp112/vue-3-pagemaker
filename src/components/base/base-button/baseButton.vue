@@ -25,6 +25,10 @@ export type ButtonSize =
   | 'medium'
   | 'large';
 
+export type ButtonShape =
+  | 'rectangular'
+  | 'circle'
+
 @Options({
   props: {
     buttonType: {
@@ -47,14 +51,14 @@ export default class BaseButton extends Vue{
   }
 
   getSize(): string {
-    if (this.size === 'small') return 'h-8 w-16';
-    if (this.size === 'medium') return 'h-10 w-20';
-    if (this.size === 'large') return 'h-12 w-24';
+    if (this.size === 'small') return 'h-8 w-auto text-xs';
+    if (this.size === 'medium') return 'h-10 w-auto text-sm';
+    if (this.size === 'large') return 'h-12 w-auto text-md';
     return 'h-10 w-20';
   }
 
   getStyling(): string {
-    const baseStyling = `${this.getSize()} rounded-md flex items-center justify-center text-sm`;
+    const baseStyling = `${this.getSize()} rounded-md flex items-center justify-center p-2`;
     const active = `cursor-pointer hover:bg-site-${this.buttonType} hover:text-accent-2`;
     const activeOutline = `cursor-pointer hover:bg-border-${this.buttonType} hover:text-accent-1`;
     const activeText = `cursor-pointer hover:text-accent-1 text-site-${this.buttonType}`;

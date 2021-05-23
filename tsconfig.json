@@ -43,7 +43,7 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx"
-  ],
+, "src/classes/base/notification/snackbar/snackbar."  ],
   "exclude": [
     "node_modules"
   ]

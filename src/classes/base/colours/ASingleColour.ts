@@ -1,5 +1,5 @@
 import { ColourProperties } from './colour-properties-types';
-import { AColour } from './material-colours';
+import { AColour } from './models/material-colours';
 
 export type ColourStyle =
   | 'background-color'
@@ -7,24 +7,24 @@ export type ColourStyle =
   | 'border-color'
 
 export class ASingleColour implements AColour {
-  #_colourName: ColourProperties;
-  #_value: string;
+  #colourName: ColourProperties;
+  #value: string;
 
   constructor(colourName: ColourProperties, value: string) {
-    this.#_colourName = colourName;
-    this.#_value = value;
+    this.#colourName = colourName;
+    this.#value = value;
   }
 
   get colourName(): ColourProperties {
-    return this.#_colourName;
+    return this.#colourName;
   }
 
   get value(): string {
-    return this.#_value;
+    return this.#value;
   }
 
   toCssStyle(type: ColourStyle): string {
-    return `${type}:${this.#_value};`;
+    return `${type}:${this.#value};`;
   }
 
 }

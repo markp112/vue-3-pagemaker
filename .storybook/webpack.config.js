@@ -1,4 +1,5 @@
 const path = require('path');
+const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 const tailwindcss = require("tailwindcss");
 
 module.exports = ({ config, mode }) => {
@@ -27,5 +28,6 @@ module.exports = ({ config, mode }) => {
       }
     }
   });
+  config.resolve.plugins.push(new TsconfigPathsPlugin({}));
   return config;
 };

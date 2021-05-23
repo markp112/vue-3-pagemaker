@@ -4,7 +4,7 @@ import { State } from '../state/state';
 import { RootState } from '@/store';
 import { ASite } from '@/classes/base/sites/ASite';
 import { useStore } from '@/store';
-import { Notification, notificationDefault } from '@/models/notification/notification'
+import { Notification, notificationDefault } from '@/models/notification/notification';
 import firebase from "firebase";
 import { Site } from '@/classes/base/sites/model';
 
@@ -67,13 +67,11 @@ export const actions: ActionTree<State, RootState> & Actions = {
     const notification = notificationDefault;
     return new Promise((resolve, reject) => {
       const collectionId = getCollectionId(userId);
-      console.log('%c%s', 'color: #731d6d', userId);
       const firestore = firebase.firestore();
       firestore
         .collection(collectionId)
         .get()
         .then(result => {
-          console.log('%c⧭', 'color: #006dcc', result);
           commit(MutationTypes.INITIALISE, true);
           result.forEach(doc => {
             const site: FirebaseData = doc.data() as Site;

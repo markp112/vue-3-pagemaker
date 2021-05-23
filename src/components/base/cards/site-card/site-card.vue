@@ -22,11 +22,13 @@
 </template>
 
 <script lang="ts">
-import  { Vue, Options } from 'vue-class-component';
+import  { Options } from 'vue-class-component';
 import { useStore } from '@/store';
 import { sitesActionTypes } from "@/store/modules/sites";
 import { ASite } from '@/classes/base/sites/ASite';
-import { Site, initSite } from '@/classes/base/sites/model';
+import { Notification } from '@/models/notification/notification';
+import { SiteDefaults } from '@/classes/settings/site-defaults/site-defaults';
+import SnackbarMixin from '@/components/mixins/snackbar/snackbar';
 
 @Options({
   props: {
@@ -36,7 +38,7 @@ import { Site, initSite } from '@/classes/base/sites/model';
   },
 
 })
-export default class SiteCard extends Vue {
+export default class SiteCard extends SnackbarMixin {
   name = "site-card";
   site!: ASite;
   store = useStore();

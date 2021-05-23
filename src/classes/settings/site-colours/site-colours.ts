@@ -1,7 +1,7 @@
-import { ASingleColour } from '../base/colours/ASingleColour';
-import { AColour,  MaterialColoursInterface } from '../base/colours/material-colours';
+import { ASingleColour } from '../../base/colours/ASingleColour';
+import { AColour } from '../../base/colours/models/material-colours';
 
-export class SiteColours implements MaterialColoursInterface {
+export class SiteColours {
   #colours: ASingleColour[] = [];
 
   addColour(colour: AColour) {
