@@ -2,6 +2,8 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import Home from "../views/Home.vue";
 import Sites from '@/views/sites/sites.vue';
 import NewSite from '@/views/sites/new-site.vue';
+import PageList from '@/views/page-list/page-list.vue';
+import PageEditor from '@/views/maintain-page/page.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -41,6 +43,31 @@ const routes: Array<RouteRecordRaw> = [
     //     { name: 'home', link: 'home' },
     //     { name: 'sites', link: 'sites' },
     //     { name: 'new site' }
+    //   ]
+    // }
+  },
+  {
+    path: '/pageList',
+    name: 'pageList',
+    component: PageList,
+    // meta: {
+    //   breadcrumb: [
+    //     { name: 'home', link: 'home' },
+    //     { name: 'sites', link: 'sites' },
+    //     { name: 'new site' }
+    //   ]
+    // }
+  },
+  {
+    path: '/pageEditor/:title',
+    name: 'page-editor',
+    component: PageEditor,
+    // meta: {
+    //   breadcrumb: [
+    //     { name: 'home', link: 'home' },
+    //     { name: 'sites', link: 'sites' },
+    //     { name: 'page list', link: 'pageList' },
+    //     { name: 'page-editor' }
     //   ]
     // }
   },

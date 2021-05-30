@@ -45,10 +45,11 @@
         id="maintain-ratio"
       />
     </div>
-    <div class="my-2">
+    <div class="my-2 w-16">
       <base-button
         size="small"
-        type="secondary"
+        buttonType="secondary"
+        variant="solid"
         @onClick="showImagePicker=true"
 
       >
@@ -60,6 +61,7 @@
       v-if="showImagePicker"
     >
         <image-picker
+          :userId="siteAndUser.userId"
           @closeClicked="showImagePicker=false"
           @imageClicked="imageClicked($event)"
         >
@@ -70,8 +72,8 @@
 
 <script lang="ts">
 import {Vue, Options } from 'vue-class-component';
-import ImagePicker from '@/components/base/pickers/image-picker/image-picker.vue'
-import BaseButton from '@/components/base/base-button/baseButton.vue' ;
+import ImageGallery from '@/components/pickers/image-gallery/image-gallery.vue';
+import BaseButton from '@/components/base/base-button/base-button.vue' ;
 import { Image } from '@/classes/page-elements/image-raw/image-raw';
 import { firestoreSaveFile } from '@/common/filestore/index';
 import { useStore } from '@/store';
@@ -84,7 +86,7 @@ import { SiteAndUser } from '@/common/types/site-and-user';
     },
   },
   components: {
-    'image-picker': ImagePicker,
+    'image-picker': ImageGallery,
     'base-button': BaseButton,
   }
 })
@@ -102,7 +104,7 @@ export default class UploadImage extends Vue {
     {
       siteId: '0',
       userId: this.store.getters.user.id,
-    }
+    };
 
   mounted() {
     this.url = this.urlEdited;

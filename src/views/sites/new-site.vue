@@ -76,20 +76,26 @@
         />
       </div>
       <div class="flex justify-between flex-row mt-8">
-        <base-button
-          buttonType="primary"
-          variant="outline"
-          @onClick="cancelClicked()"
-        >
-            Cancel
-        </base-button>
-        <base-button
-          buttonType="primary"
-          variant="solid"
-          @onClick="saveClicked()"
-        >
-          Save
-        </base-button>
+        <p class="w-16">
+          <base-button
+            buttonType="primary"
+            variant="outline"
+            size="small"
+            @onClick="cancelClicked()"
+          >
+              Cancel
+          </base-button>
+        </p>
+        <p class="w-16">
+          <base-button
+            buttonType="primary"
+            variant="solid"
+            size="small"
+            @onClick="saveClicked()"
+          >
+            Save
+          </base-button>
+        </p>
       </div>
     </form>
   </div>
@@ -97,7 +103,7 @@
 
 <script lang="ts">
 import { Vue, Options } from "vue-class-component";
-import BaseButton from "@/components/base/base-button/baseButton.vue";
+import BaseButton from "@/components/base/base-button/base-button.vue";
 import UploadImage from "@/components/pickers/upload-image/upload-image.vue";
 import { AllActionTypes, useStore} from '@/store';
 import { ASite } from '@/classes/base/sites/ASite';

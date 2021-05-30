@@ -24,9 +24,9 @@
 
 <script lang="ts">
 import { Vue } from "vue-class-component";
-import { AllActionTypes, useStore } from '@/store';
+import {  useStore } from '@/store';
 import { SnackbarMessage } from '@/classes/base/notification/snackbar/models/snackbar';
-import { SnackBar } from '@classes/base/notification/snackbar/snackbar';
+import { SnackBar } from '@/classes/base/notification/snackbar/snackbar';
 
 export default class Snackbar extends Vue {
   name='snackbar';
@@ -36,12 +36,10 @@ export default class Snackbar extends Vue {
 
   get snackbarContent(): SnackbarMessage {
     // return this.store.getters.snackbarMessage;
-    console.log('%c⧭', 'color: #ffcc00', this.snackbar.snackbarMessage)
     return this.snackbar.snackbarMessage;
   }
 
   get showSnackbar() {
-    console.log('%c%s', 'color: #cc0088', this.snackbar.isShowSnackbar)
     return this.snackbar.isShowSnackbar;
   }
 

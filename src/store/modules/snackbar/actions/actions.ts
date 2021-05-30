@@ -9,24 +9,26 @@ export enum ActionTypes {
   TOGGLE_SNACKBAR = 'hideSnackbar',
 };
 
-type ActionArguments = Omit<ActionContext<State, RootState>, 'commit'> & {
-  commit<K extends keyof Mutations>(
+type AugmentedActionContext = {
+  commit<K extends keyof Mutations> (
     key: K,
-    payload: Parameters<Mutations[K]>[1]
-  ): ReturnType <Mutations[K]>
-};
+        payload: Parameters<Mutations[K]>[1]
+      ): ReturnType <Mutations[K]>
+    } & Omit<ActionContext<State, RootState>, 'commit'>;
 
-export type Actions = {
-  [ActionTypes.SHOW_SNACKBAR](context: ActionArguments, message: SnackbarMessage): void,
-  [ActionTypes.TOGGLE_SNACKBAR](context: ActionArguments, toggle: boolean): void,
+
+export interface Actions  {
+  [ActionTypes.SHOW_SNACKBAR]({commit}: AugmentedActionContext, message: SnackbarMessage): void,
+  [ActionTypes.TOGGLE_SNACKBAR]({commit}: AugmentedActionContext, toggle: boolean): void,
 };
 
 export const actions : ActionTree<State, RootState> & Actions = {
+  
   [ActionTypes.TOGGLE_SNACKBAR]({ commit }, toggle: boolean ) {
-    commit(MutationTypes.HIDE_SNACKBAR, toggle)
+    commit(MutationTypes.HIDE_SNACKBAR, toggle);
   },
 
   [ActionTypes.SHOW_SNACKBAR]({ commit }, message: SnackbarMessage) {
-    commit(MutationTypes.SET_SNACKBAR, message)
-  }
+    commit(MutationTypes.SET_SNACKBAR, message);
+  },
 }

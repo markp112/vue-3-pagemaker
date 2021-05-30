@@ -10,18 +10,6 @@ export enum ActionTypes {
   CREATE_NAV_MENU_SIGNED_OUT = 'CREATE_NAV_MENU_SIGNED_OUT',
 };
 
-// type ActionArguments = Omit<ActionContext<State, RootState>, 'commit'> & {
-//   commit<K extends keyof Mutations>(
-//     key: K,
-//     payload: Parameters<Mutations[K]>[1]
-//   ): ReturnType <Mutations[K]>
-// };
-
-// export type Actions = {
-//   [ActionTypes.CreateNaVMenuSignedIn](context: ActionArguments): void,
-//   [ActionTypes.CreateNaVMenuSignedOut](context: ActionArguments): void,
-// }
-
 type AugmentedActionContext = {
   commit<K extends keyof Mutations> (
     key: K,

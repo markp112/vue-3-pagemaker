@@ -4,11 +4,13 @@ import { AuthModule, Store as authStore, authActionTypes, authMutationTypes } fr
 import { SiteModule, Store as siteStore, sitesActionTypes, sitesMutationTypes } from './modules/sites';
 import { SidebarModule, Store as sidebarStore, sidebarActionTypes, sidebarMutationTypes } from './modules/sidebar';
 import { SnackbarModule, Store as snackbarStore, snackbarActionTypes, snackbarMutationTypes } from './modules/snackbar';
+import { PagesModule, Store as pagesStore, pagesActionTypes, pagesMutationTypes } from './modules/pages';
 import { State as NavMenuState } from './modules/nav-menu/state/nav-menu';
 import { State as AuthState } from './modules/auth/state/state';
 import { State as SitesState } from './modules/sites/state/state';
 import { State as SidebarState } from './modules/sidebar/state/state';
 import { State as SnackbarState } from './modules/sidebar/state/state';
+import { State as PagesState } from './modules/sidebar/state/state';
 
 export type RootState = {
   navMenu: NavMenuState,
@@ -16,6 +18,7 @@ export type RootState = {
   sites: SitesState,
   sidebar: SidebarState,
   snackbar: SnackbarState,
+  pages: PagesState,
 }
 
 export type Store = navMenuStore<Pick<RootState, 'navMenu'>>
@@ -23,6 +26,7 @@ export type Store = navMenuStore<Pick<RootState, 'navMenu'>>
   & authStore<Pick<RootState, 'auth'>>
   & sidebarStore<Pick<RootState, 'sidebar'>>
   & snackbarStore<Pick<RootState, 'snackbar'>>
+  & pagesStore<Pick<RootState, 'pages'>>
 
 
 export const store = createStore({
@@ -34,6 +38,8 @@ export const store = createStore({
     SiteModule,
     SidebarModule,
     SnackbarModule,
+    PagesModule,
+
   }
 });
 
@@ -48,11 +54,13 @@ export const AllActionTypes = {
   ...sitesActionTypes,
   ...sidebarActionTypes,
   ...snackbarActionTypes,
+  ...pagesActionTypes,
 };
 export const AllMutationTypes = {
   ...NavMenuMutationTypes,
   ...authMutationTypes,
   ...sitesMutationTypes,
   ...sidebarMutationTypes,
-  ...snackbarActionTypes,
+  ...snackbarMutationTypes,
+  ...pagesMutationTypes,
 };

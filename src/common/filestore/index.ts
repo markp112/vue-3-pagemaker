@@ -60,7 +60,7 @@ export function getFileUrl(fileName: string, usersBucket: UsersBucket): Promise<
   });
 }
 
-function getImageMetaData(fileName: string, usersBucket: UsersBucket): Promise<string[]> {
+export function getImageMetaData(fileName: string, usersBucket: UsersBucket): Promise<string[]> {
   const path = `${usersBucket.userId}/`;
   const fileStore = firebase.storage().ref(path);
   const imageRef = fileStore.child(`${usersBucket.bucket}/${fileName}`);

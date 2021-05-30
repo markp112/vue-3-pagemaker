@@ -22,13 +22,11 @@
 </template>
 
 <script lang="ts">
-import  { Options } from 'vue-class-component';
+import  { Vue, Options } from 'vue-class-component';
 import { useStore } from '@/store';
 import { sitesActionTypes } from "@/store/modules/sites";
 import { ASite } from '@/classes/base/sites/ASite';
-import { Notification } from '@/models/notification/notification';
-import { SiteDefaults } from '@/classes/settings/site-defaults/site-defaults';
-import SnackbarMixin from '@/components/mixins/snackbar/snackbar';
+
 
 @Options({
   props: {
@@ -38,7 +36,7 @@ import SnackbarMixin from '@/components/mixins/snackbar/snackbar';
   },
 
 })
-export default class SiteCard extends SnackbarMixin {
+export default class SiteCard extends Vue {
   name = "site-card";
   site!: ASite;
   store = useStore();
@@ -49,16 +47,7 @@ export default class SiteCard extends SnackbarMixin {
   }
 
   goClick() {
-    this.store.dispatch(sitesActionTypes.SET_CURRENT_SITE, this.site.siteId);
-    const siteDefaultSettings = SiteDefaults.getInstance();
-    siteDefaultSettings.loadDefaults().catch(err => {
-      const notification: Notification = err as Notification;
-      this.showSnackbar(
-        notification,
-        "Site defaults load failed, defaults applied"
-      );
-    });
-    this.$router.push({ name: "pageList" });
+    this.$emit('siteClicked', this.site.siteId);
   }
 }
 </script>

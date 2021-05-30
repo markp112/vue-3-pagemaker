@@ -5,10 +5,10 @@ import { SnackbarMessage } from '@/classes/base/notification/snackbar/models/sna
 
 export type Getters = {
   snackbarMessage(state: State): SnackbarMessage,
-}
+};
 
 export const getters: GetterTree<State, RootState> & Getters = {
   snackbarMessage(state) {
     return state.snackbarMessage;
-  }
-}
+  },
+};

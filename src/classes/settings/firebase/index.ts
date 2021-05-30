@@ -62,7 +62,6 @@ export function firestoreGetSiteDefaultSettings(siteAndUser: SiteAndUser): Promi
   return new Promise((resolve, reject) => {
     const firestore = firebase.firestore();
     const collectionId = getCollectionId(siteAndUser.siteId, siteAndUser.userId);
-    return new Promise((resolve, reject) => {
     firestore
       .collection(collectionId)
       .doc(SITE_SETTINGS)
@@ -81,7 +80,6 @@ export function firestoreGetSiteDefaultSettings(siteAndUser: SiteAndUser): Promi
         reject(notification);
       });
     });
-  });
 }
 
 export function firestoreSaveSiteDefaults(

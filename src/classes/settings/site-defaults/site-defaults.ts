@@ -44,11 +44,14 @@ export class SiteDefaults implements SiteDefaultsInterface {
 
   // class should be passed function to get user and siteud
   public loadDefaults(): Promise<Notification> {
+  console.log('%c%s', 'color: #7f2200', 'loadDefaults');
 
     return new Promise((resolve, reject) => {
       const siteAndUser: SiteAndUser = { siteId: this.siteId, userId: this.userId };
+      console.log('%c⧭', 'color: #33cc99', siteAndUser);
       firestoreGetSiteDefaultSettings(siteAndUser)
         .then(response => {
+          console.log('%c⧭', 'color: #994d75', response);
           const siteDefaults: SiteDefaultsInterface = response as SiteDefaultsInterface;
           this._colours = siteDefaults.colours;
           this._typography = siteDefaults.typography;
@@ -60,6 +63,7 @@ export class SiteDefaults implements SiteDefaultsInterface {
           resolve(notification);
         })
         .catch(err => {
+          console.log('%c%s', 'color: #00ff88', err);
           const notification = err as Notification;
           notification.status = "Error";
           // if error load the default settings

@@ -1,4 +1,4 @@
-import BaseButton from '../components/base/base-button/baseButton.vue';
+import BaseButton from '../components/base/base-button/base-button.vue';
 import './utils.css';
 
 export default {
@@ -8,6 +8,7 @@ export default {
     size: { control: { type: 'select', options: ['small', 'medium', 'large'] } },
     buttonType: { control: { type: 'select', options: ['primary', 'secondary', 'default'] } },
     variant: { control: { type: 'select', options: ['solid', 'outline', 'text'] } },
+    buttonShape: { control: { type: 'select', options: ['rectangular', 'circle'] } },
     onClick: {},
   },
 };
@@ -19,7 +20,7 @@ const Template = (args , {argTypes}) => ({
   setup() {
     return { args };
   },
-  template: '<base-button v-bind="args">click me! </base-button>',
+  template: '<base-button v-bind="args">x</base-button>',
 });
 
 export const Primary = Template.bind({});

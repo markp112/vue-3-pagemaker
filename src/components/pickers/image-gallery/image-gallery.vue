@@ -1,7 +1,13 @@
 <template>
   <section class="flex flex-col justify-start h-72 p-1 w-full rounded-sm bg-white shadow-lg border-2 border-gray-400">
     <p class="flex justify-end flex-row w-full">
-      <close-button @onClick="closeClicked()">
+      <close-button
+        buttonShape="circle"
+        variant="outline"
+        size="small"
+        @onClick="closeClicked()"
+      >
+      X
       </close-button>
     </p>
     <div class="flex flex-row flex-nowrap w-full justify-between items-center h-full">
@@ -30,8 +36,11 @@
 
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
-import CloseButton from '@/components/base/buttons/close-button/close-button.vue';
 import { ImageCardProps } from '@/components/base/cards/image-card/model/image-type';
+import { BucketImage } from '@/common/filestore/models/bucket-image';
+import { getFileUrl, getImageMetaData, getImagesFromBucket, } from '@/common/filestore/index';
+import { UsersBucket } from '@/common/filestore/models/UsersBucket';
+import BaseButton from '@/components/base/base-button/base-button.vue';
 
 const IMAGE_BUCKET = 'images';
 
@@ -39,10 +48,12 @@ const IMAGE_BUCKET = 'images';
   props: {
     parentImages: { default: (): ImageCardProps[] => {
       return [];
-    }}
+      }
+    },
+    userId: '',
   },
   components: {
-    'close-button': CloseButton,
+    'close-button': BaseButton,
   }
 })
 export default class ImagePicker extends Vue {
@@ -51,6 +62,10 @@ export default class ImagePicker extends Vue {
   maxImages = 0;
   parentImages!: ImageCardProps[];
   images: ImageCardProps[] = [];
+  tags: string[] = [];
+  filters: string[] = [];
+  userId = '';
+  userBucket: UsersBucket = {bucket: IMAGE_BUCKET, userId: this.userId};
 
   created() {
     if (this.parentImages.length !== 0) {
@@ -89,7 +104,6 @@ export default class ImagePicker extends Vue {
 
   getImagesFromBucket() {
     this.images = [];
-    CloudStorageModule.updateBucketName('images');
     this.getImageDetailsFromStorage()
     .then(files => {
       const fileList = files;
@@ -100,7 +114,8 @@ export default class ImagePicker extends Vue {
   private getImageDetailsFromStorage(): Promise<BucketImage[]> {
     let fileList: BucketImage[] = [];
     return new Promise((resolve, reject) => {
-      CloudStorageModule.getImagesFromBucket()
+
+      getImagesFromBucket(this.userBucket)
       .then(files => {
         fileList = (files as BucketImage[]);
         resolve(fileList);
@@ -110,14 +125,14 @@ export default class ImagePicker extends Vue {
 
   private getFileUrls(fileList: BucketImage[]) {
     fileList.forEach(bucketImage => {
-      CloudStorageModule.getFileUrl(bucketImage.name)
+      getFileUrl(bucketImage.name, this.userBucket)
       .then (url => {
         const image: ImageCardProps = {
           url: url,
           title: bucketImage.name,
           tags: [],
         };
-        CloudStorageModule.getImageMetaData(bucketImage.name)
+        getImageMetaData(bucketImage.name, this.userBucket)
         .then (tags => {
           if (tags.length > 0) {
             image.tags = tags;
