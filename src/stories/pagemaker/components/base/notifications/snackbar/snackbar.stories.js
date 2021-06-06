@@ -1,8 +1,7 @@
 import Snackbar from '@/components/base/notifications/snackbar/snackbar.vue';
-import { useStore, AllActionTypes } from '@/store';
 import { SnackBar } from '@/classes/base/notification/snackbar/snackbar';
 
-const store = useStore();
+
 const snackbarDefault = {
   message: 'A message',
   title: 'Success',
@@ -20,8 +19,6 @@ const setSnackbar = (message, title, type, show) => {
 }
 
 const snackBar = SnackBar.getInstance();
-
-
 
 export default {
   title: 'Pagemaker/snackbar',

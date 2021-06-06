@@ -29,7 +29,7 @@ import ToolTip from '@/components/base/notifications/tooltip/tooltip.vue';
   },
 })
 export default class IconImage extends Vue {
-  name="IconImage";
+  name= 'icon-image';
   showTooltip = false;
   icon = '';
   classDef = '';
@@ -37,7 +37,7 @@ export default class IconImage extends Vue {
   tooltip = '';
 
   get getIcon(): string {
-    return require(`@/assets/icons/${this.icon}`)
+    return this.icon !=='' ? require(`@/assets/icons/${this.icon}`) : 'emoji_waiting-32.png';
   }
 
   iconClick() {

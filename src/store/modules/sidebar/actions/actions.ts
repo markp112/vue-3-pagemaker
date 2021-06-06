@@ -18,6 +18,7 @@ export enum ActionTypes {
   SHOW_SIDEBAR_ACTIVE_MENU = 'showSidebarActiveMenu',
   SHOW_TEXT_MODAL = 'showTextModal',
   SET_SETTINGS_PAGE_ACTIVE_PAGE = 'setSettingPageActivePage',
+  SET_SHOW_SIDEBAR = 'setShowSidebar',
 };
 
 
@@ -29,16 +30,17 @@ type ActionArguments = Omit<ActionContext<State, RootState>, 'commit'> & {
 };
 
 export type Actions = {
-  [ActionTypes.LOAD_SIDEBAR_ELEMENTS](context: ActionArguments): Promise<Notification>,
+  [ActionTypes.LOAD_SIDEBAR_ELEMENTS](context: ActionArguments, payload: boolean): Promise<Notification>,
   [ActionTypes.SAVE_SIDEBAR_EDITOR_ELEMENT](context: ActionArguments, editorComponent: ASidebarElement): Promise<Notification>,
   [ActionTypes.SET_SETTINGS_PAGE_ACTIVE_PAGE](context: ActionArguments, activePage: string): void,
   [ActionTypes.SHOW_SIDEBAR_ACTIVE_MENU](context: ActionArguments, whichComponent: SidebarComponentMenus): void,
   [ActionTypes.SHOW_TEXT_MODAL](context: ActionArguments, showTextModal: boolean): void,
+  [ActionTypes.SET_SHOW_SIDEBAR](context: ActionArguments, showSidebar: boolean): void,
 };
 
 export const actions: ActionTree<State, RootState> & Actions = {
 
-  [ActionTypes.LOAD_SIDEBAR_ELEMENTS]({commit}): Promise<Notification> {
+  [ActionTypes.LOAD_SIDEBAR_ELEMENTS]({commit}, payload: boolean): Promise<Notification> {
     const firestore = firebase.firestore();
     const notification: Notification = notificationDefault;
     return new Promise((resolve, reject) => {
@@ -56,6 +58,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
           resolve(notification);
         })
         .catch(err => {
+          console.log('%c⧭', 'color: #733d00', err);
           notification.message = err;
           notification.status = 'Error';
           reject(notification);
@@ -64,6 +67,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
   },
 
   [ActionTypes.SAVE_SIDEBAR_EDITOR_ELEMENT]({commit}, editorComponent: ASidebarElement):Promise<Notification> {
+    console.log('%c⧭', 'color: #731d1d', editorComponent);
     const notification: Notification = notificationDefault;
     return new Promise((resolve, reject) => {
       const firestore = firebase.firestore();
@@ -79,6 +83,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
           resolve(notification);
         })
         .catch(err => {
+          console.log('%c⧭', 'color: #f200e2', err);
           notification.status = 'Error';
           notification.message = err;
           reject(notification);
@@ -97,15 +102,21 @@ export const actions: ActionTree<State, RootState> & Actions = {
   [ActionTypes.SHOW_TEXT_MODAL]({commit}, showTextModal: boolean) {
     commit(MutationTypes.SET_SHOW_TEXT_MODAL, showTextModal);
   },
+
+  [ActionTypes.SET_SHOW_SIDEBAR]({commit}, showSidebar: boolean) {
+    commit(MutationTypes.SET_SIDEBAR_VISIBILITY, showSidebar);
+  },
 };
 
 const getSideBarElement = (sidebarElement: SideBarElementFlattend): ASidebarElement => {
+  console.log('%c⧭', 'color: #00bf00', sidebarElement);
   const aSidebarElement = new ASidebarElement();
   aSidebarElement.classes = sidebarElement.classes;
   aSidebarElement.componentName = sidebarElement.componentName;
   aSidebarElement.componentRef = sidebarElement.componentRef;
+  const height = sidebarElement.dimension.height ?  sidebarElement.dimension.height : 32
   aSidebarElement.dimension = new ADimension(
-    sidebarElement.dimension.height,
+    height,
     sidebarElement.dimension.width,
     sidebarElement.dimension.units
   );

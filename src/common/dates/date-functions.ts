@@ -6,7 +6,6 @@ export interface TimeStamp {
 };
 
 export function formatDate(date: Date): string {
-  console.log('%c%s', 'color: #8c0038', date);
   const dateDayjs = dayjs(date);
   return dateDayjs.format("DD MMM YYYY");
 };

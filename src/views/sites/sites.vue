@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div class="flex flex-row justify-between text-accent1 mt-2">
+    <div class="flex flex-row justify-between text-accent1 mt-8">
       <h2 class="page-heading ml-4">My Sites</h2>
       <div class="w-32">
         <base-button
@@ -22,16 +22,16 @@
 </template>
 
 <script lang="ts">
-import { Options } from 'vue-class-component';
+import { Options, Vue } from 'vue-class-component';
 import { ASite } from '@classes/base/sites/ASite';
 import { AllActionTypes, useStore } from '@/store';
-import { sidebarActionTypes } from '@/store/modules/sidebar';
 import BaseButton from '@/components/base/base-button/base-button.vue';
 import SiteCard from '@/components/base/cards/site-card/site-card.vue';
 import { sitesActionTypes } from '@/store/modules/sites';
 import { Notification } from '@/models/notification/notification';
 import { SiteDefaults } from '@/classes/settings/site-defaults/site-defaults';
-import SnackbarMixin from '@/components/mixins/snackbar/snackbar';
+import { SnackBar } from '@/classes/base/notification/snackbar/snackbar';
+import { SnackBarGenerator } from '@/classes/base/notification/snackbar/snackbarGenerator';
 
 @Options({
   components: {
@@ -39,7 +39,7 @@ import SnackbarMixin from '@/components/mixins/snackbar/snackbar';
     "site-card": SiteCard,
   }
 })
-export default class SitesList extends SnackbarMixin{
+export default class SitesList extends Vue{
   name = "sites-list";
   store = useStore();
   userId = useStore().getters.user.id;
@@ -47,7 +47,6 @@ export default class SitesList extends SnackbarMixin{
   created() {
     this.store.dispatch(AllActionTypes.LOAD_SITES, this.userId);
     this.sites.forEach(site => console.log(site))
-    this.store.dispatch(sidebarActionTypes.SHOW_SIDEBAR_ACTIVE_MENU,'sites-menu');
   }
 
   createNewSite(): void {
@@ -65,8 +64,8 @@ export default class SitesList extends SnackbarMixin{
     .catch(err => {
       console.log('%c⧭', 'color: #514080', err)
       const notification: Notification = err as Notification;
-      this.showSnackbar(
-        notification,
+      this.showErrorsnackbar(
+        notification.message,
         "Site defaults load failed, defaults applied"
       );
     });
@@ -78,6 +77,13 @@ export default class SitesList extends SnackbarMixin{
     } else {
       return datePublished;
     }
+  }
+
+    showErrorsnackbar(message: string, title: string) {
+    const snackbar = SnackBar.getInstance();
+    const snackbarMessage = SnackBarGenerator.snackbarError(message, title);
+    snackbar.snackbarMessage = snackbarMessage;
+    snackbar.showSnackbar();
   }
 
   get sites(): ASite[] {

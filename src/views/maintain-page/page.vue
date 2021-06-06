@@ -14,7 +14,7 @@
           type="text"
           id="page-name"
           v-model="page.name"
-          class="input-control"
+          class="w-9/12 border-solid border bg-white py-1 px-2 leading-4 text-site-primary-light"
           placeholder="e.g Home, Blog Home and must be unique"
         />
       </div>
@@ -35,12 +35,18 @@
       </div>
       <div class="field-wrapper">
         <label for="created">Created:</label>
-        <!-- <datepicker :value="page.created" id="created" name="created">
-        </datepicker> -->
+        <datepicker
+          v-model="page.created"
+          name="created"
+          class="w-9/12 border-solid border bg-white py-1 px-2 leading-4 text-site-primary-light -ml-11"
+          inputFormat="dd-MM-yyyy">
+        </datepicker>
       </div>
       <div class="field-wrapper">
         <label for="edited">Edited:</label>
-          {{ formatDate(page.edited) }}
+        <span class="bg-white py-1 px-2 leading-4 text-site-primary-light">
+            {{ formatDate(page.edited) }}
+        </span>
       </div>
       <div class="field-wrapper">
           <label for="active">Active:</label>
@@ -52,61 +58,82 @@
             class="w-1/12"
           />
       </div>
-      <div class="w-16 ml-auto">
+      <div class="w-full mt-8 flex justify-between">
         <base-button
           buttonType="primary"
-          @cancelClicked="cancelClick"
-          @saveClicked="saveClick()"
+          variant="outline"
+          size="small"
+          @onClick="cancelClick"
         >
-          submit
+          Cancel
+        </base-button>
+        <base-button
+          buttonType="primary"
+          size="small"
+          @onClick="saveClick()"
+        >
+          Submit
         </base-button>
       </div>
-      <!-- <invalid-form :formErrors="formErrors"></invalid-form> -->
+      <invalid-form :formErrors="formErrors"></invalid-form>
     </form>
   </div>
 </template>
 
 <script lang="ts">
-import  { Vue, Options } from "vue-class-component";
-import IconPicker from "@/components/pickers/icon-picker/icon-picker.vue";
-// import InvalidForm from "@/components/base/notifications/invalid-form.vue";
-import BaseButton from '@/components//base/base-button/base-button.vue';
+import  { Vue, Options, } from "vue-class-component";
 import { ASitePage } from '@/classes/page/page';
 import { useStore, AllActionTypes } from '@/store';
 import { formatTimeStampAsDate, TimeStamp, formatDate } from '@/common/dates/date-functions';
 import { SiteAndUser } from '@/common/types/site-and-user';
 import { SnackBarGenerator } from '@/classes/base/notification/snackbar/snackbarGenerator';
 import { SnackbarMessage } from '@/classes/base/notification/snackbar/models/snackbar';
-import { Notification } from '@/models/notification/notification'
+import { SnackBar } from '@/classes/base/notification/snackbar/snackbar';
+import { Notification } from '@/models/notification/notification';
+import IconPicker from "@/components/pickers/icon-picker/icon-picker.vue";
+import BaseButton from '@/components//base/base-button/base-button.vue';
+import Datepicker from 'vue3-datepicker';
+import InvalidForm from '@/components/base/notifications/invalid-form/invalid-form.vue';
 
 @Options({
   components: {
     "icon-picker": IconPicker,
     "base-button": BaseButton,
-    // "invalid-form": InvalidForm,
+    'invalid-form': InvalidForm,
+    Datepicker,
   }
 })
 export default class PageEditor extends Vue {
   pageTitle!: string | string [];
   page!: ASitePage;
-  formErrors!: string[];
   dateCreated!: Date;
   showIconPicker = false;
+  formErrors: string[] = [];
   store = useStore();
   siteAndUser: SiteAndUser = {
-      siteId: this.store.getters.currentSite.siteId,
+    siteId: this.store.getters.currentSite.siteId,
       userId: this.store.getters.user.id,
     };
 
   created() {
     this.pageTitle = this.$route.params.title;
     this.page = this.store.getters.currentPage;
-    const DateTimeStamp: TimeStamp = {
+      let dateTimeStamp: TimeStamp = {
+      seconds: new Date().getTime()/1000,
+      nanoseconds: 0
+    };
+
+    this.page.edited = formatTimeStampAsDate(dateTimeStamp);
+    dateTimeStamp = {
       seconds: this.page.created.getSeconds(),
       nanoseconds: 0
     };
-    this.dateCreated = formatTimeStampAsDate(DateTimeStamp);
+    this.dateCreated = formatTimeStampAsDate(dateTimeStamp);
     this.formErrors = [];
+  }
+
+  get getFormErrors(): string[] {
+    return this.formErrors;
   }
 
   getIcon(iconName: string): string {
@@ -114,12 +141,8 @@ export default class PageEditor extends Vue {
     return require(`@/assets/icons/${iconName}`);
   }
 
-  formatDate(date: string) {
-    const dateTimeStamp: TimeStamp = {
-      seconds: this.page.edited.getSeconds(),
-      nanoseconds: 0
-    };
-    formatDate(formatTimeStampAsDate(dateTimeStamp))
+  formatDate(date: Date): string  {
+    return formatDate(date);
   }
 
   iconPickerClicked() {
@@ -136,26 +159,26 @@ export default class PageEditor extends Vue {
   }
 
   saveClick() {
-    this.formErrors = [];
-    const errors: string[] = this.validateForm();
-    if (errors.length === 0) {
+    this.formErrors = this.validateForm();
+    if (this.formErrors.length === 0) {
       this.page.edited = new Date();
       this.savePage();
-    } else {
-      this.formErrors = errors;
-    }
+    };
   }
 
   validateForm(): string[] {
     const errors: string[] = [];
     if (this.page.name.length === 0) {
-      errors.push("page name is required");
+      errors.push("Page name is required");
     }
     const pageList: ASitePage[] = this.store.getters.pages;
     if (pageList !== undefined) {
       if (pageList.filter(page => page.name === this.page.name).length > 0) {
         errors.push("Page name must be unique");
       }
+    }
+    if (this.page.icon === '') {
+      errors.push('An Icon is required');
     }
     return errors;
   }
@@ -164,19 +187,17 @@ export default class PageEditor extends Vue {
     this.store.dispatch(AllActionTypes.ADD_A_NEW_PAGE,
       {
         page: this.page,
-        siteAndUser: this.siteAndUser
+        siteAndUser: this.siteAndUser,
       }
     )
     .then(result => {
         const notification = result;
         if (notification.status === "ok") {
-          const snackbarMessage: SnackbarMessage = SnackBarGenerator.snackbarSuccess(
-            `The ${this.page.name} page has been created`,
-            "Page Saved"
-          );
-          this.store.dispatch(AllActionTypes.SHOW_SNACKBAR, snackbarMessage);
-        } else {
-          this.showErrorsnackbar(notification.message, "Error on Save");
+          const message = `The ${this.page.name} page has been created`;
+          const snackbar = SnackBar.getInstance();
+          const snackbarMessage = SnackBarGenerator.snackbarSuccess(message, 'Page Saved');
+          snackbar.snackbarMessage = snackbarMessage;
+          snackbar.showSnackbar();
         }
       })
       .catch(err => {
@@ -186,8 +207,10 @@ export default class PageEditor extends Vue {
   }
 
   showErrorsnackbar(message: string, title: string) {
+    const snackbar = SnackBar.getInstance();
     const snackbarMessage = SnackBarGenerator.snackbarError(message, title);
-    this.store.dispatch(AllActionTypes.SHOW_SNACKBAR, snackbarMessage);
+    snackbar.snackbarMessage = snackbarMessage;
+    snackbar.showSnackbar();
   }
 }
 </script>
@@ -200,8 +223,9 @@ label {
 }
 
 input,
+datepicker,
 textarea {
-  @apply w-9/12 border-solid border bg-accent-2;
+  @apply w-9/12 border-solid border bg-white py-1 px-2 leading-4 text-site-primary-light;
 }
 
 .field-wrapper {

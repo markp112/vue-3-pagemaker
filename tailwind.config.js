@@ -47,6 +47,12 @@ module.exports = {
         "diskette-save": "url('/assets/icons/diskette-dark-48.png')"
       })
     },
+    zIndex: {
+      "-1": "-1",
+    },
+    transformOrigin: {
+      "0": "0%",
+    },
     spacing: {
       px: "1px",
       0: "0px",

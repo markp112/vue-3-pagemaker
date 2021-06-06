@@ -5,13 +5,23 @@ import { Units } from '@/common/types/units';
 
 export type ComponentTypesString =
   | undefined
-  | "container"
-  | "jumbo"
-  | "button"
-  | "navBar"
-  | "pageTemplate"
-  | "text"
-  | "image";
+  | 'container'
+  | 'jumbo'
+  | 'button'
+  | 'navBar'
+  | 'pageTemplate'
+  | 'text'
+  | 'image';
+
+  export const ComponentTypesArray: string[] =
+    ['container',
+    'jumbo',
+    'button',
+    'navBar',
+    'pageTemplate',
+    'text',
+    'image',
+  ];
 
 export interface SidebarElement {
   componentName: string;

@@ -1,15 +1,17 @@
 <template>
   <section>
-    <div class="flex flex-row justify-between ml-12 mt-8">
-      <h2 class="page-heading">My Pages</h2>
-      <base-button
+    <div class="flex flex-row justify-between mt-8">
+      <h2 class="page-heading ml-4">My Pages</h2>
+      <div class="w-32">
+        <base-button
           class="mr-4"
           buttonType="primary"
           variant="solid"
           @onClick="createNewPage()"
-      >
-        Create New
-      </base-button>
+        >
+          Create New
+        </base-button>
+      </div>
     </div>
     <div class="flex flex-row justify-evenly font-bold ml-4 mt-10">
       <span class="w-1/12"></span>
@@ -28,14 +30,14 @@
           >
             <span class="w-1/12">
               <span class="w-8 shadow-md">
-                <img :src="getIcon(page.icon)" alt="">
+                <img :src="getIcon(page.icon)" alt=""/>
               </span>
             </span>
-            <span class="w-2/12  text-left">
+            <span class="w-2/12 text-left">
               {{ page.name }}
             </span>
             <span class="w-2/12">
-              {{ formatDate(page.created)}}
+              {{ formatDate(page.created) }}
             </span>
             <span class="w-2/12">
               {{ formatDate(page.edited) }}
@@ -48,7 +50,7 @@
             src="@/assets/icons/pencil-24.png"
             alt="Edit pencil"
             @click="editPencilClick(page.name)"
-            class="w-8 h-8 hover:shadow-xl cursor-pointer "
+            class="w-8 h-8 hover:shadow-xl cursor-pointer"
           />
         </div>
       </li>
@@ -59,38 +61,37 @@
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
 import { ASitePage } from '@/classes/page/page';
-import { AllActionTypes, useStore } from '@/store'
+import { AllActionTypes, useStore } from '@/store';
 import { SiteAndUser } from '@/common/types/site-and-user';
 import { formatDate } from '@/common/dates/date-functions';
 import BaseButton from '@/components/base/base-button/base-button.vue';
 
 @Options({
   components: {
-      "base-button": BaseButton,
+      'base-button': BaseButton,
   }
 })
 export default class PageList extends Vue {
-  name = "pageList";
+  name = 'pageList';
   siteAndUser: SiteAndUser = {siteId: '', userId: ''}
   store = useStore();
 
-  editPencilClick(pageName: string) {
-    this.store.dispatch(AllActionTypes.UPDATE_CURRENT_PAGE, pageName)
-    this.$router.push({ name: "page-editor", params: { title: "Edit Page" } });
+  editPencilClick(pageName: string): void {
+    this.store.dispatch(AllActionTypes.UPDATE_CURRENT_PAGE, pageName);
+    this.$router.push({ name: 'page-editor', params: { title: 'Edit Page' } });
   }
 
-  created() {
+  created(): void {
     this.siteAndUser.siteId = this.store.getters.currentSite.siteId;
     this.siteAndUser.userId = this.store.getters.user.id;
   }
 
-  mounted() {
+  mounted(): void {
     this.store.dispatch(AllActionTypes.LOAD_PAGES, this.siteAndUser );
   }
 
   getIcon(iconName: string): string {
-    const path = require.context("@/assets/icons", false, /\.png$/);
-    return path(`./${iconName}`);
+    return require(`@/assets/icons/${iconName}`)
   }
 
   formatDate(date: Date): string {
@@ -99,19 +100,19 @@ export default class PageList extends Vue {
 
   createNewPage() {
     this.$router.push({
-      name: "page-editor",
+      name: 'page-editor',
       params: {
-        title: "Create New Page"
+        title: 'Create New Page'
       }
     });
   }
 
   pageRowClick(pageName: string) {
     this.$router.push({
-      name: "page-builder",
+      name: 'page-builder',
       params: {
-        title: pageName
-      }
+        title: pageName,
+      },
     });
   }
 

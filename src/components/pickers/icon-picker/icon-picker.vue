@@ -1,12 +1,12 @@
 <template>
 <div class="w-24 bg-gray-800 rounded-t-md" v-if="showMe">
   <base-button
-    :buttonShape="circle"
-    :buttonType="primary"
-    :variant="solid"
-    :size="small"
+    buttonShape="circle"
+    buttonType="primary"
+    variant="solid"
+    size="small"
     class="ml-auto"
-    @click="$props.showMe=false"
+    @click="closeMe()"
   >X</base-button>
   <ul
     class="w-24 bg-gray-800 p-2 z-10 flex flex-row flex-wrap justify-start shadow-lg rounded-b-md absolute "
@@ -79,5 +79,8 @@ export default class IconPicker extends Vue {
     this.$emit('iconClick' ,icon);
   }
 
+  closeMe() {
+    this.$emit('onCloseClick')
+  }
 }
 </script>

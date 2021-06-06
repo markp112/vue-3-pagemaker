@@ -3,7 +3,16 @@
     class="min-w-screen max-w-screen border-box font-body flex flex-col h-screen overflow-hidden "
   >
     <nav-bar></nav-bar>
-    <router-view />
+    <bread-crumb/>
+    <div class="flex flex-row justify-start">
+      <div class="w-2/12">
+        <sidebar-container />
+
+      </div>
+      <div class="w-10/12">
+        <router-view />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -33,12 +42,16 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import NavMenuComponent from '@/components/core/navbar/nav.vue';
+import Breadcrumb from '@/components/core/breadcrumb/breadcrumb.vue';
+import SideBar from '@/components/core/sidebar/sidebar-container/sidebar-container.vue';
 import { ActionTypes as authActionTypes } from '@/store/modules/auth/actions/actions';
 import { useStore, AllActionTypes } from '@/store';
 
 @Options({
   components: {
     'nav-bar': NavMenuComponent,
+    'bread-crumb': Breadcrumb,
+    'sidebar-container': SideBar,
   },
 })
 export default class MainApp extends Vue {
@@ -54,6 +67,11 @@ export default class MainApp extends Vue {
     } else {
       this.store.dispatch(AllActionTypes.CREATE_NAV_MENU_SIGNED_OUT, true);
     }
+  }
+
+  get showSideBar(): boolean {
+    console.log('%c%s', 'color: #00a3cc', 'showSideBar')
+    return this.store.getters.isShowSidebar;
   }
 }
 </script>

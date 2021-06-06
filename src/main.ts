@@ -1,13 +1,13 @@
-import { createApp } from "vue";
-import App from "./App.vue";
-import router from "./router";
-import store from "./store";
+import { createApp } from 'vue';
+import App from './App.vue';
+import router from './router';
+import store from './store';
 import './index.css';
-// import { firestorePlugin } from "vuefire";
 import Firebase from "firebase/app";
 import "firebase/firestore";
 import { secrets } from "./firebase/config";
 import "@/assets/styles/custom-styles.css";
+import AirbnbStyleDatepicker from 'vue-airbnb-style-datepicker';
 
 
 export const firebaseApp = Firebase.initializeApp(secrets.google);

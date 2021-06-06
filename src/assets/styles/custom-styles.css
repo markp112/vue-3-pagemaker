@@ -4,6 +4,26 @@
 
 @tailwind utilities;
 
+
+input:focus-within ~ label,
+input:not(:placeholder-shown) ~ label {
+  @apply transform;
+  @apply scale-75;
+  @apply -translate-y-6;
+
+  @apply font-semibold;
+  @apply text-site-primary-light;
+}
+
+select:focus-within ~ label,
+select:not(:placeholder-shown) ~ label {
+  @apply transform;
+  @apply scale-75;
+  @apply -translate-y-6;
+  @apply font-semibold;
+  @apply text-site-primary-light;
+}
+
 .page-heading {
   @apply font-bold;
   @apply text-on-surface;
