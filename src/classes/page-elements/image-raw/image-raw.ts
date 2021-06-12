@@ -1,4 +1,5 @@
 import { ADimension } from '@/classes/base/dimension/a-dimension';
+import { ValueAndUnit } from '@/common/types/value_and_unit/value_and_unit';
 import { ImageInterface } from './model/image-raw';
 
 export class Image implements ImageInterface {
@@ -10,15 +11,15 @@ export class Image implements ImageInterface {
   private _parentDimensions: ADimension;
 
   constructor() {
-    const HEIGHT = 300;
-    const WIDTH = 200;
-    this._naturalSize = new ADimension(HEIGHT, WIDTH, 'px');
-    this._scaledSize = new ADimension(HEIGHT, WIDTH, 'px');
+    const HEIGHT: ValueAndUnit = {value:300, unit: 'px'};
+    const WIDTH: ValueAndUnit = {value:200, unit: 'px'};
+    this._naturalSize = new ADimension(HEIGHT, WIDTH);
+    this._scaledSize = new ADimension(HEIGHT, WIDTH);
     this._content =
       "https://firebasestorage.googleapis.com/v0/b/page-maker-69fb1.appspot.com/o/assets%2Fimages%2Fimageplaceholder.png?alt=media&token=149d3e60-0fc4-49de-9e23-5fea91458240";
-    this._ratio = this.naturalSize.width / this.naturalSize.height;
+    this._ratio = this.naturalSize.width.value / this.naturalSize.height.value;
     this._maintainRatio = true;
-    this._parentDimensions = new ADimension(HEIGHT, WIDTH, 'px');
+    this._parentDimensions = new ADimension(HEIGHT, WIDTH);
   }
 
   get content(): string {
@@ -36,7 +37,7 @@ export class Image implements ImageInterface {
   set naturalSize(size: ADimension) {
     this._naturalSize = size;
     this._scaledSize = size; /** @description when image size changes the scaled size should be reset */
-    this._ratio = this._naturalSize.width / this._naturalSize.height;
+    this._ratio = this._naturalSize.width.value / this._naturalSize.height.value;
   }
 
   get scaledSize() {

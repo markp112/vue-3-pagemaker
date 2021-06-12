@@ -114,16 +114,13 @@ const getSideBarElement = (sidebarElement: SideBarElementFlattend): ASidebarElem
   aSidebarElement.classes = sidebarElement.classes;
   aSidebarElement.componentName = sidebarElement.componentName;
   aSidebarElement.componentRef = sidebarElement.componentRef;
-  const height = sidebarElement.dimension.height ?  sidebarElement.dimension.height : 32
   aSidebarElement.dimension = new ADimension(
-    height,
+    sidebarElement.dimension.height,
     sidebarElement.dimension.width,
-    sidebarElement.dimension.units
   );
   aSidebarElement.location = new ALocation(
     sidebarElement.location.top,
     sidebarElement.location.left,
-    sidebarElement.location.units,
   );
   aSidebarElement.isContainer = sidebarElement.isContainer;
   aSidebarElement.sidebarIcon = sidebarElement.sidebarIcon;

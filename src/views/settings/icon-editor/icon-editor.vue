@@ -13,7 +13,7 @@
             :key="idx"
             class="text-2xl w-4/12 cursor-pointer"
           >
-            <icon-image :icon="element.sidebarIcon" @iconClick="iconClicked"/>
+            <icon-image :icon="element.sidebarIcon" @iconClick="editorComponent = iconClicked(element.sidebarIcon)"/>
           </li>
         </ul>
       </div>
@@ -46,8 +46,7 @@
                   @onCloseClick="isShowIconPicker=false"
                 />
             </span>
-
-            <span>
+            <div>
               <div
                 v-if="editorComponent.sidebarIcon.icon !== ''"
                 class="inline-block"
@@ -57,7 +56,7 @@
                   classDef="ml-2 inline-block text-2xl align-middle"
                 ></icon-image>
               </div>
-            </span>
+            </div>
 
           </div>
           <select-input
@@ -69,58 +68,73 @@
           <text-input
             :value="classDef"
             label="CSS tailwind classes to define the component"
-            @onChange="classDef= $event"
-          />
-
+            @onChange="classDef=$event"
+          ></text-input>
           <div class="dimensions">
             <div class="w-16">
               <text-input
-                :value="editorComponent.dimension.width"
+                :value="editorComponent.dimension.width.value"
                 label="Width"
                 type="number"
-                @onChange="editorComponent.dimension.width= parseInt($event)"
-              />
-            </div>
-            <div class="w-16 ml-2">
-              <text-input
-                :value="editorComponent.dimension.height"
-                type="number"
-                label="height"
-                @onChange="editorComponent.dimension.height=$event"
+                @onChange="editorComponent.dimension.width.value=$event"
               />
             </div>
             <div class="w-16 ml-2">
               <select-input
-                :value="editorComponent.dimension.units"
+                :value="editorComponent.dimension.width.unit"
                 label="Units"
                 :selectOptions="units"
-                @onChange="editorComponent.dimension.units=$event"
+                @onChange="editorComponent.dimension.width.unit=$event"
+              />
+            </div>
+            <div class="w-16 ml-2">
+              <text-input
+                :value="editorComponent.dimension.height.value"
+                type="number"
+                label="height"
+                @onChange="editorComponent.dimension.height.value=$event"
+              />
+            </div>
+            <div class="w-16 ml-2">
+              <select-input
+                :value="editorComponent.dimension.height.unit"
+                label="Units"
+                :selectOptions="units"
+                @onChange="editorComponent.dimension.height.unit=$event"
               />
             </div>
           </div>
           <div class="dimensions">
             <div class="w-16">
               <text-input
-                  :value="editorComponent.location.left"
+                  :value="editorComponent.location.left.value"
                   type="number"
                   label="left"
-                  @onChange="editorComponent.location.left=$event"
-                />
-            </div>
-            <div class="ml-4 w-16">
-              <text-input
-                  :value="editorComponent.location.top"
-                  type="number"
-                  label="left"
-                  @onChange="editorComponent.location.top=$event"
+                  @onChange="editorComponent.location.left.value=$event"
                 />
             </div>
             <div class="w-16 ml-4">
               <select-input
-                :value="editorComponent.location.units"
+                :value="editorComponent.location.left.unit"
                 label="Units"
                 :selectOptions="units"
-                @onChange="editorComponent.location.units=$event"
+                @onChange="editorComponent.location.left.unit=$event"
+              />
+            </div>
+            <div class="ml-4 w-16">
+              <text-input
+                  :value="editorComponent.location.top.value"
+                  type="number"
+                  label="left"
+                  @onChange="editorComponent.location.top.value=$event"
+                />
+            </div>
+            <div class="w-16 ml-4">
+              <select-input
+                :value="editorComponent.location.top.unit"
+                label="Units"
+                :selectOptions="units"
+                @onChange="editorComponent.location.top.unit=$event"
               />
             </div>
           </div>
@@ -171,9 +185,7 @@ import InvalidForm from '@/components/base/notifications/invalid-form/invalid-fo
 import IconImage from '@/components/base/icon/icon.vue';
 import TextInput from '@/components/base/form-controls/text-input/text-input.vue';
 import SelectInput from '@/components/base/form-controls/select/select-input.vue';
-import { Units } from '@/common/types/units';
-
-
+import { reactive } from '@vue/reactivity';
 
 @Options({
   components: {
@@ -211,20 +223,28 @@ export default class SidebarIconEditor extends Vue {
     this.editorComponent.sidebarIcon = icon;
   }
 
-  iconClicked(icon: string) {
+  iconClicked(icon: string): ASidebarElement {
     const component: ASidebarElement = this.store.getters.getSidebarAllItems.filter(
       element => element.sidebarIcon === icon
     )[0];
-    this.editorComponent.componentName = component.componentName;
-    this.editorComponent.componentRef = component.componentRef;
-    this.editorComponent.classes = component.classes;
-    this.editorComponent.isContainer = component.isContainer;
-    this.editorComponent.sidebarIcon = component.sidebarIcon;
-    this.editorComponent.type = component.type;
-    this.editorComponent.dimension = component.dimension;
-    this.editorComponent.location = component.location;
-    this.iconLocal = icon;
+      console.log('%c⧭', 'color: #807160', component)
+    const sideBarElement = new ASidebarElement();
+    sideBarElement.componentName = component.componentName;
+    sideBarElement.componentRef = component.componentRef;
+    sideBarElement.classes = component.classes;
+    sideBarElement.isContainer = component.isContainer;
+    sideBarElement.sidebarIcon = component.sidebarIcon;
+    sideBarElement.type = component.type;
+    sideBarElement.dimension = component.dimension;
+    sideBarElement.location = component.location;
+    this.editorComponent = sideBarElement;
+    this.iconLocal = component.sidebarIcon;
     this.classDef = this.editorComponent.classes;
+    return sideBarElement;
+  }
+
+  get editorComponentTest(): ASidebarElement {
+    return this.editorComponent;
   }
 
   createNew(): void {

@@ -1,6 +1,9 @@
 import { ADimension } from '@/classes/base/dimension/a-dimension';
 import { ALocation } from '@/classes/base/location/a-location';
+import { ValueAndUnit } from '@/common/types/value_and_unit/value_and_unit';
 import { ComponentTypesString, SidebarElement } from './model/sidebar-element';
+
+const DEFAULT_VALUE: ValueAndUnit = { value: 0, unit: 'px' };
 
 export class ASidebarElement implements SidebarElement {
   componentName = "";
@@ -9,8 +12,8 @@ export class ASidebarElement implements SidebarElement {
   isContainer = true;
   sidebarIcon = '';
   type: ComponentTypesString = 'container';
-  location = new ALocation( 0, 0, 'px');
-  dimension = new ADimension(0, 0, 'px');
+  location = new ALocation(DEFAULT_VALUE, DEFAULT_VALUE);
+  dimension = new ADimension(DEFAULT_VALUE, DEFAULT_VALUE);
 
   toObject(): Record<string, any> {
     return {

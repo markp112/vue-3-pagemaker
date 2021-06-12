@@ -1,7 +1,6 @@
-import { Units } from '@/common/types/units';
+import { ValueAndUnit } from '@/common/types/value_and_unit/value_and_unit';
 
 export interface Dimension {
-  height: number;
-  width: number;
-  units: Units;
+  height: ValueAndUnit,
+  width: ValueAndUnit,
 };

@@ -1,6 +1,7 @@
 import { ADimension } from '@/classes/base/dimension/a-dimension';
+import { Dimension } from '@/classes/base/dimension/model/dimension';
 import { ALocation } from '@/classes/base/location/a-location';
-import { Units } from '@/common/types/units';
+import { Location } from '@/classes/base/location/model/location';
 
 
 export type ComponentTypesString =
@@ -36,24 +37,11 @@ export interface SidebarElement {
 
 export interface SideBarElementFlattend {
   componentName: string;
-  dimension: {
-    height: number,
-    width: number,
-    units: Units,
-  };
-  location: {
-    top: number,
-    left: number,
-    units: Units,
-  };
+  dimension: Dimension;
+  location: Location;
   classes: string;
   componentRef: string;
   isContainer: boolean;
   sidebarIcon: string;
   type: ComponentTypesString;
 }
-
-
-// export interface SidebarElementWithDefaultContent extends SidebarElement {
-//   content: ComponentTypesString
-// }

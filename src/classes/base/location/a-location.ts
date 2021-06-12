@@ -1,47 +1,38 @@
-import { Units } from '@/common/types/units';
+import { ValueAndUnit } from '@/common/types/value_and_unit/value_and_unit';
 import { Location } from './model/location';
 
+const EMPTY_VALUE: ValueAndUnit = {value: 0, unit: 'px'};
+
 export class ALocation implements Location {
-  private _top: number;
-  private _left: number;
-  private _units: Units;
+  private _top: ValueAndUnit;
+  private _left: ValueAndUnit;
 
   constructor();
-  constructor(top: number, left: number);
-  constructor(top: number, left: number, units: Units);
-  constructor(top?: number, left?: number, units?: Units) {
-    this._top = top ? top : 0;
-    this._left = left? left: 0;
-    this._units = units? units : 'px';
+  constructor(top: ValueAndUnit, left: ValueAndUnit);
+  constructor(top?: ValueAndUnit, left?: ValueAndUnit,) {
+    this._top = top ? top : EMPTY_VALUE;
+    this._left = left? left: EMPTY_VALUE;
   }
 
-  get top(): number {
+  get top(): ValueAndUnit {
     return this._top;
   }
 
-  set top(top: number) {
+  set top(top: ValueAndUnit) {
     this._top = top;
   }
 
-  get left(): number {
+  get left(): ValueAndUnit {
     return this._left;
   }
 
-  set left(left: number) {
+  set left(left: ValueAndUnit) {
     this._left = left;
   }
 
-  get units(): Units {
-    return this._units;
-  }
-
-  set units(units: Units) {
-    this._units = units;
-  }
-
   toStyle(): string {
-    const left = `left:${this.left}${this._units};`;
-    const top = `top:${this._top}${this._units};`;
+    const left = `left:${this.left.value}${this.left.unit};`;
+    const top = `top:${this._top.value}${this.top.unit};`;
     return `${left}${top}`
   }
 
@@ -49,7 +40,6 @@ export class ALocation implements Location {
     return {
       top: this._top,
       left: this._left,
-      units: this._units
     };
   }
 

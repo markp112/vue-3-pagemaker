@@ -8,7 +8,7 @@
       v-model="inputValue"
       class="block w-full appearance-none bg-transparent focus:outline-none outline-none"
       placeholder=" "
-      @change="inputValueChange($event)"
+      @change="inputValueChange()"
     />
     <label
       for="text-input"
@@ -25,7 +25,7 @@ import { Vue, Options } from 'vue-class-component';
 @Options({
   props: {
     label: '',
-    value: '',
+    initialValue: '',
     width: '',
     type: {default: (): string => {return 'text'}},
   }
@@ -33,18 +33,18 @@ import { Vue, Options } from 'vue-class-component';
 export default class TextInput extends Vue {
   name = 'text-input';
   label = '';
-  value = '';
+  initialValue: number | string = '';
   width = '';
-  inputValue ='';
+  inputValue: number | string = '';
   placeholder = '';
   type = 'text';
 
   created() {
-    this.inputValue = this.value;
+    this.inputValue = this.initialValue;
   }
 
-  inputValueChange(event: KeyboardEvent) {
-    const valuetoEmit: number| string = this.type === 'text' ? this.inputValue : parseInt(this.inputValue);
+  inputValueChange() {
+    const valuetoEmit: number | string = this.type === 'text' ? this.inputValue : (this.inputValue as number);
     this.$emit('onChange', valuetoEmit);
   }
 
