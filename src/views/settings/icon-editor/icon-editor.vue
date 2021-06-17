@@ -1,5 +1,5 @@
 <template>
-  <section class="h-full overflow-hidden">
+  <section class="h-screen overflow-hidden">
     <p class="mt-2">Side Bar Icon Editor</p>
     <div class="flex flex-row justify-start h-full overflow-hidden">
       <div class=" w-2/12 border-r-2 border-gray-500  flex-wrap mt-8 ml-2">
@@ -21,15 +21,16 @@
         <form submit.prevent>
           <div class="dimensions">
             <text-input
-              :value="editorComponent.componentName"
+              :initialValue="editorComponent.componentName"
               width="w-64"
               label="Name of the editor component"
               @onChange="editorComponent.componentName=$event"
             />
           </div>
           <text-input
-            :value="editorComponent.componentRef"
-            label="HtmlTag for component on the page values container or generic"
+            :initialValue="editorComponent.componentRef"
+            width="w-64"
+            label="HtmlTag for component"
             @onChange="editorComponent.componentRef = $event"
           />
           <div class="flex flex-row justify-start">
@@ -40,6 +41,7 @@
               >...
                 <icon-picker
                   @iconClick="iconPickerClick($event)"
+                  class="z-50"
                   id="icon-picker"
                   ref="icon-picker"
                   :showMe="isShowIconPicker"
@@ -61,19 +63,20 @@
           </div>
           <select-input
             label="type"
-            :value="editorComponent.type"
+            width="w-12"
+            :initialValue="editorComponent.type"
             :selectOptions="componentType"
             @onChange="editorComponent.type=$event"
           />
           <text-input
-            :value="classDef"
+            :initialValue="classDef"
             label="CSS tailwind classes to define the component"
-            @onChange="classDef=$event"
+            @onChange="updateClassdef($event)"
           ></text-input>
           <div class="dimensions">
             <div class="w-16">
               <text-input
-                :value="editorComponent.dimension.width.value"
+                :initialValue="editorComponent.dimension.width.value"
                 label="Width"
                 type="number"
                 @onChange="editorComponent.dimension.width.value=$event"
@@ -81,7 +84,7 @@
             </div>
             <div class="w-16 ml-2">
               <select-input
-                :value="editorComponent.dimension.width.unit"
+                :initialValue="editorComponent.dimension.width.unit"
                 label="Units"
                 :selectOptions="units"
                 @onChange="editorComponent.dimension.width.unit=$event"
@@ -89,7 +92,7 @@
             </div>
             <div class="w-16 ml-2">
               <text-input
-                :value="editorComponent.dimension.height.value"
+                :initialValue="editorComponent.dimension.height.value"
                 type="number"
                 label="height"
                 @onChange="editorComponent.dimension.height.value=$event"
@@ -97,7 +100,7 @@
             </div>
             <div class="w-16 ml-2">
               <select-input
-                :value="editorComponent.dimension.height.unit"
+                :initialValue="editorComponent.dimension.height.unit"
                 label="Units"
                 :selectOptions="units"
                 @onChange="editorComponent.dimension.height.unit=$event"
@@ -107,7 +110,7 @@
           <div class="dimensions">
             <div class="w-16">
               <text-input
-                  :value="editorComponent.location.left.value"
+                  :initialValue="editorComponent.location.left.value"
                   type="number"
                   label="left"
                   @onChange="editorComponent.location.left.value=$event"
@@ -115,7 +118,7 @@
             </div>
             <div class="w-16 ml-4">
               <select-input
-                :value="editorComponent.location.left.unit"
+                :initialValue="editorComponent.location.left.unit"
                 label="Units"
                 :selectOptions="units"
                 @onChange="editorComponent.location.left.unit=$event"
@@ -123,7 +126,7 @@
             </div>
             <div class="ml-4 w-16">
               <text-input
-                  :value="editorComponent.location.top.value"
+                  :initialValue="editorComponent.location.top.value"
                   type="number"
                   label="left"
                   @onChange="editorComponent.location.top.value=$event"
@@ -131,23 +134,24 @@
             </div>
             <div class="w-16 ml-4">
               <select-input
-                :value="editorComponent.location.top.unit"
+                :initialValue="editorComponent.location.top.unit"
                 label="Units"
                 :selectOptions="units"
                 @onChange="editorComponent.location.top.unit=$event"
               />
             </div>
           </div>
-
-          <label for="isContainer">Container:</label>
-          <input
-            type="checkbox"
-            name="isContainer"
-            id="active"
-            :value="editorComponent.isContainer"
-            class="mt-5 w-1/12"
-            v-model="editorComponent.isContainer"
-          />
+          <div class="w-48 mb-4">
+            <label for="isContainer">Container:</label>
+            <input
+              type="checkbox"
+              name="isContainer"
+              id="active"
+              :initialValue="editorComponent.isContainer"
+              class="w-32"
+              v-model="editorComponent.isContainer"
+            />
+          </div>
           <submit-cancel
             @cancelClick="cancelClick()"
             @submitClick="saveClick()"
@@ -159,10 +163,10 @@
           Component Preview
         </p>
 
-        <div class="relative bg-gray-300">
-          <div class="mt-2  bg-blue-200" :class="classDef" :style="getStyles">
+        <div class="relative bg-gray-300 font">
+          <span class="mt-2  inline-block" :class="classDef" :style="getStyles">
             Component
-          </div>
+          </span>
         </div>
       </div>
     </div>
@@ -208,11 +212,12 @@ export default class SidebarIconEditor extends Vue {
   componentType = ComponentTypesArray;
   store = useStore();
   units = ['px', '%', 'em'];
+  width =0;
 
   created(): void {
     this.store.dispatch(AllActionTypes.SET_SHOW_SIDEBAR, false);
+    reactive(this.editorComponent);
   }
-
 
   toggleIconPicker() {
     this.isShowIconPicker = !this.isShowIconPicker;
@@ -227,28 +232,20 @@ export default class SidebarIconEditor extends Vue {
     const component: ASidebarElement = this.store.getters.getSidebarAllItems.filter(
       element => element.sidebarIcon === icon
     )[0];
-      console.log('%c⧭', 'color: #807160', component)
-    const sideBarElement = new ASidebarElement();
-    sideBarElement.componentName = component.componentName;
-    sideBarElement.componentRef = component.componentRef;
-    sideBarElement.classes = component.classes;
-    sideBarElement.isContainer = component.isContainer;
-    sideBarElement.sidebarIcon = component.sidebarIcon;
-    sideBarElement.type = component.type;
-    sideBarElement.dimension = component.dimension;
-    sideBarElement.location = component.location;
-    this.editorComponent = sideBarElement;
+    this.editorComponent = component;
     this.iconLocal = component.sidebarIcon;
     this.classDef = this.editorComponent.classes;
-    return sideBarElement;
+    this.width = component.dimension.width.value;
+    return component;
   }
 
-  get editorComponentTest(): ASidebarElement {
-    return this.editorComponent;
+  updateClassdef(classes: string) {
+    this.classDef = classes;
   }
 
   createNew(): void {
     this.editorComponent = new ASidebarElement();
+    this.editorComponent.dimension.width.value = 10;
   }
 
   saveClick(): void {
@@ -283,8 +280,11 @@ export default class SidebarIconEditor extends Vue {
 
   get getStyles(): string {
     const styles = `${this.editorComponent.location.toStyle()} ${this.editorComponent.dimension.toStyle()}`;
-    console.log('%c⧭', 'color: #1d5673', styles)
     return styles;
+  }
+
+  get classDefinitions(): string {
+    return this.classDef;
   }
 }
 </script>

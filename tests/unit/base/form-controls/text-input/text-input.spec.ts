@@ -53,7 +53,7 @@ describe('TextInput', () => {
 
   it('should render an input element of prop type number and set its value to empty string if a non numeric is passed in', async () => {
     props.type = 'number';
-    props.initialValue = '12';
+    props.initialValue = '12a';
     const wrapper = createTextInput(props);
     expect(wrapper.exists).toBeTruthy();
     const inputElement = await wrapper.find('input[type=number]').element as HTMLInputElement;
@@ -61,7 +61,8 @@ describe('TextInput', () => {
   });
 
   it('should emit an event when the value changes', async () => {
-    props.type = 'text'
+    props.type = 'text';
+    props.initialValue = 'test';
     const element = createTextInput(props);
     const inputValueChange = element.vm.inputValueChange = jest.fn();
     const wrapperElement = await element.find('input[type=text]');

@@ -1,8 +1,6 @@
-import { Units } from '@/common/types/units';
 import { ValueAndUnit } from '@/common/types/value_and_unit/value_and_unit';
 import { Dimension } from './model/dimension';
 
-const EMPTY_VALUE: ValueAndUnit = {value: 0, unit: 'px'};
 
 export class ADimension implements Dimension {
   _height: ValueAndUnit;
@@ -11,8 +9,8 @@ export class ADimension implements Dimension {
   constructor();
   constructor(height: ValueAndUnit, width: ValueAndUnit);
   constructor(height?: ValueAndUnit, width?: ValueAndUnit) {
-    this._height = height ? height :  EMPTY_VALUE;
-    this._width = width ? width :  EMPTY_VALUE;
+    this._height = height ? height : { value: 0, unit: 'px' };
+    this._width = width ? width :  { value: 0, unit: 'px' };
   }
 
   get height(): ValueAndUnit {

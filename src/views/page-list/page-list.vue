@@ -82,6 +82,7 @@ export default class PageList extends Vue {
   }
 
   created(): void {
+    this.store.dispatch(AllActionTypes.SET_SHOW_SIDEBAR, false);
     this.siteAndUser.siteId = this.store.getters.currentSite.siteId;
     this.siteAndUser.userId = this.store.getters.user.id;
   }

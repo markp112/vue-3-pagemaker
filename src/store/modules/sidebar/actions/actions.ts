@@ -72,6 +72,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     return new Promise((resolve, reject) => {
       const firestore = firebase.firestore();
       const data = editorComponent.toObject();
+      console.log('%c⧭', 'color: #cc0088', data);
       firestore
         .collection(SIDEBARCOLLECTION)
         .doc(data.componentName)

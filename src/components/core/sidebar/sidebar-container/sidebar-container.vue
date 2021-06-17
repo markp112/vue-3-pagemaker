@@ -1,5 +1,11 @@
 <template>
+  <div
+    class="h-screen"
+    :class="showSideBar"
+  >
     <component :is="sidebarContent" :toolbarPanel="sidebarPanel"></component>
+  </div>
+
 </template>
 
 <script lang="ts">
@@ -35,21 +41,30 @@ import { SidebarComponentMenus } from '@/common/types/sidebar-component-menus/si
 })
 export default class SideBar extends Vue {
   name ='sidebar-container'
-  isShowSideBar = true;
+  isShowSideBar = false;
   sidebarPanelBuilder: SidebarPanelBuilder = new SidebarPanelBuilder(
     'container-editor'
   );
   store = useStore();
 
   get sidebarContent(): SidebarComponentMenus {
-    return this.store.getters.getSidebarComponent;
+    return this.store.getters.getSidebarComponent
   }
 
   get sidebarPanel(): SidebarPanel {
-    const panelType: SidebarComponentMenus = this.sidebarContent;
-    return panelType !== 'site-settings'
-      ? new SidebarPanelBuilder('container-editor').sidebarPanel
-      : new SidebarPanelBuilder('site-settings').sidebarPanel;
+    if (this.isShowSideBar) {
+      const panelType: SidebarComponentMenus = this.sidebarContent;
+      return panelType !== 'site-settings'
+        ? new SidebarPanelBuilder('container-editor').sidebarPanel
+        : new SidebarPanelBuilder('site-settings').sidebarPanel;
+    } else {
+      return new SidebarPanel();
+    }
+  }
+
+  get showSideBar(): string {
+    this.isShowSideBar = this.store.getters.isShowSidebar;
+    return  this.isShowSideBar ? '' : 'w-0 hidden';
   }
 }
 </script>

@@ -5,10 +5,7 @@
     <nav-bar></nav-bar>
     <bread-crumb/>
     <div class="flex flex-row justify-start">
-      <div class="w-2/12">
-        <sidebar-container />
-
-      </div>
+      <sidebar-container />
       <div class="w-10/12">
         <router-view />
       </div>

@@ -1,8 +1,6 @@
 import { ValueAndUnit } from '@/common/types/value_and_unit/value_and_unit';
 import { Location } from './model/location';
 
-const EMPTY_VALUE: ValueAndUnit = {value: 0, unit: 'px'};
-
 export class ALocation implements Location {
   private _top: ValueAndUnit;
   private _left: ValueAndUnit;
@@ -10,8 +8,8 @@ export class ALocation implements Location {
   constructor();
   constructor(top: ValueAndUnit, left: ValueAndUnit);
   constructor(top?: ValueAndUnit, left?: ValueAndUnit,) {
-    this._top = top ? top : EMPTY_VALUE;
-    this._left = left? left: EMPTY_VALUE;
+    this._top = top ? top : { value: 0, unit: 'px' };
+    this._left = left? left: { value: 0, unit: 'px' };
   }
 
   get top(): ValueAndUnit {

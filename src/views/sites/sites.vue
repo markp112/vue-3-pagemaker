@@ -46,6 +46,7 @@ export default class SitesList extends Vue{
 
   created() {
     this.store.dispatch(AllActionTypes.LOAD_SITES, this.userId);
+    this.store.dispatch(AllActionTypes.SET_SHOW_SIDEBAR, false);
     this.sites.forEach(site => console.log(site))
   }
 

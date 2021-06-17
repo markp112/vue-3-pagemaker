@@ -126,6 +126,7 @@ export default class NewSite extends Vue {
   snackbar = SnackBar.getInstance();
 
   created() {
+    this.store.dispatch(AllActionTypes.SET_SHOW_SIDEBAR, false);
     this.formErrors = [];
     this.pageTitle = this.$route.params.title as string;
     const siteId = this.store.getters.currentSite.siteId;
