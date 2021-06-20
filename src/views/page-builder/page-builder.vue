@@ -1,5 +1,5 @@
 <template>
-  <section class="h-full min-h-full">
+  <section class="h-full">
     <h2 class="page-heading">Editing: {{ title }} Page</h2>
     <div
       :id="id"
@@ -40,7 +40,7 @@ import { AllActionTypes, useStore } from '@/store';
 // import { PageModule } from "@/store/page/page";
 // import { SidebarModule } from "@/store/sidebar/sidebar";
 // import { ServicesModule } from "@/store/services/services";
-// import { ComponentCounter } from "@/classes/component-counter/singleton-counter";
+import { ComponentCounter } from "@/classes/base/component-counter/component-counter";
 // import TextEditor from "@/components/base/text/text-editor/text-editor.vue";
 // import { PageContainer } from "@/classes/page-element/PageContainer/PageContainer";
 // import {
@@ -67,7 +67,7 @@ export default class PageBuilder extends Vue {
   bgColour = "bg-gray-200";
   showModal = false;
   store = useStore();
-  // private componentCounter: ComponentCounter = ComponentCounter.getInstance();
+  private componentCounter: ComponentCounter = ComponentCounter.getInstance();
   // private componentFactory: PageElementFactory = new PageElementFactory();
   // private rootComponent: PageContainer = this.componentFactory.createElement(
   //   "rootContainer",

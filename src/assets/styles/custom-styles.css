@@ -27,6 +27,8 @@ select:not(:placeholder-shown) ~ label {
 .page-heading {
   @apply font-bold;
   @apply text-on-surface;
+  @apply text-left;
+  @apply ml-2;
 }
 
 .form-page-wrapper {

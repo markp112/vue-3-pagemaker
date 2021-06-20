@@ -27,20 +27,26 @@ describe("ALocation", () => {
 
   it("should when toStyle is called return a css style tag containing top and left values", () => {
     left.unit ='em';
+    left.value = 40;
+    top.value = 10;
+    top.unit = '%';
     aLocation = new ALocation(top, left);
     const style = aLocation.toStyle();
-    expect(style).toContain('left:20em;');
-    expect(style).toContain('top:10px;');
+    expect(style).toContain('left:40em;');
+    expect(style).toContain('top:10%;');
   })
 
   it("Should return an object matching Location when toStringObject is called", () => {
     left.unit ='em';
     top.unit = '%';
+    left.value = 30;
+    top.value = 40;
+
     aLocation = new ALocation(top, left);
     const location = aLocation.toObject();
-    expect(location.left.value).toEqual(20);
+    expect(location.left.value).toEqual(30);
     expect(location.left.unit).toEqual('em');
-    expect(location.top.value).toEqual(10);
+    expect(location.top.value).toEqual(40);
     expect(location.top.unit).toEqual('%');
   })
 

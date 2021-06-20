@@ -12,7 +12,8 @@ export type ComponentTypesString =
   | 'navBar'
   | 'pageTemplate'
   | 'text'
-  | 'image';
+  | 'image'
+  | 'rootContainer';
 
   export const ComponentTypesArray: string[] =
     ['container',
@@ -35,6 +36,7 @@ export interface SidebarElement {
   type: ComponentTypesString;
 };
 
+// flattens the internal classes to their interfaces
 export interface SideBarElementFlattend {
   componentName: string;
   dimension: Dimension;
