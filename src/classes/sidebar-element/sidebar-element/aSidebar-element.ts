@@ -1,10 +1,6 @@
 import { ADimension } from '@/classes/base/dimension/a-dimension';
 import { ALocation } from '@/classes/base/location/a-location';
-import { ValueAndUnit } from '@/common/types/value_and_unit/value_and_unit';
 import { ComponentTypesString, SidebarElement } from './model/sidebar-element';
-
-const DEFAULT_VALUE: ValueAndUnit = { value: 0, unit: 'px' };
-
 
 export class ASidebarElement implements SidebarElement {
   componentName = "";

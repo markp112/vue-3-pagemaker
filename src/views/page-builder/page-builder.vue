@@ -48,6 +48,8 @@ import { ComponentCounter } from "@/classes/base/component-counter/component-cou
 //   PageElementFactory
 // } from "@/classes/page-element/factory/page-element-factory";
 // import { FirebaseDataBuilder } from "@/classes/page-element/firebase-data/FirebaseDataBuilder";
+import { PageElementFactory } from '@/classes/page-elements/factory/page-elements-factory';
+import { PageContainer } from '@/classes/page-elements/page-container/page-container';
 
 const PARENT = "ROOT";
 
@@ -68,11 +70,11 @@ export default class PageBuilder extends Vue {
   showModal = false;
   store = useStore();
   private componentCounter: ComponentCounter = ComponentCounter.getInstance();
-  // private componentFactory: PageElementFactory = new PageElementFactory();
-  // private rootComponent: PageContainer = this.componentFactory.createElement(
-  //   "rootContainer",
-  //   PARENT
-  // ) as PageContainer;
+  private componentFactory: PageElementFactory = new PageElementFactory();
+  private rootComponent: PageContainer = this.componentFactory.createElement(
+    "rootContainer",
+    PARENT
+  ) as PageContainer;
 
   created() {
     this.title = this.$route.params.title;
@@ -86,10 +88,10 @@ export default class PageBuilder extends Vue {
 
   mounted() {
     const mainPageDiv = this.$refs.ROOT as HTMLDivElement;
-    // this.rootComponent.boxDimensions.width.value = mainPageDiv.clientWidth;
-    // this.rootComponent.boxDimensions.height.value = mainPageDiv.clientHeight;
-    // this.rootComponent.boxDimensions.top.value = mainPageDiv.clientTop;
-    // this.rootComponent.boxDimensions.left.value = mainPageDiv.clientLeft;
+    this.rootComponent.dimension.width.value = mainPageDiv.clientWidth;
+    this.rootComponent.dimension.height.value = mainPageDiv.clientHeight;
+    this.rootComponent.location.top.value = mainPageDiv.clientTop;
+    this.rootComponent.location.left.value = mainPageDiv.clientLeft;
   }
 
   getStyleDimension(style: string): number {

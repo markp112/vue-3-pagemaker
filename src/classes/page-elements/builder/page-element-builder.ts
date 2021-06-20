@@ -1,25 +1,3 @@
-// import {
-//   string,
-//   ComponentTypesString,
-//   width,
-//   height,
-//   left,
-//   top,
-//   ActionEvent
-// } from "@/models/components/base-component";
-// import {
-//   BoxDimensions,
-//   BoxDimensionsInterface
-// } from "@/models/components/box-dimension";
-// import {
-//   ComponentTypes,
-//   LOREMIPSUM
-// } from "@/models/components/components";
-// import { Style } from "@/models/styles/styles";
-// import { ButtonElement } from "../page-components/button-element/ButtonElement";
-// import { PageContainer } from "../PageContainer/PageContainer";
-// import { PageElement } from "../PageElement";
-// import { TextElement } from "../page-components/text-element/TextElement";
 import { ALocation } from '@/classes/base/location/a-location';
 import { ADimension } from '@/classes/base/dimension/a-dimension';
 import { AnActionEvent } from '@/classes/base/action/an-action';
@@ -36,12 +14,12 @@ import { ImageElement } from '../image-element/image-element';
 
 export class PageElementBuilder {
   private _name = ""; //name of the component
-  private _ref: string = ""; // unique ref of this component in the Dom
+  private _ref = ""; // unique ref of this component in the Dom
   private _componentHTMLTag = ""; // component tag
   private _isContainer = false; // can contain  other elements
   private _styles: Style[] = []; // css styles
   private _parent!: PageContainer; // parent Object
-  private _parentRef: string = ""; // string ref to the parent
+  private _parentRef = ""; // string ref to the parent
   private _classDefinition = "";
   private _type: ComponentTypesString = undefined; // what is this component as in image text etc
   private _location: ALocation = new ALocation();

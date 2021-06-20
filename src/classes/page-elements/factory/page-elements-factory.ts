@@ -1,21 +1,3 @@
-// import {
-//   SidebarElement,
-//   ComponentTypesString
-// } from '@/classes/sidebar-element/sidebar-element/model/sidebar-element';
-// import { ButtonElement } from "../page-components/button-element/ButtonElement";
-// import { PageContainer } from "../PageContainer/PageContainer";
-// import { PageElementBuilder } from "../page-element-builder/PageElementBuilder";
-// import { TextElement } from "../page-components/text-element/TextElement";
-// import { ImageElement } from "../page-components/image-element/ImageElement";
-// import { ROOT } from "@/utils/constants";
-// import {
-//   BoxDimensions,
-//   BoxDimensionsInterface
-// } from "@/models/components/box-dimension";
-// import { Units } from "@/models/enums/units/units";
-// import { ADimension } from '@/classes/dimensions/adimensions';
-// import { ALocation } from '@/classes/a-location/aLocation';
-
 import { ADimension } from '@/classes/base/dimension/a-dimension';
 import { ALocation } from '@/classes/base/location/a-location';
 import { ComponentTypesString, SidebarElement } from '@/classes/sidebar-element/sidebar-element/model/sidebar-element';
@@ -31,7 +13,7 @@ export type PageElementClasses =
   | ImageElement
   | PageContainer;
 
-const ROOT = 'ROOT';
+export const ROOT = 'ROOT';
 
 /**
  * @description factory to build page elements as required e.g. button, text area etc
@@ -72,7 +54,7 @@ export class PageElementFactory {
         }
       }
     }
-    throw new Error("page-element-factory: PageElement type not recognised");
+    throw new Error('PageMaker::page-element-factory: PageElement type not recognised');
   }
 
   private createContainer(
