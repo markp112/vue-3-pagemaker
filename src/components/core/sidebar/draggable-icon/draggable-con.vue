@@ -13,7 +13,7 @@
 
 <script lang="ts">
 import {Vue, Options } from "vue-class-component";
-import { useStore } from '@/store';
+import { AllActionTypes, useStore } from '@/store';
 
 @Options({
   props: {
@@ -34,6 +34,7 @@ export default class DraggableIcon extends Vue {
       if (e.target) {
         e.dataTransfer.setData("text/plain", (e.target as HTMLDivElement).id);
         // ServicesModule.toggleDragDropEventHandled(false);
+        this.store.dispatch(AllActionTypes.SET_DRAG_DROP_EVENT_HANDLED, false);
       }
     }
   }

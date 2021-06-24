@@ -20,6 +20,8 @@ export const ROOT = 'ROOT';
  * called with the component type required and the properties linked to that component
  */
 export class PageElementFactory {
+  constructor(){}
+
   public createElement(): PageElementClasses;
 
   public createElement(
@@ -162,13 +164,17 @@ export class PageElementFactory {
     imageElement.parentRef = imageElement.parent.ref;
     return imageElement;
   }
+  private getBuilder(): PageElementBuilder {
+    return new PageElementBuilder()
+  }
 
   private buildRootContainer(ref: string): PageContainer {
-    const container: PageContainer = new PageElementBuilder()
+    const dimension = new ADimension({value: 1080, unit: 'px' }, { value: 1920, unit: 'px'});
+    const container: PageContainer = this.getBuilder()
+      .setName(ROOT)
       .setRef(ref)
       .setIsContainer(true)
-      .setName(ROOT)
-      .setContainerDimensions(new ADimension({value: 1080, unit: 'px' }, { value: 1920, unit: 'px'}))
+      .setContainerDimensions(dimension)
       .buildAContainer();
     container.parentRef = container.ref;
     return container;

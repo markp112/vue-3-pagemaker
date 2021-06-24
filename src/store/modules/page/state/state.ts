@@ -3,13 +3,13 @@ import { PageElementClasses, PageElementFactory } from '@/classes/page-elements/
 export type State = {
   pageId: string;
   pageElements: PageElementClasses[];
-  editedComponent: PageElementClasses;
+  editedComponent: PageElementClasses | undefined;
   showEditDelete: boolean;
 };
 
 export const state: State = {
   pageId: '',
   pageElements: [],
-  editedComponent: new PageElementFactory().createElement('rootContainer','ROOT'),
+  editedComponent: undefined,
   showEditDelete: false,
 };

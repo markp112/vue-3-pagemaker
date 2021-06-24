@@ -46,8 +46,6 @@ export class PageElement implements PageElementInterface {
   private classList: string[] = [];
   private _isAbsolute = false;
 
-
-
   get name(): string {
     return this._name;
   }

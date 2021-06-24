@@ -44,12 +44,9 @@ import { ComponentCounter } from "@/classes/base/component-counter/component-cou
 // import TextEditor from "@/components/base/text/text-editor/text-editor.vue";
 // import { PageContainer } from "@/classes/page-element/PageContainer/PageContainer";
 // import {
-//   PageElementClasses,
-//   PageElementFactory
-// } from "@/classes/page-element/factory/page-element-factory";
-// import { FirebaseDataBuilder } from "@/classes/page-element/firebase-data/FirebaseDataBuilder";
-import { PageElementFactory } from '@/classes/page-elements/factory/page-elements-factory';
+import { PageElementClasses, PageElementFactory } from '@/classes/page-elements/factory/page-elements-factory';
 import { PageContainer } from '@/classes/page-elements/page-container/page-container';
+import { FirebaseDataBuilder } from '@/classes/page-elements/firebase/builder/firebase-data-builder';
 
 const PARENT = "ROOT";
 
@@ -77,13 +74,13 @@ export default class PageBuilder extends Vue {
   ) as PageContainer;
 
   created() {
-    this.title = this.$route.params.title;
-    this.store.dispatch(AllActionTypes.SET_SHOW_SIDEBAR, true)
-    // PageModule.updatePageId(this.title);
-    // PageModule.clear();
-    // SidebarModule.setSidebarMenuTo("sidebar-components");
-    // const firebase = new FirebaseDataBuilder();
-    // firebase.retrievePageDataFromFirestore(this.title);
+    this.title = this.$route.params.title as string;
+    this.store.dispatch(AllActionTypes.SET_SHOW_SIDEBAR, true);
+    this.store.dispatch(AllActionTypes.UPDATE_PAGE_ID, this.title);
+    this.store.dispatch(AllActionTypes.CLEAR_PAGE_ELEMENTS, true);
+    this.store.dispatch(AllActionTypes.SHOW_SIDEBAR_ACTIVE_MENU, 'sidebar-components');
+    const firebase = new FirebaseDataBuilder();
+    firebase.retrievePageDataFromFirestore(this.title);
   }
 
   mounted() {
@@ -101,38 +98,38 @@ export default class PageBuilder extends Vue {
     return parseInt(style.substring(0, style.length - 2));
   }
 
-  // get layoutElements(): PageElementClasses[] {
-  //   return PageModule.pageElements;
-  // }
+  get layoutElements(): PageElementClasses[] {
+      return this.store.getters.pageElements;
+  }
 
   // get showTextModal(): boolean {
   //   return this.$store.getters.showTextModal;
   // }
 
-  // get editedComponentText(): string {
-  //   return PageModule.editedComponentData;
-  // }
+  get editedComponentText(): string {
+    return this.store.getters.editedComponent.content;
+  }
 
   onDrop(event: DragEvent): void {
-  console.log('%c%s', 'color: #00e600', 'onDrop')
-  //   if (ServicesModule.dragDropEventHandled) {
-  //     return;
-  //   }
-  //   if (event) {
-  //     const componentName = this.getComponentName(event);
-  //     const component = SidebarModule.getComponentDefinition(componentName);
-  //     const id = this.componentCounter.getNextCounter();
-  //     const ref = `${componentName}::${id}`;
-  //     if (component) {
-  //       const pageElement = this.componentFactory.createElement(
-  //         component.type,
-  //         ref,
-  //         component,
-  //         this.rootComponent
-  //       );
-  //       PageModule.addNewPageElement(pageElement);
-  //     }
-  //   }
+    if (this.store.getters.isDragDropEventHandled) {
+      return;
+    }
+    if (event) {
+      const componentName = this.getComponentName(event);
+      const component = this.store.getters.getSidebarAllItems.filter(
+        element => element.componentName === componentName)[0];
+      const id = this.componentCounter.getNextCounter();
+      const ref = `${componentName}::${id}`;
+      if (component) {
+        const pageElement = this.componentFactory.createElement(
+          component.type,
+          ref,
+          component,
+          this.rootComponent
+        );
+        this.store.dispatch(AllActionTypes.ADD_A_PAGE_ELEMENT, pageElement);
+      }
+    }
   }
 
   getComponentName(event: DragEvent): string {

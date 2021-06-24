@@ -12,6 +12,7 @@ export type Getters = {
   showTextModal(state: State): boolean,
   getActiveSettingsPage(state: State): string,
   isShowSidebar(state: State): boolean,
+  isDragDropEventHandled(state: State): boolean,
 };
 
 export const getters: GetterTree<State, RootState> & Getters = {
@@ -40,7 +41,10 @@ export const getters: GetterTree<State, RootState> & Getters = {
   },
 
   isShowSidebar(state): boolean {
-    console.log('%c⧭', 'color: #e50000', state);
     return state.showSidebar;
+  },
+
+  isDragDropEventHandled(state): boolean {
+    return state.dragDropEventHandled;
   }
 }

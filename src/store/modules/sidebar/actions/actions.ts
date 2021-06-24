@@ -19,8 +19,8 @@ export enum ActionTypes {
   SHOW_TEXT_MODAL = 'showTextModal',
   SET_SETTINGS_PAGE_ACTIVE_PAGE = 'setSettingPageActivePage',
   SET_SHOW_SIDEBAR = 'setShowSidebar',
+  SET_DRAG_DROP_EVENT_HANDLED = 'setDragDropEventHandled',
 };
-
 
 type ActionArguments = Omit<ActionContext<State, RootState>, 'commit'> & {
   commit<K extends keyof Mutations>(
@@ -36,6 +36,7 @@ export type Actions = {
   [ActionTypes.SHOW_SIDEBAR_ACTIVE_MENU](context: ActionArguments, whichComponent: SidebarComponentMenus): void,
   [ActionTypes.SHOW_TEXT_MODAL](context: ActionArguments, showTextModal: boolean): void,
   [ActionTypes.SET_SHOW_SIDEBAR](context: ActionArguments, showSidebar: boolean): void,
+  [ActionTypes.SET_DRAG_DROP_EVENT_HANDLED](context: ActionArguments, isHandled: boolean): void,
 };
 
 export const actions: ActionTree<State, RootState> & Actions = {
@@ -72,7 +73,6 @@ export const actions: ActionTree<State, RootState> & Actions = {
     return new Promise((resolve, reject) => {
       const firestore = firebase.firestore();
       const data = editorComponent.toObject();
-      console.log('%c⧭', 'color: #cc0088', data);
       firestore
         .collection(SIDEBARCOLLECTION)
         .doc(data.componentName)
@@ -107,10 +107,13 @@ export const actions: ActionTree<State, RootState> & Actions = {
   [ActionTypes.SET_SHOW_SIDEBAR]({commit}, showSidebar: boolean) {
     commit(MutationTypes.SET_SIDEBAR_VISIBILITY, showSidebar);
   },
+
+  [ActionTypes.SET_DRAG_DROP_EVENT_HANDLED]({commit}, isHandled: boolean) {
+    commit(MutationTypes.SET_DRAG_DROP_EVENT_HANDLED, isHandled);
+  },
 };
 
 const getSideBarElement = (sidebarElement: SideBarElementFlattend): ASidebarElement => {
-  console.log('%c⧭', 'color: #00bf00', sidebarElement);
   const aSidebarElement = new ASidebarElement();
   aSidebarElement.classes = sidebarElement.classes;
   aSidebarElement.componentName = sidebarElement.componentName;

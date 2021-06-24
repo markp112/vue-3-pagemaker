@@ -13,19 +13,19 @@ import { ContainerProps, ImageProps } from '../image-element/model/image-element
 import { ImageElement } from '../image-element/image-element';
 
 export class PageElementBuilder {
-  private _name = ""; //name of the component
-  private _ref = ""; // unique ref of this component in the Dom
-  private _componentHTMLTag = ""; // component tag
+  private _name = ''; //name of the component
+  private _ref = ''; // unique ref of this component in the Dom
+  private _componentHTMLTag = ''; // component tag
   private _isContainer = false; // can contain  other elements
   private _styles: Style[] = []; // css styles
   private _parent!: PageContainer; // parent Object
-  private _parentRef = ""; // string ref to the parent
-  private _classDefinition = "";
+  private _parentRef = ''; // string ref to the parent
+  private _classDefinition = '';
   private _type: ComponentTypesString = undefined; // what is this component as in image text etc
   private _location: ALocation = new ALocation();
   private _dimension: ADimension = new ADimension();
-  private _actionEvent: AnActionEvent = new AnActionEvent("Navigation", "");
-  private _content = "";
+  private _actionEvent: AnActionEvent = new AnActionEvent('Navigation', '');
+  private _content = '';
   private _isAbsolute = false;
   private _image: ImageProps = {
     location: new ALocation(),
@@ -36,6 +36,8 @@ export class PageElementBuilder {
     location: new ALocation(),
     naturalSize: new ADimension(),
   };
+
+  constructor(){}
 
   setName(name: string) {
     this._name = name;
@@ -214,14 +216,14 @@ export class PageElementBuilder {
   }
 
   public buildAButton(): ButtonElement {
-    if (this._content === "") {
-      this._content = "click me";
+    if (this._content === '') {
+      this._content = 'click me';
     }
     return new ButtonElement(this);
   }
 
   public buildATextElement(): TextElement {
-    if (this._content === "") {
+    if (this._content === '') {
       this._content = LOREMIPSUM;
     }
     return new TextElement(this);
@@ -230,9 +232,9 @@ export class PageElementBuilder {
   public buildAnImage(): ImageElement {
     const NATURAL_HEIGHT: ValueAndUnit = { value: 200, unit: 'px' };
     const NATURAL_WIDTH: ValueAndUnit = { value: 300, unit: 'px' };
-    if (this._content === "") {
+    if (this._content === '') {
       this._content =
-        "https://firebasestorage.googleapis.com/v0/b/page-maker-69fb1.appspot.com/o/assets%2Fimages%2Fimageplaceholder.png?alt=media&token=149d3e60-0fc4-49de-9e23-5fea91458240";
+        'https://firebasestorage.googleapis.com/v0/b/page-maker-69fb1.appspot.com/o/assets%2Fimages%2Fimageplaceholder.png?alt=media&token=149d3e60-0fc4-49de-9e23-5fea91458240';
 
       this._image.naturalSize = new ADimension(NATURAL_HEIGHT, NATURAL_WIDTH);
       this._image.scaledSize = new ADimension(NATURAL_HEIGHT, NATURAL_WIDTH);
@@ -244,6 +246,7 @@ export class PageElementBuilder {
   }
 
   public buildAContainer(): PageContainer {
+    this._isContainer = true;
     return new PageContainer(this);
   }
 }

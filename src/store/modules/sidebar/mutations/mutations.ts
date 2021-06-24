@@ -10,6 +10,7 @@ export enum MutationTypes {
   SET_SIDEBAR_COMPONENT_MENU = 'setSidebarComponentMenu',
   SET_SHOW_TEXT_MODAL = 'setShowTextModal',
   SET_SETTINGS_PAGE_ACTIVE_PAGE = 'setSettingsPageActivePage',
+  SET_DRAG_DROP_EVENT_HANDLED = 'setDragDropEventHandled',
 };
 
 export type Mutations<S = State> = {
@@ -19,6 +20,8 @@ export type Mutations<S = State> = {
   [MutationTypes.SET_SHOW_TEXT_MODAL](state: S, showTextModal: boolean): void,
   [MutationTypes.SET_SIDEBAR_COMPONENT_MENU](state: S, sidebarMenu: SidebarComponentMenus): void,
   [MutationTypes.SET_SIDEBAR_VISIBILITY](state: S, showSidebar: boolean): void,
+  [MutationTypes.SET_DRAG_DROP_EVENT_HANDLED](state: S, isHandled: boolean): void,
+
 };
 
 export const mutations: MutationTree<State> & Mutations ={
@@ -44,5 +47,9 @@ export const mutations: MutationTree<State> & Mutations ={
 
   [MutationTypes.SET_SIDEBAR_VISIBILITY](state: State, showSidebar: boolean) {
     state.showSidebar = showSidebar;
+  },
+
+  [MutationTypes.SET_DRAG_DROP_EVENT_HANDLED](state: State, isHandled: boolean) {
+    state.dragDropEventHandled = isHandled;
   },
 }

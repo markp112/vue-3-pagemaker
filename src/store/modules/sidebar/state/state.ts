@@ -8,6 +8,7 @@ export type State = {
   sidebarComponent: SidebarComponentMenus,
   showTextModal: boolean,
   settingsPageActivePage: string,  //which page to show when settings is activated
+  dragDropEventHandled: boolean,
 };
 
 export const state: State = {
@@ -16,4 +17,5 @@ export const state: State = {
   sidebarComponent: 'sidebar-components',
   showTextModal: false,
   settingsPageActivePage: '',
+  dragDropEventHandled: false,
 };
