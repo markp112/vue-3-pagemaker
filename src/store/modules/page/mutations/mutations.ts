@@ -25,13 +25,21 @@ export type Mutations<S = State> = {
 
 export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.ADD_A_PAGE_ELEMENT](state, element) {
-    if (element.ref === ROOT) {
+    if (element.parentRef === ROOT) {
+      console.log('%c%s', 'color: #40fff2', element.parentRef);
+      // state.pageElements = [];
       state.pageElements.push(element);
     } else {
-      if (state.pageElements.length > 0) {
-        const theParent = state.pageElements.filter(elem => elem.ref === element.parentRef)[0] as PageContainer;
+      // if (state.pageElements.length > 0) {
+        console.log('%c⧭', 'color: #73998c', element.parentRef);
+        const index = state.pageElements.findIndex(elem => elem.ref === element.parentRef);
+        // const theParent = state.pageElements.filter(elem => elem.ref === element.parentRef)[0] as PageContainer;
+        const theParent = state.pageElements[index] as PageContainer;
+        console.log('%c⧭', 'color: #8c0038', theParent);
         theParent.addNewElement(element);
-      }
+        state.pageElements.splice(index);
+        state.pageElements.push(theParent);
+      // }
     }
   },
 

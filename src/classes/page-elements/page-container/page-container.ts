@@ -8,11 +8,11 @@ import { ContainerOrientation, PageContainerInterface } from './model/page-conta
 export class PageContainer extends PageElement
 implements PageContainerInterface {
 
-  #_elements: PageElementClasses[];
+  private _elements: PageElementClasses[];
 
   constructor(pageElementBuilder: PageElementBuilder) {
     super(pageElementBuilder);
-    this.#_elements = [];
+    this._elements = [];
   }
 
   checkDimensionRelativeToContainerElements(
@@ -55,7 +55,7 @@ implements PageContainerInterface {
 
   getWidthOfAllComponents(): number {
     let width = 0;
-    this.#_elements.forEach(element =>
+    this._elements.forEach(element =>
         width += element.dimension.width.value
     );
     return width;
@@ -63,18 +63,18 @@ implements PageContainerInterface {
 
   getHeightOfAllComponents(): number {
     let height = 0;
-    this.#_elements.forEach(element =>
+    this._elements.forEach(element =>
         height += element.dimension.width.value
     );
     return height;
   }
 
   get elements(): PageElementClasses[] {
-    return this.#_elements;
+    return this._elements;
   }
 
   set elements(pageElements: PageElementClasses[]) {
-    this.#_elements = pageElements;
+    this._elements = pageElements;
   }
 
   get containerOrientation(): ContainerOrientation {
@@ -100,31 +100,32 @@ implements PageContainerInterface {
 
   addNewElement(newElement: PageElementClasses) {
     if (newElement) {
-      const existingElement = this.#_elements.filter(element =>
-          element.ref === newElement.ref
+      const existingElement = this._elements.filter(element =>
+        element.ref === newElement.ref
         )[0];
       if (!existingElement) {
-        this.#_elements.push(newElement);
+        this._elements.push(newElement);
+        console.log('%c⧭', 'color: #d0bfff', this._elements);
       } else {
-        this.#_elements = this.#_elements.filter(element =>
+        this._elements = this._elements.filter(element =>
             element.ref !== newElement.ref
         );
-        this.#_elements.push(newElement);
+        this._elements.push(newElement);
       }
     }
   }
 
   getAnElement(ref: string): PageElementClasses {
-    return this.#_elements.filter(element => element.ref === ref)[0];
+    return this._elements.filter(element => element.ref === ref)[0];
   }
 
   deleteElement(ref: string) {
-    this.#_elements = this.#_elements.filter(element => element.ref !== ref);
+    this._elements = this._elements.filter(element => element.ref !== ref);
   }
 
   getElementContent(): FirebasePageDataTypes {
     return Object.assign(this.getBaseElementContent(), {
-      elements: this.#_elements
+      elements: this._elements
     });
   }
 }

@@ -1,14 +1,7 @@
 <template>
   <section class="flex flex-col justify-start h-72 p-1 w-full rounded-sm bg-white shadow-lg border-2 border-gray-400">
     <p class="flex justify-end flex-row w-full">
-      <close-button
-        buttonShape="circle"
-        variant="outline"
-        size="small"
-        @onClick="closeClicked()"
-      >
-      X
-      </close-button>
+      <close-button @onClick="closeClicked()"/>
     </p>
     <div class="flex flex-row flex-nowrap w-full justify-between items-center h-full">
       <img
@@ -40,7 +33,7 @@ import { ImageCardProps } from '@/components/base/cards/image-card/model/image-t
 import { BucketImage } from '@/common/filestore/models/bucket-image';
 import { getFileUrl, getImageMetaData, getImagesFromBucket, } from '@/common/filestore/index';
 import { UsersBucket } from '@/common/filestore/models/UsersBucket';
-import BaseButton from '@/components/base/base-button/base-button.vue';
+import CloseButton from '@/components/base/base-button/close-button/close-button.vue';
 
 const IMAGE_BUCKET = 'images';
 
@@ -53,7 +46,7 @@ const IMAGE_BUCKET = 'images';
     userId: '',
   },
   components: {
-    'close-button': BaseButton,
+    'close-button': CloseButton,
   }
 })
 export default class ImagePicker extends Vue {

@@ -39,6 +39,7 @@ export interface Actions {
 export const actions: ActionTree<State, RootState> & Actions = {
 
   [ActionTypes.ADD_A_PAGE_ELEMENT]({ commit }, element) {
+    console.log('%c⧭', 'color: #00258c', element);
     commit(MutationTypes.ADD_A_PAGE_ELEMENT, element);
   },
 
@@ -70,6 +71,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
   },
 
   [ActionTypes.UPDATE_PAGE_ELEMENTS]({ commit }, elements) {
+    console.log('%c⧭', 'color: #eeff00', elements);
     commit(MutationTypes.SET_PAGE_ELEMENTS, elements);
   },
 

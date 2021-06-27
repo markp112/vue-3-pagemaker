@@ -20,7 +20,6 @@ export const ROOT = 'ROOT';
  * called with the component type required and the properties linked to that component
  */
 export class PageElementFactory {
-  constructor(){}
 
   public createElement(): PageElementClasses;
 

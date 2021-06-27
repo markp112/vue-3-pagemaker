@@ -9,6 +9,7 @@ export type Getters = {
   getSidebarContainers(state: State): ASidebarElement[],
   getSidebarAllItems(state: State): ASidebarElement[],
   getSidebarComponent(state: State): SidebarComponentMenus,
+  getComponentDefinition(state: State, componentName: string): ASidebarElement | undefined,
   showTextModal(state: State): boolean,
   getActiveSettingsPage(state: State): string,
   isShowSidebar(state: State): boolean,
@@ -34,6 +35,10 @@ export const getters: GetterTree<State, RootState> & Getters = {
 
   getSidebarAllItems(state) {
     return state.sidebarElements.componentDefinitions();
+  },
+
+  getComponentDefinition(state, componentName: string)  {
+    return  state.sidebarElements.getComponent(componentName);
   },
 
   showTextModal(state): boolean {

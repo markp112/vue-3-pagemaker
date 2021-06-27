@@ -152,22 +152,21 @@ export class PageElement implements PageElementInterface {
   }
 
   public getBaseElementContent(): PageElementFirebaseData {
-    return {...this};
-    // return {
-    //   name: this._name,
-    //   ref: this._ref,
-    //   componentHTMLTag: this._componentHTMLTag,
-    //   isContainer: this._isContainer,
-    //   styles: this._styles,
-    //   parentRef: this._parentRef,
-    //   classDefinition: this.classDefinition,
-    //   type: this._type,
-    //   actionEvent: this._actionEvent.toObject,
-    //   dimension: this._dimension.toObject(),
-    //   location: this._location.toObject(),
-    //   content: this._content,
-    //   isAbsolute: this._isAbsolute
-    // };
+    return {
+      name: this._name,
+      ref: this._ref,
+      componentHTMLTag: this._componentHTMLTag,
+      isContainer: this._isContainer,
+      styles: this._styles,
+      parentRef: this._parentRef,
+      classDefinition: this.classDefinition,
+      type: this._type,
+      actionEvent: this._actionEvent.toObject,
+      dimension: this._dimension.toObject(),
+      location: this._location.toObject(),
+      content: this._content,
+      isAbsolute: this._isAbsolute
+    };
   }
 
   public reSize(boxdimension: Dimension): void {

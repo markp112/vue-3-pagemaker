@@ -9,7 +9,10 @@ import { ValueAndUnit } from '@/common/types/value_and_unit/value_and_unit';
 import { LOREMIPSUM } from '../data/defaults';
 import { ButtonElement } from '../button-element/button-element';
 import { TextElement } from '../text-element/text-element';
-import { ContainerProps, ImageProps } from '../image-element/model/image-element-model';
+import {
+  ContainerProps,
+  ImageProps
+} from '../image-element/model/image-element-model';
 import { ImageElement } from '../image-element/image-element';
 
 export class PageElementBuilder {
@@ -36,8 +39,6 @@ export class PageElementBuilder {
     location: new ALocation(),
     naturalSize: new ADimension(),
   };
-
-  constructor(){}
 
   setName(name: string) {
     this._name = name;

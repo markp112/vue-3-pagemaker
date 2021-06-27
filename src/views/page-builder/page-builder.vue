@@ -35,18 +35,14 @@
 <script lang="ts">
 import { Vue, Options } from "vue-class-component";
 import { AllActionTypes, useStore } from '@/store';
-// import Container from "@/components/page-builder-elements/generic/container.vue";
 // import EditDeleteOption from "@/components/page-builder-elements/utility/edit-delete-options/edit-delete-options.vue";
-// import { PageModule } from "@/store/page/page";
-// import { SidebarModule } from "@/store/sidebar/sidebar";
-// import { ServicesModule } from "@/store/services/services";
 import { ComponentCounter } from "@/classes/base/component-counter/component-counter";
 // import TextEditor from "@/components/base/text/text-editor/text-editor.vue";
-// import { PageContainer } from "@/classes/page-element/PageContainer/PageContainer";
-// import {
 import { PageElementClasses, PageElementFactory } from '@/classes/page-elements/factory/page-elements-factory';
 import { PageContainer } from '@/classes/page-elements/page-container/page-container';
 import { FirebaseDataBuilder } from '@/classes/page-elements/firebase/builder/firebase-data-builder';
+import { pageActionTypes } from '@/store/modules/page';
+import Container from './partials/container/container.vue';
 
 const PARENT = "ROOT";
 
@@ -57,7 +53,7 @@ const PARENT = "ROOT";
   components: {
     // "edit-delete-option": EditDeleteOption,
     // "text-editor": TextEditor,
-    // container: Container
+    container: Container
   }
 })
 export default class PageBuilder extends Vue {
@@ -66,6 +62,7 @@ export default class PageBuilder extends Vue {
   bgColour = "bg-gray-200";
   showModal = false;
   store = useStore();
+
   private componentCounter: ComponentCounter = ComponentCounter.getInstance();
   private componentFactory: PageElementFactory = new PageElementFactory();
   private rootComponent: PageContainer = this.componentFactory.createElement(
@@ -99,6 +96,8 @@ export default class PageBuilder extends Vue {
   }
 
   get layoutElements(): PageElementClasses[] {
+
+    console.log('%c⧭', 'color: #00ff88', this.store.getters.pageElements)
       return this.store.getters.pageElements;
   }
 
@@ -107,7 +106,7 @@ export default class PageBuilder extends Vue {
   // }
 
   get editedComponentText(): string {
-    return this.store.getters.editedComponent.content;
+    return this.store.getters.editedComponent!.content;
   }
 
   onDrop(event: DragEvent): void {
@@ -116,6 +115,7 @@ export default class PageBuilder extends Vue {
     }
     if (event) {
       const componentName = this.getComponentName(event);
+      console.log('%c⧭', 'color: #7f7700', componentName)
       const component = this.store.getters.getSidebarAllItems.filter(
         element => element.componentName === componentName)[0];
       const id = this.componentCounter.getNextCounter();
@@ -139,7 +139,7 @@ export default class PageBuilder extends Vue {
 
   deleteClicked(): void {
     console.log('%c%s', 'color: #ff0000', 'deleteClicked')
-    // PageModule.deletePageElement;
+    this.store.dispatch(pageActionTypes.DELETE_A_PAGE_ELEMENT, true);
   }
 
   getClass(): string {

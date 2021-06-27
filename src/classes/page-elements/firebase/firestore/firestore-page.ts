@@ -40,7 +40,8 @@ export class FirestorePage {
 
   public LoadPageData(
     data: PageIdentity
-  ): Promise<PageElementFirebaseData[] | Notification> {
+    ): Promise<PageElementFirebaseData[] | Notification> {
+    console.log('%c%s', 'color: #364cd9', 'LoadPageData');
     const pageId = data.pageId;
     const siteId = data.siteId;
     const userId = data.userId;
@@ -56,6 +57,7 @@ export class FirestorePage {
           resolve(docData ? docData.data : []);
         })
         .catch(err => {
+          console.log('%c⧭', 'color: #33cc99', err);
           this.notification.status = "Error";
           this.notification.message = err;
           reject(this.notification);

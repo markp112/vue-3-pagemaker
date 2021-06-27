@@ -5,7 +5,7 @@ import { State } from '../state/state';
 
 export type Getters = {
   pageId(state: State): string,
-  editedComponent(state: State): PageElementClasses,
+  editedComponent(state: State): PageElementClasses | undefined,
   pageElements(state: State): PageElementClasses[],
   showEditDelete(state: State): boolean,
 };
@@ -22,7 +22,7 @@ export const getters: GetterTree<State, RootState> & Getters = {
   },
 
   pageElements(state) {
-    return state.pageElements.sort(compare);
+    return state.pageElements;
   },
 
   showEditDelete(state) {

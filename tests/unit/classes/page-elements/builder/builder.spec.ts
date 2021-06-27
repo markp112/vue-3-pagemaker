@@ -7,15 +7,6 @@ import { TextElement } from '@/classes/page-elements/text-element/text-element';
 
 describe('PageElementBuilder', () => {
 
-    // const getParentContainer = () => {
-    //   return new PageElementBuilder()
-    //   .setType('rootContainer')
-    //   .setParentRef('ROOT')
-    //   .setName('Root')
-    //   .setRef('ROOT')
-    //   .buildAContainer();
-
-    // }
 
   it('should return a  root componentElement when buildAcomponent is called with type of rootcomponent', () => {
     const component: PageContainer = new PageElementBuilder()

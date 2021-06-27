@@ -13,6 +13,7 @@ import { Notification, notificationDefault } from '@/models/notification/notific
 import { useStore, AllActionTypes } from '@/store';
 import { AnActionEvent } from '@/classes/base/action/an-action';
 import { ALocation } from '@/classes/base/location/a-location';
+import { pageActionTypes } from '@/store/modules/page';
 
 export class FirebaseDataBuilder {
   siteDefaults = SiteDefaults.getInstance();
@@ -97,6 +98,7 @@ export class FirebaseDataBuilder {
   }
 
   public retrievePageDataFromFirestore(pageName: string) {
+    console.log('%c%s', 'color: #7f2200', 'retrievePageDataFromFirestore');
     let pageData: FirebasePageDataTypes[] = [];
     const data: PageIdentity = this.getPageIdentity(pageName);
     this.firestorePage.LoadPageData(data)
@@ -107,7 +109,8 @@ export class FirebaseDataBuilder {
           "ROOT"
         ) as PageContainer;
         this.buildPageElements(pageData, rootComponent);
-        this.store.dispatch(AllActionTypes.UPDATE_PAGE_ELEMENTS, rootComponent.elements)
+        console.log('%c⧭', 'color: #ffa280', rootComponent);
+        this.store.dispatch(pageActionTypes.UPDATE_PAGE_ELEMENTS, rootComponent.elements)
       })
       .catch(err => {
         console.log(err);
