@@ -35,7 +35,6 @@
 <script lang="ts">
 import { Vue, Options } from "vue-class-component";
 import { AllActionTypes, useStore } from '@/store';
-// import EditDeleteOption from "@/components/page-builder-elements/utility/edit-delete-options/edit-delete-options.vue";
 import { ComponentCounter } from "@/classes/base/component-counter/component-counter";
 // import TextEditor from "@/components/base/text/text-editor/text-editor.vue";
 import { PageElementClasses, PageElementFactory } from '@/classes/page-elements/factory/page-elements-factory';
@@ -43,6 +42,7 @@ import { PageContainer } from '@/classes/page-elements/page-container/page-conta
 import { FirebaseDataBuilder } from '@/classes/page-elements/firebase/builder/firebase-data-builder';
 import { pageActionTypes } from '@/store/modules/page';
 import Container from './partials/container/container.vue';
+import EditDeleteOption from '@/components/base/edit-delete-option/edit-delete-option.vue';
 
 const PARENT = "ROOT";
 
@@ -51,7 +51,7 @@ const PARENT = "ROOT";
     id: { default: "" }
   },
   components: {
-    // "edit-delete-option": EditDeleteOption,
+    "edit-delete-option": EditDeleteOption,
     // "text-editor": TextEditor,
     container: Container
   }
@@ -96,9 +96,7 @@ export default class PageBuilder extends Vue {
   }
 
   get layoutElements(): PageElementClasses[] {
-
-    console.log('%c⧭', 'color: #00ff88', this.store.getters.pageElements)
-      return this.store.getters.pageElements;
+      return this.store.getters.getPageElements;
   }
 
   // get showTextModal(): boolean {
@@ -106,7 +104,8 @@ export default class PageBuilder extends Vue {
   // }
 
   get editedComponentText(): string {
-    return this.store.getters.editedComponent!.content;
+    const content = this.store.getters.editedComponent!.content;
+    return content ? content : '';
   }
 
   onDrop(event: DragEvent): void {

@@ -71,7 +71,6 @@ export const actions: ActionTree<State, RootState> & Actions = {
   },
 
   [ActionTypes.UPDATE_PAGE_ELEMENTS]({ commit }, elements) {
-    console.log('%c⧭', 'color: #eeff00', elements);
     commit(MutationTypes.SET_PAGE_ELEMENTS, elements);
   },
 

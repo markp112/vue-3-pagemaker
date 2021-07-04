@@ -1,35 +1,8 @@
-export type StyleTags =
-  | 'color'
-  | 'background-color'
-  | 'font-family'
-  | 'font-size'
-  | 'font-weight'
-  | 'font-style'
-  | 'text-decoration'
-  | 'border-width'
-  | 'border-radius'
-  | 'border-left'
-  | 'border-right'
-  | 'border-top'
-  | 'border-bottom'
-  | 'height'
-  | 'width'
-  | 'margin-left'
-  | 'margin-right'
-  | 'margin-top'
-  | 'margin-bottom'
-  | 'background-image'
-  | 'background-position'
-  | 'background-position-x'
-  | 'background-position-y'
-  | 'background-size'
-  | 'background-repeat'
-  | 'padding'
-  | 'transparency'
-  | '';
-
+import { CssStyleTypes, StyleTags } from '@/common/types/css-element-styles/css-element-styles';
+import { Units } from '@/common/types/units';
 
 export type Style =  {
-  style: StyleTags;
+  style: StyleTags | CssStyleTypes;
   value: string;
+  unit?: Units;
 };

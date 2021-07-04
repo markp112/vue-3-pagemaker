@@ -12,7 +12,7 @@
   >
     {{ getData }}
     <resizeable
-      :isActive="isActive()"
+      :isActive="isActive"
       :parentContainerDimensions="thisComponent.parent.boxDimensions"
       @resizeStarted="resizeStarted($event)"
       @onResize="onResize($event)"

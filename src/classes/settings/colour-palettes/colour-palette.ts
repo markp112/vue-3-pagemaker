@@ -2,12 +2,10 @@ import { ColourSchemes, PalettesInterface } from './model/colour-palette';
 import Color from "color";
 import { useStore } from '@/store';
 import { storeSiteColourPalette, loadSitePalette } from '@/classes/settings/firebase/index';
-import { SiteAndUser } from '@/common/types/site-and-user';
-import { Notification, notificationDefault } from '@/models/notification/notification';
-import { siteDefaultsActionTypes } from '@/store/modules/site-defaults';
+import { Notification } from '@/models/notification/notification';
+import { getSiteAndUserId } from '@/common/site-and-user/site-and-user';
 
 const contrastRatios = [0.15, 0.3, 0.5, 0.7, 0.85, 1, 0.85, 0.7, 0.5, 0.35];
-let notification = notificationDefault;
 
 export class ColourPalettes implements PalettesInterface {
   private _colour = "#0";
@@ -75,13 +73,6 @@ export class ColourPalettes implements PalettesInterface {
     }
   }
 
-  private getSiteAndUser(): SiteAndUser {
-    return {
-      siteId: this.store.getters.currentSite.siteId,
-      userId: this.store.getters.currentSite.siteId
-    }
-  };
-
   public newPalette(colour: string) {
     this._colour = colour;
     this._primary = this.generate(colour);
@@ -120,7 +111,7 @@ export class ColourPalettes implements PalettesInterface {
       accent: this.accent
     };
     return new Promise((resolve, reject) => {
-      storeSiteColourPalette(this.getSiteAndUser(), selectedPalette)
+      storeSiteColourPalette(getSiteAndUserId(), selectedPalette)
         .then((response: Notification)  => {
             resolve(response);
           })
@@ -132,7 +123,7 @@ export class ColourPalettes implements PalettesInterface {
 
   public loadPalette(): Promise<Notification> {
     return new Promise((resolve, reject) => {
-      loadSitePalette(this.getSiteAndUser())
+      loadSitePalette(getSiteAndUserId())
         .then(response => {
           const palettes = response as PalettesInterface;
           this._colour = palettes.colour;

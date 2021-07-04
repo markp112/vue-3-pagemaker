@@ -85,15 +85,13 @@ import  { Vue, Options, } from "vue-class-component";
 import { ASitePage } from '@/classes/page/page';
 import { useStore, AllActionTypes } from '@/store';
 import { formatTimeStampAsDate, TimeStamp, formatDate } from '@/common/dates/date-functions';
-import { SiteAndUser } from '@/common/types/site-and-user';
-import { SnackBarGenerator } from '@/classes/base/notification/snackbar/snackbarGenerator';
-import { SnackbarMessage } from '@/classes/base/notification/snackbar/models/snackbar';
-import { SnackBar } from '@/classes/base/notification/snackbar/snackbar';
 import { Notification } from '@/models/notification/notification';
 import IconPicker from "@/components/pickers/icon-picker/icon-picker.vue";
 import BaseButton from '@/components//base/base-button/base-button.vue';
 import Datepicker from 'vue3-datepicker';
 import InvalidForm from '@/components/base/notifications/invalid-form/invalid-form.vue';
+import { getSiteAndUserId } from '@/common/site-and-user/site-and-user';
+import { showTheSnackbar } from '@/common/show-snackbar/show-snackbar';
 
 @Options({
   components: {
@@ -110,10 +108,7 @@ export default class PageEditor extends Vue {
   showIconPicker = false;
   formErrors: string[] = [];
   store = useStore();
-  siteAndUser: SiteAndUser = {
-    siteId: this.store.getters.currentSite.siteId,
-      userId: this.store.getters.user.id,
-    };
+  siteAndUser = getSiteAndUserId();
 
   created() {
     this.pageTitle = this.$route.params.title;
@@ -194,24 +189,15 @@ export default class PageEditor extends Vue {
         const notification = result;
         if (notification.status === "ok") {
           const message = `The ${this.page.name} page has been created`;
-          const snackbar = SnackBar.getInstance();
-          const snackbarMessage = SnackBarGenerator.snackbarSuccess(message, 'Page Saved');
-          snackbar.snackbarMessage = snackbarMessage;
-          snackbar.showSnackbar();
+          showTheSnackbar('Page saved', message, 'success')
         }
       })
       .catch(err => {
         const errMsg = err as Notification;
-        this.showErrorsnackbar(errMsg.message, "System Error");
+        showTheSnackbar( "Error", errMsg.message, 'error');
       });
   }
 
-  showErrorsnackbar(message: string, title: string) {
-    const snackbar = SnackBar.getInstance();
-    const snackbarMessage = SnackBarGenerator.snackbarError(message, title);
-    snackbar.snackbarMessage = snackbarMessage;
-    snackbar.showSnackbar();
-  }
 }
 </script>
 

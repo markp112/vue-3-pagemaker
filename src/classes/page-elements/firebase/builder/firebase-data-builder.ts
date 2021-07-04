@@ -10,10 +10,11 @@ import { FirestorePage } from '../firestore/firestore-page';
 import { ImageElementFirebaseData, PageContainerFirebaseData, PageElementFirebaseData } from '../model/firebase-model';
 import { FirebasePageDataTypes, PageContainerFirebaseDataInterface, PageIdentity } from './types/types';
 import { Notification, notificationDefault } from '@/models/notification/notification';
-import { useStore, AllActionTypes } from '@/store';
+import { useStore } from '@/store';
 import { AnActionEvent } from '@/classes/base/action/an-action';
 import { ALocation } from '@/classes/base/location/a-location';
 import { pageActionTypes } from '@/store/modules/page';
+import { getSiteAndUserId } from '@/common/site-and-user/site-and-user';
 
 export class FirebaseDataBuilder {
   siteDefaults = SiteDefaults.getInstance();
@@ -275,9 +276,10 @@ export class FirebaseDataBuilder {
   }
 
   private getPageIdentity(pageName: string): PageIdentity {
+    const siteAndUserId = getSiteAndUserId();
     return {
-      siteId: this.siteDefaults.siteId,
-      userId: this.siteDefaults.userId,
+      siteId: siteAndUserId.siteId,
+      userId: siteAndUserId.userId,
       pageId: pageName
     };
   }

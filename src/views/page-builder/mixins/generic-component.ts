@@ -95,8 +95,9 @@ export class GenericComponentMixins extends Vue {
   }
 
   setEditedComponentAndMenuState() {
-    this.store.dispatch(pageActionTypes.UPDATE_EDITED_COMPONENT,this.thisComponent);
-    this.store.dispatch(sidebarActionTypes.SHOW_SIDEBAR_ACTIVE_MENU, false);
+    console.log('%c%s', 'color: #e50000', 'setEditedComponentAndMenuState');
+    this.store.dispatch(pageActionTypes.UPDATE_EDITED_COMPONENT, this.thisComponent);
+    this.store.dispatch(sidebarActionTypes.SET_SIDEBAR_MENU_BASED_ON_SELECTED_COMPONENT, this.thisComponent.type);
     this.store.dispatch(pageActionTypes.UPDATE_SHOW_EDIT_DELETE, true);
   }
 

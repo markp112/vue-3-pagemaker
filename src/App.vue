@@ -5,7 +5,7 @@
     <nav-bar></nav-bar>
     <bread-crumb/>
     <div class="flex flex-row justify-start">
-      <sidebar-container />
+      <sidebar-panel />
       <div class="w-10/12">
         <router-view />
       </div>
@@ -40,7 +40,7 @@
 import { Options, Vue } from 'vue-class-component';
 import NavMenuComponent from '@/components/core/navbar/nav.vue';
 import Breadcrumb from '@/components/core/breadcrumb/breadcrumb.vue';
-import SideBar from '@/components/core/sidebar/sidebar-container/sidebar-container.vue';
+import SideBarPanel from '@/components/core/sidebar/sidebar-panel/sidebar-panel.vue';
 import { ActionTypes as authActionTypes } from '@/store/modules/auth/actions/actions';
 import { useStore, AllActionTypes } from '@/store';
 
@@ -48,7 +48,7 @@ import { useStore, AllActionTypes } from '@/store';
   components: {
     'nav-bar': NavMenuComponent,
     'bread-crumb': Breadcrumb,
-    'sidebar-container': SideBar,
+    'sidebar-panel': SideBarPanel,
   },
 })
 export default class MainApp extends Vue {

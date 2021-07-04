@@ -178,9 +178,6 @@ import  {Vue, Options } from 'vue-class-component';
 import { Notification } from '@/models/notification/notification';
 import { AllActionTypes, useStore } from '@/store';
 import { ASidebarElement } from '@/classes/sidebar-element/sidebar-element/aSidebar-element';
-import { SnackbarMessage } from '@/classes/base/notification/snackbar/models/snackbar';
-import { SnackBarGenerator } from '@/classes/base/notification/snackbar/snackbarGenerator';
-import { SnackBar } from '@/classes/base/notification/snackbar/snackbar';
 import { ComponentTypesArray } from '@/classes/sidebar-element/sidebar-element/model/sidebar-element';
 import BaseButton from '@/components/base/base-button/base-button.vue';
 import SubmitCancel from '@/components/base/base-button/submit-cancel/submit-cancel.vue';
@@ -190,6 +187,7 @@ import IconImage from '@/components/base/icon/icon.vue';
 import TextInput from '@/components/base/form-controls/text-input/text-input.vue';
 import SelectInput from '@/components/base/form-controls/select/select-input.vue';
 import { reactive } from '@vue/reactivity';
+import { showTheSnackbar } from '@/common/show-snackbar/show-snackbar';
 
 @Options({
   components: {
@@ -254,22 +252,10 @@ export default class SidebarIconEditor extends Vue {
     .then(result => {
       const notification = result as Notification;
       if (notification.status === "ok") {
-        const snackbarMessage: SnackbarMessage = SnackBarGenerator.snackbarSuccess(
-          `The ${this.editorComponent.componentName} has been created`,
-          "Page Saved"
-        );
-        const snackbar = SnackBar.getInstance();
-        snackbar.snackbarMessage = snackbarMessage;
-        snackbar.showSnackbar();
+        showTheSnackbar('page saved',`The ${this.editorComponent.componentName} has been created`, 'success');
         this.$router.push("/iconeditor");
       } else {
-        const snackbarMessage: SnackbarMessage = SnackBarGenerator.snackbarSuccess(
-          notification.message,
-          "Failed"
-        );
-        const snackbar = SnackBar.getInstance();
-        snackbar.snackbarMessage = snackbarMessage;
-        snackbar.showSnackbar();
+        showTheSnackbar('Error',notification.message, 'error');
       }
     });
   }

@@ -6,10 +6,10 @@ import { State } from '../state/state';
 export type Getters = {
   pageId(state: State): string,
   editedComponent(state: State): PageElementClasses | undefined,
-  pageElements(state: State): PageElementClasses[],
+  getPageElements(state: State): PageElementClasses[],
   showEditDelete(state: State): boolean,
-};
 
+};
 
 export const getters: GetterTree<State, RootState> & Getters = {
 
@@ -21,13 +21,22 @@ export const getters: GetterTree<State, RootState> & Getters = {
     return state.editedComponent;
   },
 
-  pageElements(state) {
+  getPageElements(state) {
     return state.pageElements;
   },
 
   showEditDelete(state) {
     return state.showEditDelete;
-  }
+  },
+
+
+
+  // getPageComponent(state: State): (componentName: string): Page => PageElementClasses | undefined {
+
+  // //   return (componentName: string) =>  {
+  // //     return (state.pageElements.filter(pageElement => pageElement.name === componentName)[0] as PageElementClasses);
+  // //   }
+  // // }
 }
 
 const compare = (a: PageElementClasses, b: PageElementClasses) => {

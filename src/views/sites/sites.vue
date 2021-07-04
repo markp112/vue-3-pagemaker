@@ -30,8 +30,7 @@ import SiteCard from '@/components/base/cards/site-card/site-card.vue';
 import { sitesActionTypes } from '@/store/modules/sites';
 import { Notification } from '@/models/notification/notification';
 import { SiteDefaults } from '@/classes/settings/site-defaults/site-defaults';
-import { SnackBar } from '@/classes/base/notification/snackbar/snackbar';
-import { SnackBarGenerator } from '@/classes/base/notification/snackbar/snackbarGenerator';
+import { showTheSnackbar } from '@/common/show-snackbar/show-snackbar';
 
 @Options({
   components: {
@@ -64,11 +63,7 @@ export default class SitesList extends Vue{
     })
     .catch(err => {
       console.log('%c⧭', 'color: #514080', err)
-      const notification: Notification = err as Notification;
-      this.showErrorsnackbar(
-        notification.message,
-        "Site defaults load failed, defaults applied"
-      );
+      showTheSnackbar('Warning', 'Site defaults load failed, - defaults applied', 'warning')
     });
   }
 
@@ -78,13 +73,6 @@ export default class SitesList extends Vue{
     } else {
       return datePublished;
     }
-  }
-
-    showErrorsnackbar(message: string, title: string) {
-    const snackbar = SnackBar.getInstance();
-    const snackbarMessage = SnackBarGenerator.snackbarError(message, title);
-    snackbar.snackbarMessage = snackbarMessage;
-    snackbar.showSnackbar();
   }
 
   get sites(): ASite[] {

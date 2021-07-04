@@ -13,10 +13,10 @@
     @mouseup="stopDragContainer($event)"
   >
     <component
+      v-for="(pageElement, index) in getPageElements"
       :is="getComponent(pageElement.type)"
-      v-for="(pageElement, i) in getPageElements"
-      :key="i"
-      :index="i"
+      :key="index"
+      :index="index"
       :thisComponent="pageElement"
       @onClick.prevent="componentClick($event)"
       @dragover.prevent
@@ -36,14 +36,17 @@
 import { ComponentCounter } from '@/classes/base/component-counter/component-counter';
 import { ADimension } from '@/classes/base/dimension/a-dimension';
 import { Dimension } from '@/classes/base/dimension/model/dimension';
-import { PageElementClasses, PageElementFactory } from '@/classes/page-elements/factory/page-elements-factory';
+import {
+  PageElementClasses,
+  PageElementFactory
+} from '@/classes/page-elements/factory/page-elements-factory';
 import { PageContainer } from '@/classes/page-elements/page-container/page-container';
 import { ValueAndUnit } from '@/common/types/value_and_unit/value_and_unit';
 import Resize from '@/components/base/resizable-anchors/resizable-anchors.vue';
 import { AllActionTypes } from '@/store';
 import { pageActionTypes } from '@/store/modules/page';
 import { sidebarActionTypes } from '@/store/modules/sidebar';
-import { mixins, Options } from "vue-class-component";
+import { mixins, Options } from 'vue-class-component';
 import { GenericComponentMixins } from '../../mixins/generic-component';
 import ButtonComponent from '../button-component/button-component.vue';
 import ImageComponent from '../image-component/image-component.vue';
@@ -54,16 +57,15 @@ import TextComponent from '../text-component/text-component.vue';
     'image-component': ImageComponent,
     'text-component': TextComponent,
     'button-component': ButtonComponent,
-    resizeable: Resize
-  }
+    resizeable: Resize,
+  },
 })
 export default class Container extends mixins(GenericComponentMixins) {
-  name = "container";
-  private componentStyle = "";
+  name = 'container';
+  private componentStyle = '';
   private componentCounter: ComponentCounter = ComponentCounter.getInstance();
 
   created() {
-    console.log('%c⧭', 'color: #e76813', this.thisComponent)
     if (this.thisComponent) {
       this.thisComponent.setDefaultStyle();
     }
@@ -72,7 +74,6 @@ export default class Container extends mixins(GenericComponentMixins) {
   mounted() {
     // -- convert width and height into pixels as initial dimension may be a percentage and cannot then be used
     // by the child component to get the actual width / height
-      console.log('%c⧭', 'color: #f02c60', this.thisComponent)
     this.thisComponent.dimension.width = {
       value: this.$el.getBoundingClientRect().width,
       unit: 'px'
@@ -96,7 +97,6 @@ export default class Container extends mixins(GenericComponentMixins) {
     }
   }
   get getPageElements(): PageElementClasses[] {
-    console.log('%c%s', 'color: #5200cc', 'getPageElements')
     console.log('%c⧭', 'color: #86bf60', (this.thisComponent as PageContainer).elements)
     return (this.thisComponent as PageContainer).elements;
   }
@@ -105,18 +105,12 @@ export default class Container extends mixins(GenericComponentMixins) {
     return this.componentStyle;
   }
 
-  // get isActive(): boolean {
-  //   return (
-  //     this.store.getters.editedComponent.ref ===
-  //       this.thisComponent.ref
-  //   );
-  // }
-
   onClick(ev: Event) {
     ev.stopPropagation();
-    this.store.dispatch(pageActionTypes.UPDATE_EDITED_COMPONENT, this.thisComponent);
-    this.store.dispatch(sidebarActionTypes.SHOW_SIDEBAR_ACTIVE_MENU, false);
-    this.store.dispatch(pageActionTypes.UPDATE_SHOW_EDIT_DELETE, true);
+    this.setEditedComponentAndMenuState();
+    // this.store.dispatch(pageActionTypes.UPDATE_EDITED_COMPONENT, this.thisComponent);
+    // this.store.dispatch(sidebarActionTypes.SHOW_SIDEBAR_ACTIVE_MENU, false);
+    // this.store.dispatch(pageActionTypes.UPDATE_SHOW_EDIT_DELETE, true);
     this.showBorder = !this.showBorder;
     this.$emit('componentClicked');
   }
@@ -138,18 +132,19 @@ export default class Container extends mixins(GenericComponentMixins) {
   }
 
   onDrop(event: DragEvent) {
-    const componentFactory = new PageElementFactory();
-    if (this.store.getters.isDragDropEventHandled()) {
+    if (this.store.getters.isDragDropEventHandled) {
       return;
     }
     if (event) {
       const componentName = this.getComponentName(event);
+      console.log('%c⧭', 'color: #00e600', componentName)
       const id: number = this.componentCounter.getNextCounter();
       const ref = `${componentName}::${id}`;
-      const component = this.store.getters.getComponentDefinition(componentName);
-      // const component = SidebarModule.getComponentDefinition(componentName);
+      const component = this.store.getters.getSidebarElement(componentName);
+      console.log('%c⧭', 'color: #aa00ff', component)
       const parent = this.thisComponent as PageContainer; // when dropping a component this componet will be its parent
       if (component) {
+        const componentFactory = new PageElementFactory();
         const newComponent: PageElementClasses = componentFactory.createElement(
           component.type,
           ref,

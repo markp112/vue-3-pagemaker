@@ -4,7 +4,7 @@ import { SiteDefaultsInterface } from './models';
 import { siteDefaultSettings } from './models/defaults';
 import { firestoreGetSiteDefaultSettings, firestoreSaveSiteDefaults } from '@/classes/settings/firebase';
 import { SiteAndUser } from '@/common/types/site-and-user';
-import { useStore } from '@/store';
+import { getSiteAndUserId } from '@/common/site-and-user/site-and-user';
 import { Notification } from '@/models/notification/notification';
 
 export class SiteDefaults implements SiteDefaultsInterface {
@@ -12,7 +12,6 @@ export class SiteDefaults implements SiteDefaultsInterface {
   private _typography: TypographyInterface = siteDefaultSettings.typography;
   private _isLoaded = false;
   private static instance: SiteDefaults;
-  #store = useStore();
 
   public static getInstance(): SiteDefaults {
     if (!SiteDefaults.instance) {
@@ -33,25 +32,14 @@ export class SiteDefaults implements SiteDefaultsInterface {
     return this._isLoaded;
   }
 
-  public get userId(): string {
-    return this.#store.getters.user.id;
-  }
-
-  public get siteId(): string {
-    return this.#store.getters.currentSite.siteId;
-  }
-
-
   // class should be passed function to get user and siteud
   public loadDefaults(): Promise<Notification> {
-  console.log('%c%s', 'color: #7f2200', 'loadDefaults');
 
     return new Promise((resolve, reject) => {
-      const siteAndUser: SiteAndUser = { siteId: this.siteId, userId: this.userId };
+      const siteAndUser: SiteAndUser = getSiteAndUserId();
       console.log('%c⧭', 'color: #33cc99', siteAndUser);
       firestoreGetSiteDefaultSettings(siteAndUser)
         .then(response => {
-          console.log('%c⧭', 'color: #994d75', response);
           const siteDefaults: SiteDefaultsInterface = response as SiteDefaultsInterface;
           this._colours = siteDefaults.colours;
           this._typography = siteDefaults.typography;
@@ -81,7 +69,7 @@ export class SiteDefaults implements SiteDefaultsInterface {
         typography: this._typography,
             }
     return new Promise((resolve, reject) => {
-      firestoreSaveSiteDefaults(this.getSiteAndUser(), siteDefaults)
+      firestoreSaveSiteDefaults(getSiteAndUserId(), siteDefaults)
         .then(notificaton => {
           resolve(notificaton);
         })
@@ -89,7 +77,4 @@ export class SiteDefaults implements SiteDefaultsInterface {
     });
   }
 
-  public getSiteAndUser(): SiteAndUser {
-    return { siteId: this.siteId, userId: this.userId }
-  }
 }

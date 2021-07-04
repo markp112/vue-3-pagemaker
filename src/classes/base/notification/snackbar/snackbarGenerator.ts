@@ -1,9 +1,9 @@
-import { SnackbarMessage, SnackbarTypes } from './models/snackbar';
+import { SnackbarMessage } from './models/snackbar';
 
 export const initSnackbarMessage: SnackbarMessage = {
-  message: "",
-  title: "",
-  type: SnackbarTypes.Success,
+  message: '',
+  title: '',
+  type: 'success',
   duration: 5000,
   show: false
 };
@@ -28,7 +28,7 @@ export class SnackBarGenerator {
     duration?: number
   ): SnackbarMessage {
     this.setBaseProperties(message, title, duration);
-    this._snackBar.type = SnackbarTypes.Error;
+    this._snackBar.type = 'error';
     return this._snackBar;
   }
 
@@ -38,7 +38,7 @@ export class SnackBarGenerator {
     duration?: number
   ): SnackbarMessage {
     this.setBaseProperties(message, title, duration);
-    this._snackBar.type = SnackbarTypes.Info;
+    this._snackBar.type = 'info';
     return this._snackBar;
   }
 
@@ -48,7 +48,7 @@ export class SnackBarGenerator {
     duration?: number
   ): SnackbarMessage {
     this.setBaseProperties(message, title, duration);
-    this._snackBar.type = SnackbarTypes.Success;
+    this._snackBar.type = 'success';
     return this._snackBar;
   }
 
@@ -58,7 +58,7 @@ export class SnackBarGenerator {
     duration?: number
   ): SnackbarMessage {
     this.setBaseProperties(message, title, duration);
-    this._snackBar.type = SnackbarTypes.Warning;
+    this._snackBar.type = 'warning';
     return this._snackBar;
   }
 }

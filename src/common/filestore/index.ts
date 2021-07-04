@@ -12,7 +12,7 @@ export function firestoreSaveFile(file: File, siteAndUser: SiteAndUser ): Promis
   const fileStore = firebase.storage().ref(`${path}${file.name}`);
   return new Promise((resolve, reject) => {
     const task = fileStore.put(file);
-    task.then(result => {
+    task.then(() => {
       fileStore.getDownloadURL().then(url => {
         notification.message = url;
         resolve(notification);

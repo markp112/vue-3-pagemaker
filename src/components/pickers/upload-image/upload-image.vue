@@ -78,6 +78,7 @@ import { Image } from '@/classes/page-elements/image-raw/image-raw';
 import { firestoreSaveFile } from '@/common/filestore/index';
 import { useStore } from '@/store';
 import { SiteAndUser } from '@/common/types/site-and-user';
+import { getSiteAndUserId } from '@/common/site-and-user/site-and-user';
 
 @Options({
   props: {
@@ -100,11 +101,8 @@ export default class UploadImage extends Vue {
   maintainRatio = true;
   showImagePicker = false;
   store = useStore();
-  siteAndUser: SiteAndUser =
-    {
-      siteId: '0',
-      userId: this.store.getters.user.id,
-    };
+  siteAndUser: SiteAndUser = getSiteAndUserId();
+
 
   mounted() {
     this.url = this.urlEdited;

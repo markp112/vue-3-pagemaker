@@ -9,7 +9,8 @@ export default {
   },
 };
 
-const Template = (args) => ({
+const Template = (args , {argTypes}) => ({
+  props: Object.keys(argTypes),
   components: { IconPicker },
   setup() {
     return { args };

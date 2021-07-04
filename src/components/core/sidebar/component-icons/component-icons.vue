@@ -46,10 +46,13 @@
 <script lang="ts">
 import  {Vue, Options } from "vue-class-component";
 import { AllActionTypes, useStore } from '@/store';
-import { SiteAndUser } from '@/common/types/site-and-user';
 import { ASidebarElement } from '@/classes/sidebar-element/sidebar-element/aSidebar-element';
 import DraggableIcon from '../draggable-icon/draggable-con.vue';
 import IconImage from '@/components/base/icon/icon.vue';
+import { Notification } from '@/models/notification/notification';
+import { pageActionTypes } from '@/store/modules/page';
+import { showTheSnackbar } from '@/common/show-snackbar/show-snackbar';
+import { getPath } from '@/common/get-path/';
 
 @Options({
   components: {
@@ -65,17 +68,20 @@ export default class SidebarComponentIcons extends Vue {
   }
 
   onSaveClick() {
-    const SiteIdAndUserId: SiteAndUser = this.getSiteAndUserID();
-  //   this.$store
-  //     .dispatch("savePageContent", SiteIdAndUserId)
-  //     .then(notification => {
-  //       this.showSnackbar(notification, "Page Saved");
-  //     })
-  //     .catch((err: Notification) => {
-  //       console.log(err);
-  //       err.message = "There was an issue with saving the page";
-  //       this.showSnackbar(err, "Page save failed");
-  //     });
+    this.store
+      .dispatch(pageActionTypes.SAVE_PAGE_CONTENT, true)
+      .then((notification: Notification) => {
+        showTheSnackbar('Page Saved', notification.message, 'success');
+      })
+      .catch((err: Notification) => {
+        console.log(err);
+        err.message = 'There was an issue with saving the page';
+        showTheSnackbar('Page save failed', err.message, 'error');
+      });
+  }
+
+  getPath(image: string) {
+    return getPath(image);
   }
 
   get sidebarContainers(): ASidebarElement[] {
@@ -86,17 +92,6 @@ export default class SidebarComponentIcons extends Vue {
     return this.store.getters.getSidebarElements;
   }
 
-  private getPath(image: string): string {
-    const path = require.context("@/assets/icons", false, /\.png$/);
-    return path(`./${image}`);
-  }
-
-  private getSiteAndUserID(): SiteAndUser {
-    return {
-      siteId: this.store.getters.currentSite.siteId,
-      userId: this.store.getters.user.id
-    };
-  }
 }
 </script>
 

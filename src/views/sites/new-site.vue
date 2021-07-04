@@ -107,9 +107,8 @@ import BaseButton from "@/components/base/base-button/base-button.vue";
 import UploadImage from "@/components/pickers/upload-image/upload-image.vue";
 import { AllActionTypes, useStore} from '@/store';
 import { ASite } from '@/classes/base/sites/ASite';
-import { SnackbarMessage } from '@/classes/base/notification/snackbar/models/snackbar';
-import { SnackBarGenerator } from '@/classes/base/notification/snackbar/snackbarGenerator';
-import { SnackBar } from '@/classes/base/notification/snackbar/snackbar';
+import { showTheSnackbar } from '@/common/show-snackbar/show-snackbar';
+import { Notification } from '@/models/notification/notification';
 
 @Options({
   components: {
@@ -123,7 +122,6 @@ export default class NewSite extends Vue {
   formErrors!: string[];
   pageTitle!: string;
   store = useStore();
-  snackbar = SnackBar.getInstance();
 
   created() {
     this.store.dispatch(AllActionTypes.SET_SHOW_SIDEBAR, false);
@@ -149,13 +147,12 @@ export default class NewSite extends Vue {
     if (errors.length === 0) {
       this.store.dispatch(AllActionTypes.SAVE_SITE, this.site)
       .then(() => {
-        const snackbarMessage: SnackbarMessage = SnackBarGenerator.snackbarSuccess(
-          `The site ${this.site.name} has been created`,
-          "Site Record Saved"
-        );
-        this.snackbar.snackbarMessage = snackbarMessage;
-        this.snackbar.showSnackbar();
-      });
+        showTheSnackbar('Site Record Saved',  `The site ${this.site.name} has been created`, 'success');
+      })
+      .catch((err: Notification) => {
+        showTheSnackbar('Error', err.message, 'error');
+      })
+      ;
     } else {
       this.formErrors = errors;
     }

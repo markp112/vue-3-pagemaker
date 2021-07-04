@@ -11,13 +11,13 @@ const SITE_SETTINGS = 'siteSettings';
 const notification: Notification = notificationDefault;
 
 export function storeSiteColourPalette(
-  data: SiteAndUser,
+  siteAndUser: SiteAndUser,
   colourPalette: PalettesInterface
 ): Promise<Notification> {
     return new Promise((resolve, reject) => {
       const firestore = firebase.firestore();
       firestore
-        .collection(getCollectionId(data.siteId, data.userId))
+        .collection(getCollectionId(siteAndUser))
         .doc(PALETTE)
         .set(colourPalette)
         .then(() => {
@@ -37,7 +37,7 @@ export function storeSiteColourPalette(
 export function loadSitePalette(
   siteAndUser: SiteAndUser
 ): Promise<PalettesInterface | Notification> {
-    const collectionId = getCollectionId(siteAndUser.siteId, siteAndUser.userId);
+    const collectionId = getCollectionId(siteAndUser);
     return new Promise((resolve, reject) => {
       const firestore = firebase.firestore();
       firestore
@@ -61,7 +61,7 @@ export function firestoreGetSiteDefaultSettings(siteAndUser: SiteAndUser): Promi
   let siteDefaults: SiteDefaultsInterface;
   return new Promise((resolve, reject) => {
     const firestore = firebase.firestore();
-    const collectionId = getCollectionId(siteAndUser.siteId, siteAndUser.userId);
+    const collectionId = getCollectionId(siteAndUser);
     firestore
       .collection(collectionId)
       .doc(SITE_SETTINGS)
@@ -87,7 +87,7 @@ export function firestoreSaveSiteDefaults(
   siteDefaults: SiteDefaultsInterface
 ): Promise<Notification> {
   return new Promise((resolve, reject) => {
-    const collectionId = getCollectionId(siteAndUser.siteId, siteAndUser.userId);
+    const collectionId = getCollectionId(siteAndUser);
     const firestore = firebase.firestore();
     firestore
       .collection(collectionId)
@@ -107,7 +107,7 @@ export function firestoreSaveSiteDefaults(
   });
 }
 
-function getCollectionId(siteId: string, userId: string) {
-  return `${userId}${siteId}${SETTINGS}`;
+function getCollectionId(siteAndUser: SiteAndUser) {
+  return `${siteAndUser.userId}${siteAndUser.siteId}${SETTINGS}`;
 
 }

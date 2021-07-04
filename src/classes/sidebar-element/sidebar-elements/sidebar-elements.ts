@@ -9,7 +9,7 @@ export class SidebarElements {
   }
 
   add(newComponent: ASidebarElement): void {
-    const component: ASidebarElement | undefined = this.getComponent(
+    const component: ASidebarElement | undefined = this.getComponentByName(
       newComponent.componentName
     );
     if (component !== undefined) {
@@ -29,20 +29,17 @@ export class SidebarElements {
     this._componentDefinitions = [];
   }
 
-  getComponent(
-    componentName = '',
-    componentRef = ''
-  ): ASidebarElement | undefined {
-    if (componentName === '' && componentRef === '') return;
-    if (componentRef !== '') {
+  getComponentByName(componentName: string): ASidebarElement | undefined {
+    if (componentName === '') return;
+    // if (componentRef !== '') {
+    //   return this._componentDefinitions.filter(
+    //     comp => comp.componentRef === componentRef
+    //   )[0];
+    // } else {
       return this._componentDefinitions.filter(
-        comp => comp.componentRef === componentRef
+        component => component.componentName === componentName
       )[0];
-    } else {
-      return this._componentDefinitions.filter(
-        comp => comp.componentName === componentName
-      )[0];
-    }
+    // }
   }
 
   componentDefinitions(): ASidebarElement[] {

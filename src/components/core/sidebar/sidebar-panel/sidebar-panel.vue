@@ -1,6 +1,6 @@
 <template>
   <div
-    class="h-screen"
+    class="h-screen space-y-4"
     :class="showSideBar"
   >
     <component :is="sidebarContent" :toolbarPanel="sidebarPanel"></component>
@@ -18,13 +18,14 @@ import { useStore, AllActionTypes } from '@/store'
 // import ButtonEditor from '@/components/core/sidebar/button-editor/button-editor.vue';
 // import TextComponentSidebar from '@/components/core/sidebar/text-editor/text-component-sidebar.vue';
 // import SitesMenu from '@/components/core/sidebar/sites-menu/sites-menu.vue';
-// import SidebarContainerEditor from '@/components/base/buttons/sidebar-buttons/sidebar-container-editor.vue';
+// import SidebarContainerEditor from '@/components/base/buttons/sidebar-buttons/sidebar-panel-editor.vue';
 import {
   SidebarPanelBuilder,
 } from '@/classes/sidebar/builders/sidebar-panel-builder';
 import { SidebarPanel } from '@/classes/sidebar/classes/sidebar-panel';
 import SidebarComponentIcons from '../component-icons/component-icons.vue';
 import { SidebarComponentMenus } from '@/common/types/sidebar-component-menus/sidebar-component-menus';
+import SidebarContainerEditor from '../editor-panels/container-editor/container-editor.vue';
 
 @Options({
 
@@ -33,14 +34,14 @@ import { SidebarComponentMenus } from '@/common/types/sidebar-component-menus/si
     // 'sites-menu': SitesMenu,
     // 'image-editor': ImageEditorSidebar,
     // 'text-editor': TextEditorSidebar,
-    // 'container-editor': SidebarContainerEditor,
+    'container-editor': SidebarContainerEditor,
     // 'button-editor': ButtonEditor,
     // 'site-settings': SidebarPanelSiteSettings,
     // 'text-component-sidebar': TextComponentSidebar,
   }
 })
-export default class SideBar extends Vue {
-  name ='sidebar-container'
+export default class SideBarPanel extends Vue {
+  name ='sidebar-panel'
   isShowSideBar = false;
   sidebarPanelBuilder: SidebarPanelBuilder = new SidebarPanelBuilder(
     'container-editor'
@@ -63,8 +64,8 @@ export default class SideBar extends Vue {
   }
 
   get showSideBar(): string {
-    this.isShowSideBar = this.store.getters.isShowSidebar;
-    return  this.isShowSideBar ? '' : 'w-0 hidden';
+    console.log('%c%s', 'color: #733d00', 'showSideBar', this.store.getters.isShowSidebar)
+    return  this.store.getters.isShowSidebar ? 'w-2/12' : 'w-0 hidden';
   }
 }
 </script>

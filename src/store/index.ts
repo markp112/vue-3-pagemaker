@@ -49,6 +49,7 @@ export function useStore(): Store {
 }
 
 export default store;
+
 export const AllActionTypes = {
   ...NavMenuActionTypes,
   ...authActionTypes,
@@ -57,6 +58,7 @@ export const AllActionTypes = {
   ...pagesActionTypes,
   ...pageActionTypes,
 };
+
 export const AllMutationTypes = {
   ...NavMenuMutationTypes,
   ...authMutationTypes,

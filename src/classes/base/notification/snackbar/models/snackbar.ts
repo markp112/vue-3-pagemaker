@@ -1,9 +1,8 @@
-export enum SnackbarTypes {
-  Error = "error",
-  Info = "info",
-  Warning = "warning",
-  Success = "success"
-};
+export type SnackbarTypes =
+  | 'error'
+  | 'info'
+  | 'warning'
+  | 'success';
 
 export interface SnackbarMessage {
   message: string;

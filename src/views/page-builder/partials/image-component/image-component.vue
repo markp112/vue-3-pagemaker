@@ -13,7 +13,7 @@
       :style="getImageStyles()"
     />
     <resizeable
-      :isActive="isActive()"
+      :isActive="isActive"
       :parentContainerDimensions="thisComponent.Dimensions"
       @resizeStarted="resizeStarted($event)"
       @onResize="onResizeImage($event)"
@@ -31,7 +31,7 @@
 
 <script lang="ts">
 
-import { Vue, Options } from 'vue-class-component';
+import { Options } from 'vue-class-component';
 import { ADimension } from '@/classes/base/dimension/a-dimension';
 import { PageElementBuilder } from '@/classes/page-elements/builder/page-element-builder';
 import { ImageElement, ImageOrContainer } from '@/classes/page-elements/image-element/image-element';
