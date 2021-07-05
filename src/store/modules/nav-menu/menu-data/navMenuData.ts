@@ -1,4 +1,4 @@
-import { NavMenuItemInterface } from '@/classes/base/navbar/nav-menu/nav-menu-item';
+import { NavMenuItemInterface } from '@/classes/base/navbar/nav-menu/model/nav-menu-item';
 
 export const menuWhenLoggedIn: NavMenuItemInterface[] = [
   {

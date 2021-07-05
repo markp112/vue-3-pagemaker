@@ -1,14 +1,9 @@
-import { ColourProperties } from '../colour-properties-types';
+import { ColourProperties } from '../component-colour/types/colour-properties-types';
 
 export interface AColour {
   colourName: ColourProperties;
   value: string;
 };
-
-// export interface MaterialColoursInterface {
-//   addColour(colour: AColour): void;
-//   getColour(colourName: string): ASingleColour;
-// };
 
 export interface MaterialColoursInterface {
   primary: string;
@@ -27,4 +22,4 @@ export interface MaterialColoursInterface {
   textOnBackground: string;
   textOnAccent: string;
   textOnError: string;
-}
+};

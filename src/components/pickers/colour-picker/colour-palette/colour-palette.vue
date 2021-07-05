@@ -37,6 +37,9 @@ export default class ColourPalette extends Vue {
     }
   }
 
+updated() {
+  this.draw();
+}
 
   // To DO this was watched before
   onHueChange() {

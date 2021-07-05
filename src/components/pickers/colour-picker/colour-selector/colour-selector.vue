@@ -13,6 +13,7 @@
             background
           </label>
           <input
+            class="pl-2"
             type="radio"
             name="bg-check"
             id="background"
@@ -83,15 +84,6 @@ import  { Vue, Options } from "vue-class-component";
 import ColourDropdown from '../colour-dropdown/colour-dropdown.vue';
 import ColourPaletteSidebar from '../colour-palette-sidebar/colour-palette-sidebar.vue';
 import { SidebarButtonEventManager } from '@/classes/sidebar/button-event-manager/button-event-manager';
-// import ColourDropdown from "@/components/base/pickers/colour-picker/colour-dropdown.vue";
-// import {
-//   BackgroundBorderForeground,
-//   Colour
-// } from "@/classes/colour/singleton-colour";
-// import Slider from '@/components/base/sliders/slider/slider.vue';
-// import { StyleElement } from "../../../../classes/text-attributes/text-attributes";
-// import { SidebarButtonEventManager } from "@/classes/sidebarButtonEventManager/sidebarButtonEventManager";
-// import ColourPaletteSidebar from "@/components/base/pickers/colour-picker/colour-palette-sidebar/colour-palette-sidebar.vue";
 export type FlexAlignment = "vertical" | "horizontal";
 
 @Options({
@@ -173,7 +165,7 @@ export default class ColourSelect extends Vue {
   @apply flex-col;
   @apply justify-start;
   @apply flex-nowrap;
-  @apply w-9/12;
+  @apply w-10/12;
   @apply p-1;
   @apply mt-0;
   @apply leading-none;

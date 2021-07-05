@@ -1,4 +1,4 @@
-import { ColourProperties } from './colour-properties-types';
+import { ColourProperties } from './component-colour/types/colour-properties-types';
 import { AColour } from './models/material-colours';
 
 export type ColourStyle =

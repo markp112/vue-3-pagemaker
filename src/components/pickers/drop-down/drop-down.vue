@@ -3,7 +3,7 @@
     <div class="flex flex-row justify-between relative w-12 text-sm">
       <input
         v-model="selectedItem"
-        class="min-w-6 text-center relative bg-siteSurface text-onSurface"
+        class="min-w-6 text-center relative bg-site-surface text-on-surface"
         @change="onInputChange"
       />
       <img

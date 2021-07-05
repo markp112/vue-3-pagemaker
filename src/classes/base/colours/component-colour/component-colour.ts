@@ -1,10 +1,6 @@
 import { Style } from '../../style/style';
+import { ColourInterface } from '../models/colour';
 import { BackgroundBorderForeground } from './types';
-
-export interface ColourInterface {
-  _rgbColour: string;
-  _backgroundBorderForeground: BackgroundBorderForeground;
-}
 
 export class Colour implements ColourInterface {
   _rgbColour = '#ffeedd';
@@ -15,8 +11,6 @@ export class Colour implements ColourInterface {
   public static getInstance(): Colour {
     if (!Colour.instance) {
       Colour.instance = new Colour();
-      Colour.instance.rgbColour = '#ffeedd';
-      Colour.instance._backgroundBorderForeground = 'color';
     }
     return Colour.instance;
   }

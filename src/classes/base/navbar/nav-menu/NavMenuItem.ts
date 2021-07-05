@@ -1,4 +1,4 @@
-import { NavMenuItemInterface } from './nav-menu-item';
+import { NavMenuItemInterface } from './model/nav-menu-item';
 
 export class NavMenuItem implements NavMenuItemInterface {
   _id: number;
