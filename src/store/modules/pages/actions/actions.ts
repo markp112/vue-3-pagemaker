@@ -7,6 +7,8 @@ import { Notification, notificationDefault } from '@/models/notification/notific
 import firebase from 'firebase';
 import { SiteAndUser } from '@/common/types/site-and-user';
 import { Page } from '@/classes/page/model/page';
+import { pageActionTypes } from '../../page';
+import Guid from '@/common/guid/guid';
 
 export enum ActionTypes {
   ADD_A_NEW_PAGE = 'addAPage',
@@ -32,13 +34,16 @@ export const actions: ActionTree<State, RootState> & Actions = {
 
   [ActionTypes.ADD_A_NEW_PAGE]({ commit }, params:{page: ASitePage, siteAndUser: SiteAndUser}) {
     const notification: Notification = notificationDefault;
+    if (params.page.id === '') {
+      params.page.id = Guid.newGuid();
+    }
     return new Promise((resolve, reject) => {
       const firestore = firebase.firestore();
       const collectionId = getCollectionId(params.siteAndUser);
       const data = params.page.getPageDataAsObject();
       firestore
         .collection(collectionId)
-        .doc(params.page.name)
+        .doc(params.page.id)
         .set(data)
         .then(() => {
           commit(MutationTypes.ADD_PAGE, params.page);

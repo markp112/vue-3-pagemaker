@@ -28,29 +28,27 @@ import { AllActionTypes, useStore } from '@/store';
 import BaseButton from '@/components/base/base-button/base-button.vue';
 import SiteCard from '@/components/base/cards/site-card/site-card.vue';
 import { sitesActionTypes } from '@/store/modules/sites';
-import { Notification } from '@/models/notification/notification';
 import { SiteDefaults } from '@/classes/settings/site-defaults/site-defaults';
 import { showTheSnackbar } from '@/common/show-snackbar/show-snackbar';
 
 @Options({
   components: {
-    "base-button": BaseButton,
-    "site-card": SiteCard,
-  }
+    'base-button': BaseButton,
+    'site-card': SiteCard,
+  },
 })
-export default class SitesList extends Vue{
-  name = "sites-list";
+export default class SitesList extends Vue {
+  name = 'sites-list';
   store = useStore();
   userId = useStore().getters.user.id;
 
-  created() {
+  created(): void {
     this.store.dispatch(AllActionTypes.LOAD_SITES, this.userId);
     this.store.dispatch(AllActionTypes.SET_SHOW_SIDEBAR, false);
-    this.sites.forEach(site => console.log(site))
   }
 
   createNewSite(): void {
-    this.$router.push({ name: "newSite", params: { title: "New Site" } });
+    this.$router.push({ name: 'newSite', params: { title: 'New Site' } });
   }
 
   siteClicked(siteId: string) {

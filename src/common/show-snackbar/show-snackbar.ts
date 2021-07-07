@@ -21,5 +21,5 @@ export const showTheSnackbar = (title: string, message: string, type: SnackbarTy
       break;
   }
   snackbar.snackbarMessage = snackbarType;
-  snackbar.showSnackbar();
+  // snackbar.showSnackbar();
 }

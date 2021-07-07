@@ -35,7 +35,6 @@ export default class Snackbar extends Vue {
   snackbarMessage = this.snackbar.snackbarMessage;
 
   get snackbarContent(): SnackbarMessage {
-    // return this.store.getters.snackbarMessage;
     return this.snackbar.snackbarMessage;
   }
 
@@ -44,15 +43,14 @@ export default class Snackbar extends Vue {
   }
 
   get getIndicatorColour(): string {
-    // return this.store.getters.snackbarMessage.type;
     return this.snackbar.snackbarMessage.type;
   }
 
   updated() {
+    console.log('%c%s', 'color: #00bf00', 'updated')
     setTimeout(() => {
-      // this.store.dispatch(AllActionTypes.TOGGLE_SNACKBAR, true)
       this.snackbar.hideSnackbar
-    }, this.store.getters.snackbarMessage.duration);
+    }, this.snackbar.snackbarMessage.duration);
   }
 }
 </script>

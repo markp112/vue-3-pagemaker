@@ -42,14 +42,14 @@ const defaultSnackbar = setSnackbar('The task suceeded', 'Success', 'success', t
 
 // store.dispatch(AllActionTypes.SHOW_SNACKBAR, defaultSnackbar);
 snackBar.snackbarMessage = defaultSnackbar;
-snackBar.showSnackbar();
+// snackBar.showSnackbar();
 export const Default = Template.bind({});
 Default.args = {
 };
 
 const errorSnackbar = setSnackbar('The task suceeded', 'Success', 'error', true);
 snackBar.snackbarMessage = errorSnackbar;
-snackBar.showSnackbar();
+// snackBar.showSnackbar();
 export const Error = Template.bind({});
 Default.args = {
 };

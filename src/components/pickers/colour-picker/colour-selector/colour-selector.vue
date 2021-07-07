@@ -7,7 +7,7 @@
             for="background"
             class="mt-1"
             :class="{
-              'text-secondary-300': textBackgroundorBorder === 'background'
+              'text-secondary-300': textBackgroundorBorder === 'background',
             }"
           >
             background
@@ -26,7 +26,7 @@
             for="font"
             class="mt-1"
             :class="{
-              'text-secondary-300': textBackgroundorBorder === 'color'
+              'text-secondary-300': textBackgroundorBorder === 'color',
             }"
           >
             font
@@ -45,7 +45,7 @@
             for="border"
             class="mt-1"
             :class="{
-              'text-secondary-300': textBackgroundorBorder === 'border-color'
+              'text-secondary-300': textBackgroundorBorder === 'border-color',
             }"
           >
             border
@@ -63,7 +63,7 @@
             sliderValue="255"
             caption="transparency"
             @onSliderChange="onSliderChange($event)"
-            ></slider-control>
+          />
         </div>
       </div>
       <colour-dropdown
@@ -76,11 +76,11 @@
 </template>
 
 <script lang="ts">
+import  { Vue, Options } from "vue-class-component";
 import { Colour } from '@/classes/base/colours/component-colour/component-colour';
 import { BackgroundBorderForeground } from '@/classes/base/colours/component-colour/types';
 import { Style } from '@/classes/base/style/style';
 import Slider from '@/components/base/sliders/slider.vue';
-import  { Vue, Options } from "vue-class-component";
 import ColourDropdown from '../colour-dropdown/colour-dropdown.vue';
 import ColourPaletteSidebar from '../colour-palette-sidebar/colour-palette-sidebar.vue';
 import { SidebarButtonEventManager } from '@/classes/sidebar/button-event-manager/button-event-manager';
@@ -88,9 +88,9 @@ export type FlexAlignment = "vertical" | "horizontal";
 
 @Options({
   components: {
-    "colour-dropdown": ColourDropdown,
-    "colour-palette-sidebar": ColourPaletteSidebar,
-    "slider-control": Slider,
+    'colour-dropdown': ColourDropdown,
+    'colour-palette-sidebar': ColourPaletteSidebar,
+    'slider-control': Slider,
   },
   props: {
     showLabels: {
@@ -106,60 +106,59 @@ export type FlexAlignment = "vertical" | "horizontal";
   }
 })
 export default class ColourSelect extends Vue {
-  textBackgroundorBorder: BackgroundBorderForeground = "color";
+  textBackgroundorBorder: BackgroundBorderForeground = 'color';
   showLabels = false;
   flexAlignment = 'vertical';
   colour: Colour = Colour.getInstance();
 
-  onRadioChange(bbf: BackgroundBorderForeground) {
+  onRadioChange(bbf: BackgroundBorderForeground): void {
     this.textBackgroundorBorder = bbf;
     this.colour.backgroundBorderForeground = bbf;
   }
 
-  onColourChange(colour: string) {
+  onColourChange(colour: string): void {
     const style: Style = {
       style: this.textBackgroundorBorder,
       value: colour,
-      unit: 'px'
+      unit: 'px',
     };
     const eventManager = SidebarButtonEventManager.getInstance();
-    eventManager.applyValue("colour", style);
+    eventManager.applyValue('colour', style);
     eventManager.updateEditedComponent();
     this.$emit('onColourChange', colour);
   }
 
-  onSliderChange(value: number) {
+  onSliderChange(value: number): void {
     const style: Style = {
       style: 'transparency',
       value: value.toString(),
-      unit: '%'
+      unit: '%',
     };
     const eventManager = SidebarButtonEventManager.getInstance();
-    eventManager.applyValue("colour", style);
+    eventManager.applyValue('colour', style);
     eventManager.updateEditedComponent();
     this.$emit('onSliderChange', value);
   }
 
-  getContainerClass() {
-    if (this.flexAlignment === "vertical") {
-      return "flex flex-col justify-start w-3/12";
+  getContainerClass(): string {
+    if (this.flexAlignment === 'vertical') {
+      return 'flex flex-col justify-start w-3/12';
     } else {
-      return "flex flex-row justify-evenly w-4/12 ml-4";
+      return 'flex flex-row justify-evenly w-4/12 ml-4';
     }
   }
 
   getElementClass() {
-    if (this.flexAlignment === "vertical") {
-      return "mt-2";
+    if (this.flexAlignment === 'vertical') {
+      return 'mt-2';
     } else {
-      return "ml-2";
+      return 'ml-2';
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
 .colour-select-radios {
   @apply flex;
   @apply flex-col;

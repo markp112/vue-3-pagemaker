@@ -10,6 +10,7 @@
         <router-view />
       </div>
     </div>
+    <snackbar v-if="showSnackbar"/>
   </div>
 </template>
 
@@ -41,6 +42,8 @@ import { Options, Vue } from 'vue-class-component';
 import NavMenuComponent from '@/components/core/navbar/nav.vue';
 import Breadcrumb from '@/components/core/breadcrumb/breadcrumb.vue';
 import SideBarPanel from '@/components/core/sidebar/sidebar-panel/sidebar-panel.vue';
+import Snackbar from '@/components/base/notifications/snackbar/snackbar.vue';
+import { SnackBar as SnackbarController } from '@/classes/base/notification/snackbar/snackbar';
 import { ActionTypes as authActionTypes } from '@/store/modules/auth/actions/actions';
 import { useStore, AllActionTypes } from '@/store';
 
@@ -49,11 +52,13 @@ import { useStore, AllActionTypes } from '@/store';
     'nav-bar': NavMenuComponent,
     'bread-crumb': Breadcrumb,
     'sidebar-panel': SideBarPanel,
+    'snackbar': Snackbar,
   },
 })
 export default class MainApp extends Vue {
   name = 'main-app';
   store = useStore();
+  snackbarController = SnackbarController.getInstance();
 
   created() {
     console.log('Created');
@@ -66,8 +71,11 @@ export default class MainApp extends Vue {
     }
   }
 
+  get showSnackbar() {
+    return this.snackbarController.showSnackbar();
+  }
+
   get showSideBar(): boolean {
-    console.log('%c%s', 'color: #00a3cc', 'showSideBar')
     return this.store.getters.isShowSidebar;
   }
 }

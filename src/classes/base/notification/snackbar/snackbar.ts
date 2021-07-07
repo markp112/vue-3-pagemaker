@@ -2,8 +2,8 @@ import { SnackbarMessage } from './models/snackbar';
 import { initSnackbarMessage } from './snackbarGenerator';
 
 export class SnackBar {
-  #showSnackbar = false;
-  #snackbarMessage: SnackbarMessage = initSnackbarMessage;
+  _showSnackbar = false;
+  _snackbarMessage: SnackbarMessage = initSnackbarMessage;
 
   private static instance: SnackBar;
 
@@ -14,23 +14,27 @@ export class SnackBar {
     return SnackBar.instance;
   }
 
-  showSnackbar() {
-    this.#showSnackbar = true;
+  showSnackbar(): void {
+    // this._showSnackbar = true;
+    this.snackbarMessage.show = true;
   }
 
-  hideSnackbar() {
-    this.#showSnackbar = false;
+  hideSnackbar(): void {
+    // this._showSnackbar = false;
+    this._snackbarMessage.show = false;
   }
 
   get isShowSnackbar(): boolean {
-    return this.#showSnackbar;
+    // const show = this._showSnackbar;
+    // return show;
+    return this._snackbarMessage.show;
   }
 
   set snackbarMessage(snackbarMessage: SnackbarMessage) {
-    this.#snackbarMessage = snackbarMessage;
+    this._snackbarMessage = snackbarMessage;
   }
 
   get snackbarMessage(): SnackbarMessage {
-    return this.#snackbarMessage;
+    return this._snackbarMessage;
   }
 }

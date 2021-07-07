@@ -2,6 +2,7 @@ import { Page } from './model/page';
 import { convertTimeStampDate } from '@/common/dates/date-functions';
 
 export class ASitePage implements Page {
+  _id: string;
   _name: string;
   _icon: string;
   _created: Date;
@@ -12,18 +13,28 @@ export class ASitePage implements Page {
   constructor(data?: Page)
   constructor(data?: Page) {
     if (data) {
+      this._id = data.id;
       this._name = data.name;
       this._active = data.active;
       this._created = convertTimeStampDate(data.created);
       this._edited = convertTimeStampDate(data.edited);
       this._icon = data.icon;
     } else {
-      this._name = "";
-      this._icon = "";
+      this._id = '';
+      this._name = '';
+      this._icon = '';
       this._created = new Date();
       this._edited = new Date();
       this._active = false;
     }
+  }
+
+  get id(): string {
+    return this._id;
+  }
+
+  set id(id: string) {
+    this._id = id;
   }
 
   get name(): string {
@@ -67,6 +78,7 @@ export class ASitePage implements Page {
 
   getPageDataAsObject(): Page {
     const page = {
+      id: this._id,
       name: this._name,
       icon: this._icon,
       created: this._created,

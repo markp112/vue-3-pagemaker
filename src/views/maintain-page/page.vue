@@ -72,7 +72,7 @@
           size="small"
           @onClick="saveClick()"
         >
-          Submit
+          Save
         </base-button>
       </div>
       <invalid-form :formErrors="formErrors"></invalid-form>
@@ -168,7 +168,8 @@ export default class PageEditor extends Vue {
     }
     const pageList: ASitePage[] = this.store.getters.pages;
     if (pageList !== undefined) {
-      if (pageList.filter(page => page.name === this.page.name).length > 0) {
+      console.log('%c⧭', 'color: #0088cc', pageList)
+      if (pageList.filter(page => page.name === this.page.name && page.id !== this.page.id).length > 0) {
         errors.push("Page name must be unique");
       }
     }
