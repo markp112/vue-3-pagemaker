@@ -23,7 +23,7 @@ type AugmentedActionContext = {
     key: K,
         payload: Parameters<Mutations[K]>[1]
       ): ReturnType <Mutations[K]>
-    } & Omit<ActionContext<State, RootState>, 'commit'>;
+} & Omit<ActionContext<State, RootState>, 'commit'>;
 
 export interface Actions {
   [ActionTypes.ADD_A_PAGE_ELEMENT]({ commit }: AugmentedActionContext, element: PageElementClasses): void,
@@ -39,7 +39,6 @@ export interface Actions {
 export const actions: ActionTree<State, RootState> & Actions = {
 
   [ActionTypes.ADD_A_PAGE_ELEMENT]({ commit }, element) {
-    console.log('%c⧭', 'color: #00258c', element);
     commit(MutationTypes.ADD_A_PAGE_ELEMENT, element);
   },
 

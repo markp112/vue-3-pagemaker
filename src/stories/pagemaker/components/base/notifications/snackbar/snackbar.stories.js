@@ -1,24 +1,5 @@
 import Snackbar from '@/components/base/notifications/snackbar/snackbar.vue';
-import { SnackBar } from '@/classes/base/notification/snackbar/snackbar';
-
-
-const snackbarDefault = {
-  message: 'A message',
-  title: 'Success',
-  type: 'success',
-  show: true,
-};
-
-const setSnackbar = (message, title, type, show) => {
-  return {
-    message: message,
-    title: title,
-    type: type,
-    show: true,
-  };
-}
-
-const snackBar = SnackBar.getInstance();
+import  showTheSnackbar  from '@/common/show-snackbar/show-snackbar';
 
 export default {
   title: 'Pagemaker/snackbar',
@@ -38,17 +19,18 @@ const Template = (args) => ({
     </div>`,
 });
 
-const defaultSnackbar = setSnackbar('The task suceeded', 'Success', 'success', true);
+let title = 'message';
+let message = 'message';
+let type = 'success';
+showTheSnackbar(title, message, type);
 
 // store.dispatch(AllActionTypes.SHOW_SNACKBAR, defaultSnackbar);
-snackBar.snackbarMessage = defaultSnackbar;
 // snackBar.showSnackbar();
 export const Default = Template.bind({});
 Default.args = {
 };
 
-const errorSnackbar = setSnackbar('The task suceeded', 'Success', 'error', true);
-snackBar.snackbarMessage = errorSnackbar;
+
 // snackBar.showSnackbar();
 export const Error = Template.bind({});
 Default.args = {

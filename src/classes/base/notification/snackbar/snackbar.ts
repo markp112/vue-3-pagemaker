@@ -14,14 +14,19 @@ export class SnackBar {
     return SnackBar.instance;
   }
 
-  showSnackbar(): void {
-    // this._showSnackbar = true;
+  showSnackbar(): boolean {
+    this._showSnackbar = true;
     this.snackbarMessage.show = true;
+    setTimeout(() => {
+      this.hideSnackbar();
+    }, 5000)
+    return true;
   }
 
-  hideSnackbar(): void {
-    // this._showSnackbar = false;
+  hideSnackbar(): boolean {
+    this._showSnackbar = false;
     this._snackbarMessage.show = false;
+    return false;
   }
 
   get isShowSnackbar(): boolean {

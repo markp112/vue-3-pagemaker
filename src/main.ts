@@ -7,7 +7,6 @@ import Firebase from "firebase/app";
 import "firebase/firestore";
 import { secrets } from "./firebase/config";
 import "@/assets/styles/custom-styles.css";
-import AirbnbStyleDatepicker from 'vue-airbnb-style-datepicker';
 
 
 export const firebaseApp = Firebase.initializeApp(secrets.google);
@@ -19,7 +18,7 @@ firebaseApp.firestore().settings({
 firebaseApp
   .firestore()
   .enablePersistence()
-  .catch(err => {
+  .catch((err: { code: string; }) => {
     if (err.code == "failed-precondition") {
       // Multiple tabs open, persistence can only be enabled
       // in one tab at a a time.

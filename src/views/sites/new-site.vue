@@ -175,7 +175,8 @@ label {
 
 input,
 textarea {
-  @apply w-10/12 border-solid border bg-accent-2 self-end;
+  @apply w-10/12 border-solid border self-end;
+  @apply bg-accent-2;
 }
 
 .field-wrapper {

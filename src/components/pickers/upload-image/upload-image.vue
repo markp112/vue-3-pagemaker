@@ -200,7 +200,7 @@ export default class UploadImage extends Vue {
 }
 </script>
 
-<style lang="css">
+<style lang="postcss">
 .image-drop {
   width: 100%;
   @apply h-full;
@@ -211,7 +211,7 @@ export default class UploadImage extends Vue {
 }
 
 .is-dragging {
-  @apply bg-accent-1;
+  background-color: rgba(217, 196, 184);
 }
 
 .image-picker {

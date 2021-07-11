@@ -10,7 +10,7 @@
         <router-view />
       </div>
     </div>
-    <snackbar v-if="showSnackbar"/>
+    <snackbar/>
   </div>
 </template>
 

@@ -1,4 +1,4 @@
-import { PageElementClasses, PageElementFactory } from '@/classes/page-elements/factory/page-elements-factory';
+import { PageElementClasses } from '@/classes/page-elements/factory/page-elements-factory';
 
 export type State = {
   pageId: string;

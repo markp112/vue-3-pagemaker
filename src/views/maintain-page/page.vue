@@ -69,6 +69,7 @@
         </base-button>
         <base-button
           buttonType="primary"
+          variant="solid"
           size="small"
           @onClick="saveClick()"
         >
@@ -168,7 +169,6 @@ export default class PageEditor extends Vue {
     }
     const pageList: ASitePage[] = this.store.getters.pages;
     if (pageList !== undefined) {
-      console.log('%c⧭', 'color: #0088cc', pageList)
       if (pageList.filter(page => page.name === this.page.name && page.id !== this.page.id).length > 0) {
         errors.push("Page name must be unique");
       }
@@ -190,7 +190,12 @@ export default class PageEditor extends Vue {
         const notification = result;
         if (notification.status === "ok") {
           const message = `The ${this.page.name} page has been created`;
+          console.log('%c⧭', 'color: #007300', message)
           showTheSnackbar('Page saved', message, 'success')
+        } else {
+          const message = notification.message;
+          console.log('%c⧭', 'color: #006dcc', message)
+          showTheSnackbar('Error', message, 'error');
         }
       })
       .catch(err => {
@@ -212,7 +217,8 @@ label {
 input,
 datepicker,
 textarea {
-  @apply w-9/12 border-solid border bg-white py-1 px-2 leading-4 text-site-primary-light;
+  @apply w-9/12 border-solid border bg-white py-1 px-2 leading-4;
+  @apply text-site-primary-light;
 }
 
 .field-wrapper {

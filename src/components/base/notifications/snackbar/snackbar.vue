@@ -26,32 +26,25 @@
 import { Vue } from "vue-class-component";
 import {  useStore } from '@/store';
 import { SnackbarMessage } from '@/classes/base/notification/snackbar/models/snackbar';
-import { SnackBar } from '@/classes/base/notification/snackbar/snackbar';
 
 export default class Snackbar extends Vue {
   name='snackbar';
   store = useStore();
-  snackbar = SnackBar.getInstance();
-  snackbarMessage = this.snackbar.snackbarMessage;
+  snackbarMessage = this.store.getters.snackbarMessage;
 
   get snackbarContent(): SnackbarMessage {
-    return this.snackbar.snackbarMessage;
+    return this.snackbarMessage;
   }
 
-  get showSnackbar() {
-    return this.snackbar.isShowSnackbar;
+  get showSnackbar(): boolean {
+    this.snackbarMessage = this.store.getters.snackbarMessage;
+    return this.store.getters.showSnackbar;
   }
 
   get getIndicatorColour(): string {
-    return this.snackbar.snackbarMessage.type;
+    return this.snackbarMessage.type;
   }
 
-  updated() {
-    console.log('%c%s', 'color: #00bf00', 'updated')
-    setTimeout(() => {
-      this.snackbar.hideSnackbar
-    }, this.snackbar.snackbarMessage.duration);
-  }
 }
 </script>
 
