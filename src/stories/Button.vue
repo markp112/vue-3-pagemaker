@@ -1,10 +1,13 @@
 <template>
-  <button type="button" :class="classes" @click="onClick" :style="style">{{ label }}</button>
+  <button type="button" :class="classes" @click="onClick" :style="style"
+    class="bg-yellow-400 border-red-300 border-2 border-solid font-bold shadow-md"
+  >{{ label }} </button>
 </template>
 
 <script>
 import './button.css';
 import { reactive, computed } from 'vue';
+
 
 export default {
   name: 'my-button',

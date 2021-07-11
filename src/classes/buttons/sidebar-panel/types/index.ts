@@ -1,0 +1,15 @@
+export type ButtonRequestTypes =
+  | 'Shadow'
+  | 'border-styles'
+  | 'border-direction'
+  | 'font-weight'
+  | 'font-size'
+  | 'italic-button'
+  | 'underline-button'
+  | 'border-radius'
+  | 'border-thickness'
+  | 'margin-left'
+  | 'margin-right'
+  | 'margin-top'
+  | 'margin-bottom'
+  | 'padding';

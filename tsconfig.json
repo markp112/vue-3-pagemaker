@@ -19,6 +19,15 @@
     "paths": {
       "@/*": [
         "src/*"
+      ],
+      "@components/*": [
+        "src/components/*"
+      ],
+      "@classes/*": [
+        "src/classes/*"
+      ],
+      "@views/*": [
+        "src/views/*"
       ]
     },
     "lib": [
@@ -34,7 +43,7 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx"
-  ],
+ ],
   "exclude": [
     "node_modules"
   ]
