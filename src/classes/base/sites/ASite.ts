@@ -2,24 +2,26 @@ import { Site } from './model';
 
 interface FirebaseData {
   [key: string]: any;
-}
+};
+
+export const DEFAULT_DATE = '01 Jan 1970';
+export const DEFAULT_IMAGE = 'https://firebasestorage.googleapis.com/v0/b/page-maker-69fb1.appspot.com/o/hDkHXv0i06dVCPmIfRKefti9t4p1%2Fimages%2Fsite2.png?alt=media&token=46a82b23-1066-4c78-b70a-d7b69728e531';
 
 export class ASite implements Site {
-  DEFAULT_DATE = '01 Jan 1970';
   _siteId: string;
   _name: string;
   _created: Date;
   _description = '';
   _url = '';
-  _image = 'https://firebasestorage.googleapis.com/v0/b/page-maker-69fb1.appspot.com/o/hDkHXv0i06dVCPmIfRKefti9t4p1%2Fimages%2Fsite2.png?alt=media&token=46a82b23-1066-4c78-b70a-d7b69728e531';
-  _published: Date = new Date(this.DEFAULT_DATE);
+  _image = DEFAULT_IMAGE;
+  _published: Date = new Date(DEFAULT_DATE);
 
   constructor();
   constructor( siteId: string, name: string, created: Date);
   constructor( siteId?: string, name?: string, created?: Date) {
     this._siteId = siteId ? siteId : '';
     this._name = name ? name : '';
-    this._created = created ? created : new Date(this.DEFAULT_DATE);
+    this._created = created ? created : new Date(DEFAULT_DATE);
   }
 
   get siteId(): string {
@@ -74,7 +76,7 @@ export class ASite implements Site {
     };
     if (this._description !== '') site.description = this._description;
     if (this._url !== '') site.url = this._url;
-    if (this._published !== new Date(this.DEFAULT_DATE)) site.published = this._published;
+    if (this._published !== new Date(DEFAULT_DATE)) site.published = this._published;
     if (this._image !== '') site.image = this._image;
     return site;
   }
