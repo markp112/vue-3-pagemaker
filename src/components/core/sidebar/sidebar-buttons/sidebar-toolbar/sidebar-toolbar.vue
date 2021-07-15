@@ -14,7 +14,7 @@
           @mouseover="showToolTip = toolbarItem.className"
           @mouseleave="showToolTip = ''"
         />
-        <tooltip
+        <tooltip v-if="toolbarItem.toolTip !== ''"
           :tooltip="toolbarItem.toolTip"
           :showToolTip="getShowToolTip(toolbarItem.className)"
         ></tooltip>

@@ -7,7 +7,7 @@
     @dragleave="onDragLeave"
     class="p-1 m-0"
   >
-    <slot />
+    <slot/>
   </div>
 </template>
 
