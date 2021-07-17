@@ -7,7 +7,7 @@ type ComponentProps = {
   type: string,
 }
 
-const createTextInput = (propsData: ComponentProps) => mount(TextInput, {props: propsData})
+const createTextInput = (propsData: ComponentProps) => mount(TextInput, {props: propsData});
 describe('TextInput', () => {
   const props: ComponentProps =  {
     label: 'A label',
