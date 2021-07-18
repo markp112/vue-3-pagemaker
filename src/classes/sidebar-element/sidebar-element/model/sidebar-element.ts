@@ -3,7 +3,6 @@ import { Dimension } from '@/classes/base/dimension/model/dimension';
 import { ALocation } from '@/classes/base/location/a-location';
 import { Location } from '@/classes/base/location/model/location';
 
-
 export type ComponentTypesString =
   | undefined
   | 'container'
@@ -34,6 +33,7 @@ export interface SidebarElement {
   isContainer: boolean;
   sidebarIcon: string;
   type: ComponentTypesString;
+  tooltip: string;
 };
 
 // flattens the internal classes to their interfaces
@@ -46,4 +46,5 @@ export interface SideBarElementFlattend {
   isContainer: boolean;
   sidebarIcon: string;
   type: ComponentTypesString;
-}
+  tooltip: string;
+};

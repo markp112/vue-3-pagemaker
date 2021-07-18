@@ -2,18 +2,27 @@
   <section class="h-screen overflow-hidden">
     <p class="mt-2">Side Bar Icon Editor</p>
     <div class="flex flex-row justify-start h-full overflow-hidden">
-      <div class=" w-2/12 border-r-2 border-gray-500  flex-wrap mt-8 ml-2">
+      <div class="w-2/12 border-r-2 border-gray-500 flex-wrap mt-8 ml-2">
         <base-button
+          class="w-1/2 ml-auto mr-auto mb-16"
           size="small"
           variant="solid"
-          @onClick="createNew">New</base-button>
-        <ul class="flex flex-row justify-start flex-wrap align-top mt-4">
+          buttonType="primary"
+          @onClick="createNew"
+        >
+          New
+        </base-button>
+        <ul class="flex flex-row justify-start flex-wrap align-top ml-2">
           <li
             v-for="(element, idx) in icons"
             :key="idx"
             class="text-2xl w-4/12 cursor-pointer"
           >
-            <icon-image :icon="element.sidebarIcon" @iconClick="editorComponent = iconClicked(element.sidebarIcon)"/>
+            <icon-image
+              :icon="element.sidebarIcon"
+              :tooltip="element.tooltip"
+              @iconClick="editorComponent = iconClicked(element.sidebarIcon)"
+            />
           </li>
         </ul>
       </div>
@@ -24,7 +33,7 @@
               :initialValue="editorComponent.componentName"
               width="w-64"
               label="Name of the editor component"
-              @onChange="editorComponent.componentName=$event"
+              @onChange="editorComponent.componentName = $event"
             />
           </div>
           <text-input
@@ -36,17 +45,29 @@
           <div class="flex flex-row justify-start">
             <label for="icon">Select Icon</label>
             <span
-              class="h-8 w-8 bg-accent1 text-center font-bold align-middle border cursor-pointer relative inline-block"
+              class="
+                h-8
+                w-8
+                bg-accent1
+                text-center
+                font-bold
+                align-middle
+                border
+                cursor-pointer
+                relative
+                inline-block
+              "
               @click="toggleIconPicker()"
-              >...
-                <icon-picker
-                  @iconClick="iconPickerClick($event)"
-                  class="z-50"
-                  id="icon-picker"
-                  ref="icon-picker"
-                  :showMe="isShowIconPicker"
-                  @onCloseClick="isShowIconPicker=false"
-                />
+            >
+              ...
+              <icon-picker
+                @iconClick="iconPickerClick($event)"
+                class="z-50"
+                id="icon-picker"
+                ref="icon-picker"
+                :showMe="isShowIconPicker"
+                @onCloseClick="isShowIconPicker = false"
+              />
             </span>
             <div>
               <div
@@ -59,81 +80,84 @@
                 ></icon-image>
               </div>
             </div>
-
           </div>
           <select-input
             label="type"
-            width="w-12"
+            class="w-4/12"
             :initialValue="editorComponent.type"
             :selectOptions="componentType"
-            @onChange="editorComponent.type=$event"
+            @onChange="editorComponent.type = $event"
           />
           <text-input
             :initialValue="classDef"
             label="CSS tailwind classes to define the component"
             @onChange="updateClassdef($event)"
-          ></text-input>
-          <div class="dimensions">
-            <div class="w-16">
+          />
+          <text-input
+            class="w-4/12"
+            :initialValue="editorComponent.tooltip"
+            label="Enter a short description to indicate function of button"
+            @onChange="editorComponent.tooltip = $event"
+          />
+          <div class="w-full flex-1">
+            <span class="container-50 centered">Dimensions</span>
+            <span class="container-50 centered">Position</span>
+          </div>
+          <div class="w-full flex flex-row justify-start">
+            <div class="dimensions container-50">
               <text-input
+                class="w-16 ml-4"
                 :initialValue="editorComponent.dimension.width.value"
                 label="Width"
                 type="number"
                 @onChange="editorComponent.dimension.width.value=$event"
               />
-            </div>
-            <div class="w-16 ml-2">
               <select-input
+                class="w-16 ml-2"
                 :initialValue="editorComponent.dimension.width.unit"
                 label="Units"
                 :selectOptions="units"
                 @onChange="editorComponent.dimension.width.unit=$event"
               />
-            </div>
-            <div class="w-16 ml-2">
               <text-input
+                class="w-16 ml-2"
                 :initialValue="editorComponent.dimension.height.value"
                 type="number"
                 label="height"
                 @onChange="editorComponent.dimension.height.value=$event"
               />
-            </div>
-            <div class="w-16 ml-2">
               <select-input
+                class="w-16 ml-2"
                 :initialValue="editorComponent.dimension.height.unit"
                 label="Units"
                 :selectOptions="units"
                 @onChange="editorComponent.dimension.height.unit=$event"
               />
             </div>
-          </div>
-          <div class="dimensions">
-            <div class="w-16">
+            <div class="dimensions container-50">
               <text-input
-                  :initialValue="editorComponent.location.left.value"
-                  type="number"
-                  label="left"
-                  @onChange="editorComponent.location.left.value=$event"
-                />
-            </div>
-            <div class="w-16 ml-4">
+                class="w-16 ml-4"
+                :initialValue="editorComponent.location.left.value"
+                type="number"
+                label="left"
+                @onChange="editorComponent.location.left.value=$event"
+              />
               <select-input
+                class="w-16 ml-2"
                 :initialValue="editorComponent.location.left.unit"
                 label="Units"
                 :selectOptions="units"
                 @onChange="editorComponent.location.left.unit=$event"
               />
-            </div>
-            <div class="ml-4 w-16">
               <text-input
-                  :initialValue="editorComponent.location.top.value"
-                  type="number"
-                  label="left"
-                  @onChange="editorComponent.location.top.value=$event"
-                />
-            </div>
-            <div class="w-16 ml-4">
+                class="w-16 ml-2"
+                :initialValue="editorComponent.location.top.value"
+                type="number"
+                label="left"
+                @onChange="editorComponent.location.top.value=$event"
+              />
               <select-input
+                class="w-16 ml-2"
                 :initialValue="editorComponent.location.top.unit"
                 label="Units"
                 :selectOptions="units"
@@ -158,13 +182,20 @@
           ></submit-cancel>
         </form>
         <p
-          class="w-full bg-gray-400 mt-2 p-2 text-accent-600 text-center font-bold"
+          class="
+            w-full
+            bg-gray-400
+            mt-2
+            p-2
+            text-accent-600 text-center
+            font-bold
+          "
         >
           Component Preview
         </p>
 
         <div class="relative bg-gray-300 font">
-          <span class="mt-2  inline-block" :class="classDef" :style="getStyles">
+          <span class="mt-2 inline-block" :class="classDef" :style="getStyles">
             Component
           </span>
         </div>
@@ -174,7 +205,7 @@
 </template>
 
 <script lang="ts">
-import  {Vue, Options } from 'vue-class-component';
+import { Vue, Options } from 'vue-class-component';
 import { Notification } from '@/models/notification/notification';
 import { AllActionTypes, useStore } from '@/store';
 import { ASidebarElement } from '@/classes/sidebar-element/sidebar-element/aSidebar-element';
@@ -197,9 +228,8 @@ import { showTheSnackbar } from '@/common/show-snackbar/show-snackbar';
     'submit-cancel': SubmitCancel,
     'icon-image': IconImage,
     'text-input': TextInput,
-    'select-input': SelectInput
-
-  }
+    'select-input': SelectInput,
+  },
 })
 export default class SidebarIconEditor extends Vue {
   name = 'sidebar-Icon-Editor';
@@ -210,14 +240,14 @@ export default class SidebarIconEditor extends Vue {
   componentType = ComponentTypesArray;
   store = useStore();
   units = ['px', '%', 'em'];
-  width =0;
+  width = 0;
 
   created(): void {
     this.store.dispatch(AllActionTypes.SET_SHOW_SIDEBAR, false);
     reactive(this.editorComponent);
   }
 
-  toggleIconPicker() {
+  toggleIconPicker(): void {
     this.isShowIconPicker = !this.isShowIconPicker;
   }
 
@@ -227,9 +257,10 @@ export default class SidebarIconEditor extends Vue {
   }
 
   iconClicked(icon: string): ASidebarElement {
-    const component: ASidebarElement = this.store.getters.getSidebarAllItems.filter(
-      element => element.sidebarIcon === icon
-    )[0];
+    const component: ASidebarElement =
+      this.store.getters.getSidebarAllItems.filter(
+        (element) => element.sidebarIcon === icon
+      )[0];
     this.editorComponent = component;
     this.iconLocal = component.sidebarIcon;
     this.classDef = this.editorComponent.classes;
@@ -237,7 +268,7 @@ export default class SidebarIconEditor extends Vue {
     return component;
   }
 
-  updateClassdef(classes: string) {
+  updateClassdef(classes: string): void {
     this.classDef = classes;
   }
 
@@ -248,16 +279,24 @@ export default class SidebarIconEditor extends Vue {
 
   saveClick(): void {
     this.editorComponent.classes = this.classDef;
-    this.store.dispatch(AllActionTypes.SAVE_SIDEBAR_EDITOR_ELEMENT, this.editorComponent)
-    .then(result => {
-      const notification = result as Notification;
-      if (notification.status === "ok") {
-        showTheSnackbar('page saved',`The ${this.editorComponent.componentName} has been created`, 'success');
-        this.$router.push("/iconeditor");
-      } else {
-        showTheSnackbar('Error',notification.message, 'error');
-      }
-    });
+    this.store
+      .dispatch(
+        AllActionTypes.SAVE_SIDEBAR_EDITOR_ELEMENT,
+        this.editorComponent
+      )
+      .then((result) => {
+        const notification = result as Notification;
+        if (notification.status === 'ok') {
+          showTheSnackbar(
+            'page saved',
+            `The ${this.editorComponent.componentName} has been created`,
+            'success'
+          );
+          this.$router.push('/iconeditor');
+        } else {
+          showTheSnackbar('Error', notification.message, 'error');
+        }
+      });
   }
 
   get icons(): ASidebarElement[] {
@@ -276,8 +315,18 @@ export default class SidebarIconEditor extends Vue {
 </script>
 
 <style lang="postcss" scoped>
+.container-50 {
+  @apply w-6/12;
+}
+
+.centered {
+  @apply mr-auto;
+  @apply ml-auto;
+  @apply inline-block;
+}
+
 .dimensions {
-  @apply flex flex-row justify-start flex-nowrap w-full;
+  @apply flex flex-row justify-start flex-nowrap;
 }
 
 .dimensions input {
