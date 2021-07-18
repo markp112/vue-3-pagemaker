@@ -15,6 +15,7 @@
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
 import ToolTip from '@/components/base/notifications/tooltip/tooltip.vue';
+import errorMessages from '@/common/errors/error-message';
 
 @Options({
   props: {
@@ -36,9 +37,16 @@ export default class IconImage extends Vue {
   tooltip = '';
 
   get getIcon(): string {
-    return this.icon !== ''
-      ? require(`@/assets/icons/${this.icon}`)
-      : require(`@/assets/icons/${'emoji_waiting-32.png'}`);
+    try {
+      const icon =
+        this.icon !== ''
+          ? require(`@/assets/icons/${this.icon}`)
+          : require(`@/assets/icons/${'emoji_waiting-32.png'}`);
+      console.log('%c%s', 'color: #00258c', icon)
+      return icon;
+    } catch (error) {
+      throw new Error(`${errorMessages.files.icons.missingIcon}${this.icon}`);
+    }
   }
 
   iconClick(): void {

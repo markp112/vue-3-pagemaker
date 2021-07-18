@@ -30,11 +30,13 @@
 </template>
 
 <script lang="ts">
-
 import { Options } from 'vue-class-component';
 import { ADimension } from '@/classes/base/dimension/a-dimension';
 import { PageElementBuilder } from '@/classes/page-elements/builder/page-element-builder';
-import { ImageElement, ImageOrContainer } from '@/classes/page-elements/image-element/image-element';
+import {
+  ImageElement,
+  ImageOrContainer,
+} from '@/classes/page-elements/image-element/image-element';
 import { MousePosition } from '@/classes/page-elements/types/mouse-position';
 import { GenericComponentMixins } from '../../mixins/generic-component';
 import { ClientCoordinates } from '../../models/client-coordinates';
@@ -47,16 +49,16 @@ import PopupMenu from '@/components/popups/popup-menu/popup-menu.vue';
     thisComponent: {
       default: (): ImageElement => {
         return new PageElementBuilder().buildAnImage();
-      }
-    }
+      },
+    },
   },
   components: {
     resizeable: Resize,
     'popup-menu': PopupMenu,
-  }
+  },
 })
 export default class ImageComponent extends GenericComponentMixins {
-  name = "imageComponent";
+  name = 'imageComponent';
   isPanImage = true;
   showPopupMenu = false;
   popupMenuItems = ['Drag Image', 'Pan Image'];
@@ -68,7 +70,7 @@ export default class ImageComponent extends GenericComponentMixins {
     return image.getImageStyle();
   }
 
-  get getContainerStyles() {
+  get getContainerStyles(): string {
     const image = this.thisComponent as ImageElement;
     return image.getContainerStyles();
   }
@@ -77,16 +79,16 @@ export default class ImageComponent extends GenericComponentMixins {
     return (this.thisComponent as ImageElement).content;
   }
 
-  onImageClick(event: MouseEvent) {
+  onImageClick(event: MouseEvent): void {
     event.stopPropagation();
     this.showPopupMenu = true;
     this.lastMousePosition = { x: event.pageX, y: event.pageY };
     this.setEditedComponentAndMenuState();
   }
 
-  menuItemClicked(option: string) {
+  menuItemClicked(option: string): void {
     this.showPopupMenu = false;
-    switch(option) {
+    switch (option) {
       case 'Pan Image':
         this.panOrDrag = 'image';
         break;
@@ -94,16 +96,16 @@ export default class ImageComponent extends GenericComponentMixins {
         this.panOrDrag = 'container';
         break;
     }
-    window.addEventListener("mousedown", this.handleMouseDown);
-    window.addEventListener("mouseup", this.handleMouseUp);
-    window.addEventListener("mousemove", this.handleMouseMove);
+    window.addEventListener('mousedown', this.handleMouseDown);
+    window.addEventListener('mouseup', this.handleMouseUp);
+    window.addEventListener('mousemove', this.handleMouseMove);
   }
 
-  menuCloseClicked() {
+  menuCloseClicked(): void {
     this.showPopupMenu = false;
   }
 
-  onResizeImage(boxProperties: ClientCoordinates) {
+  onResizeImage(boxProperties: ClientCoordinates): void {
     if (this.isDragging) return;
     const thisComponent = this.thisComponent;
     const boundingRect: ADimension | null = this.getElementDimension(
@@ -112,8 +114,8 @@ export default class ImageComponent extends GenericComponentMixins {
     if (boundingRect) {
       const currentMousePosition = this.getMousePosition(
         boxProperties.clientX,
-        boxProperties.clientY,
-        );
+        boxProperties.clientY
+      );
       const changeX = currentMousePosition.x - this.lastMousePosition.x;
       const changeY = currentMousePosition.y - this.lastMousePosition.y;
       this.lastMousePosition = { ...currentMousePosition };
@@ -121,50 +123,52 @@ export default class ImageComponent extends GenericComponentMixins {
         boundingRect,
         changeY,
         changeX
-        );
-      const dimension: ADimension = new ADimension(boxDimensions.height, boxDimensions.width);
+      );
+      const dimension: ADimension = new ADimension(
+        boxDimensions.height,
+        boxDimensions.width
+      );
       const image = this.thisComponent as ImageElement;
       image.containerDimensions = dimension;
     }
   }
 
-  handleMouseDown(event: MouseEvent) {
+  handleMouseDown(event: MouseEvent): void {
     event.stopPropagation();
     this.lastMousePosition = { x: event.pageX, y: event.pageY };
     this.isPanningDragging = true;
   }
 
-  handleMouseUp(event: MouseEvent) {
+  handleMouseUp(event: MouseEvent): void {
     event.stopPropagation();
-    window.removeEventListener("mousemove", this.handleMouseMove);
-    window.removeEventListener("mouseup", this.handleMouseUp);
-    window.removeEventListener("mousedown", this.handleMouseDown);
+    window.removeEventListener('mousemove', this.handleMouseMove);
+    window.removeEventListener('mouseup', this.handleMouseUp);
+    window.removeEventListener('mousedown', this.handleMouseDown);
     this.isPanningDragging = false;
   }
 
-  handleMouseMove(event: MouseEvent) {
+  handleMouseMove(event: MouseEvent): void {
     if (this.isPanningDragging) {
       event.stopPropagation();
       this.panImage(event);
     }
   }
 
-  panImage(event: MouseEvent) {
+  panImage(event: MouseEvent): void {
     const deltaChange = this.calcDeltaMouseChange(event);
     const image = this.thisComponent as ImageElement;
     image.pan(deltaChange, this.panOrDrag);
     this.lastMousePosition = {
       x: event.pageX,
-      y: event.pageY
+      y: event.pageY,
     };
   }
 
   private calcDeltaMouseChange(event: MouseEvent): MousePosition {
     return {
       x: event.pageX - this.lastMousePosition.x,
-      y:  event.pageY - this.lastMousePosition.y
-    }
+      y: event.pageY - this.lastMousePosition.y,
+    };
   }
-
 }
 </script>
