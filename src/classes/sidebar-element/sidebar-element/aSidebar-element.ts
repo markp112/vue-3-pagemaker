@@ -3,14 +3,15 @@ import { ALocation } from '@/classes/base/location/a-location';
 import { ComponentTypesString, SidebarElement } from './model/sidebar-element';
 
 export class ASidebarElement implements SidebarElement {
-  componentName = "";
-  classes = "";
-  componentRef = "container";
+  componentName = '';
+  classes = '';
+  componentRef = 'container';
   isContainer = true;
   sidebarIcon = '';
   type: ComponentTypesString = 'container';
   location;
   dimension;
+  tooltip = '';
 
   constructor() {
     this.location = new ALocation();
@@ -27,6 +28,7 @@ export class ASidebarElement implements SidebarElement {
       type: this.type,
       dimension: this.dimension.toObject(),
       location: this.location.toObject(),
+      tooltip: this.tooltip,
     };
   }
 }

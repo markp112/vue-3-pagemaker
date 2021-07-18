@@ -192,5 +192,6 @@ const getSideBarElement = (sidebarElement: SideBarElementFlattend): ASidebarElem
   aSidebarElement.isContainer = sidebarElement.isContainer;
   aSidebarElement.sidebarIcon = sidebarElement.sidebarIcon;
   aSidebarElement.type = sidebarElement.type;
+  aSidebarElement.tooltip = sidebarElement.tooltip;
   return aSidebarElement
 }
