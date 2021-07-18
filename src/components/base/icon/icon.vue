@@ -38,7 +38,7 @@ export default class IconImage extends Vue {
   get getIcon(): string {
     return this.icon !== ''
       ? require(`@/assets/icons/${this.icon}`)
-      : 'emoji_waiting-32.png';
+      : require(`@/assets/icons/${'emoji_waiting-32.png'}`);
   }
 
   iconClick(): void {
