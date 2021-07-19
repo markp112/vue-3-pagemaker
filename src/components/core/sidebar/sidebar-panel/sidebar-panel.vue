@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="h-screen space-y-4"
-    :class="showSideBar"
-  >
+  <div class="h-screen space-y-4" :class="showSideBar">
     <component :is="sidebarContent" :toolbarPanel="sidebarPanel"></component>
   </div>
 
@@ -27,7 +24,6 @@ import SidebarContainerEditor from '../editor-panels/container-editor/container-
 import ImageEditorSidebar from '../editor-panels/image/image-editor.vue';
 
 @Options({
-
   components: {
     'sidebar-components': SidebarComponentIcons,
     // 'sites-menu': SitesMenu,
@@ -48,7 +44,7 @@ export default class SideBarPanel extends Vue {
   store = useStore();
 
   get sidebarContent(): SidebarComponentMenus {
-    return this.store.getters.getSidebarComponent
+    return this.store.getters.getSidebarComponent;
   }
 
   get sidebarPanel(): SidebarPanel {
@@ -64,7 +60,7 @@ export default class SideBarPanel extends Vue {
 
   get showSideBar(): string {
     console.log('%c%s', 'color: #733d00', 'showSideBar', this.store.getters.isShowSidebar)
-    return  this.store.getters.isShowSidebar ? 'w-2/12' : 'w-0 hidden';
+    return this.store.getters.isShowSidebar ? 'w-2/12' : 'w-0 hidden';
   }
 }
 </script>

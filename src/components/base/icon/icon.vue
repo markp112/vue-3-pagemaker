@@ -38,11 +38,11 @@ export default class IconImage extends Vue {
 
   get getIcon(): string {
     try {
+      console.log('%c%s', 'color: #00258c', this.icon)
       const icon =
         this.icon !== ''
           ? require(`@/assets/icons/${this.icon}`)
           : require(`@/assets/icons/${'emoji_waiting-32.png'}`);
-      console.log('%c%s', 'color: #00258c', icon)
       return icon;
     } catch (error) {
       throw new Error(`${errorMessages.files.icons.missingIcon}${this.icon}`);

@@ -81,9 +81,9 @@ export default class ImageComponent extends GenericComponentMixins {
 
   onImageClick(event: MouseEvent): void {
     event.stopPropagation();
-    this.showPopupMenu = true;
     this.lastMousePosition = { x: event.pageX, y: event.pageY };
     this.setEditedComponentAndMenuState();
+    this.showPopupMenu = true;
   }
 
   menuItemClicked(option: string): void {
