@@ -3,10 +3,10 @@
     <icon-image
       v-for="(icon, index) in icons"
       :key="index"
-      class="ml-2"
+      class="ml-2 mb-2"
       :icon="icon.icon"
       @iconClick="iconClicked(icon.classDef)"
-      :tooltip="icon.tootip"
+      :tooltip="icon.toolTip"
     />
   </div>
 </template>
