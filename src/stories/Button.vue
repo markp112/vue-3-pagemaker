@@ -1,13 +1,23 @@
 <template>
-  <button type="button" :class="classes" @click="onClick" :style="style"
-    class="bg-yellow-400 border-red-300 border-2 border-solid font-bold shadow-md"
-  >{{ label }} </button>
+  <button
+    type="button"
+    :class="classes"
+    @click="onClick"
+    :style="style"
+    class="
+      bg-yellow-400
+      border-red-300 border-2 border-solid
+      font-bold
+      shadow-md
+    "
+  >
+    {{ label }}
+  </button>
 </template>
 
 <script>
 import './button.css';
 import { reactive, computed } from 'vue';
-
 
 export default {
   name: 'my-button',
@@ -23,9 +33,7 @@ export default {
     },
     size: {
       type: String,
-      validator: function (value) {
-        return ['small', 'medium', 'large'].indexOf(value) !== -1;
-      },
+      validator: (value) => ['small', 'medium', 'large'].indexOf(value) !== -1,
     },
     backgroundColor: {
       type: String,
@@ -48,8 +56,8 @@ export default {
       })),
       onClick() {
         emit('click');
-      }
-    }
+      },
+    };
   },
 };
 </script>

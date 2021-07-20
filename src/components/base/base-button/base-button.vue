@@ -1,46 +1,40 @@
 <template>
-  <span
-    :class='getClasses()'
-    @click="buttonClick()"
-  >
-    <slot/>
+  <span :class="getClasses()" @click="buttonClick()">
+    <slot />
   </span>
 </template>
 
 <script lang="ts">
-import { Vue, Options } from "vue-class-component";
+import { Vue, Options } from 'vue-class-component';
 
-export type ButtonTypes =
-  | 'primary'
-  | 'secondary'
-  | 'default';
+export type ButtonTypes = 'primary' | 'secondary' | 'default';
 
-export type Variants =
-  | 'solid'
-  | 'outline'
-  | 'text';
+export type Variants = 'solid' | 'outline' | 'text';
 
-export type ButtonSize =
-  | 'small'
-  | 'medium'
-  | 'large';
+export type ButtonSize = 'small' | 'medium' | 'large';
 
-export type ButtonShape =
-  | 'rectangular'
-  | 'circle'
+export type ButtonShape = 'rectangular' | 'circle';
 
 @Options({
   props: {
     buttonType: {
-      default: (): ButtonTypes => { return 'default'; }
+      default: (): ButtonTypes => {
+        return 'default';
+      },
     },
-    disabled: {default: false},
-    variant: (): Variants => { return 'solid'; },
-    size: (): ButtonSize => { return 'medium'},
+    disabled: { default: false },
+    variant: (): Variants => {
+      return 'solid';
+    },
+    size: (): ButtonSize => {
+      return 'medium';
+    },
     buttonShape: {
-      default: (): ButtonShape => { return 'rectangular' }
+      default: (): ButtonShape => {
+        return 'rectangular';
+      },
     },
-  }
+  },
 })
 export default class BaseButton extends Vue {
   name = 'base-button';
@@ -51,17 +45,23 @@ export default class BaseButton extends Vue {
   buttonShape: ButtonShape = 'rectangular';
   colour = '';
 
-  buttonClick() {
-    this.$emit('onClick')
+  buttonClick(): void {
+    this.$emit('onClick');
   }
 
   getSize(): string {
-    if (this.size === 'small' && this.buttonShape === 'rectangular') return 'h-8 w-auto text-xs';
-    if (this.size === 'small' && this.buttonShape === 'circle') return 'h-8 w-8 text-xs';
-    if (this.size === 'medium' && this.buttonShape === 'rectangular') return 'h-10 w-auto text-sm';
-    if (this.size === 'medium' && this.buttonShape === 'circle') return 'w-12 h-12 text-sm';
-    if (this.size === 'large' && this.buttonShape === 'rectangular') return 'h-12 w-auto text-md';
-    if (this.size === 'large' && this.buttonShape === 'circle') return 'h-16 w-16 text-md';
+    if (this.size === 'small' && this.buttonShape === 'rectangular')
+      return 'h-8 w-auto text-xs';
+    if (this.size === 'small' && this.buttonShape === 'circle')
+      return 'h-8 w-8 text-xs';
+    if (this.size === 'medium' && this.buttonShape === 'rectangular')
+      return 'h-10 w-auto text-sm';
+    if (this.size === 'medium' && this.buttonShape === 'circle')
+      return 'w-12 h-12 text-sm';
+    if (this.size === 'large' && this.buttonShape === 'rectangular')
+      return 'h-12 w-auto text-md';
+    if (this.size === 'large' && this.buttonShape === 'circle')
+      return 'h-16 w-16 text-md';
     return 'h-10 w-24';
   }
 
@@ -88,14 +88,16 @@ export default class BaseButton extends Vue {
       return `border border-site-${this.buttonType}-light ${baseStyling} ${activeOutline} shadow-md ${style}`;
     }
     if (this.variant === 'text') {
-      return `text-md font-bold ${baseStyling} ${this.disabled ? inActiveText : activeText} ${style}`;
+      return `text-md font-bold ${baseStyling} ${
+        this.disabled ? inActiveText : activeText
+      } ${style}`;
     }
 
     return ``;
   }
 
   getClasses(): string {
-    let buttonStyle = this.getStyling()
+    let buttonStyle = this.getStyling();
     return buttonStyle;
   }
 }

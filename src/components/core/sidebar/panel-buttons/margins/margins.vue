@@ -24,7 +24,6 @@
 </template>
 
 <script lang="ts">
-
 import { Style } from '@/classes/base/style/style';
 import { ButtonIconNumeric } from '@/classes/buttons/sidebar-panel/button-types/button-icon-numeric/button-icon-numeric';
 import { ButtonFactory } from '@/classes/buttons/sidebar-panel/factory';
@@ -36,27 +35,27 @@ import { useStore } from '@/store';
 
 @Options({
   components: {
-    "numeric-input-dropdown": NumericInputDropdown
-  }
+    'numeric-input-dropdown': NumericInputDropdown,
+  },
 })
 export default class Margins extends Vue {
-  name = "margins";
+  name = 'margins';
   store = useStore();
   marginLeftButton: ButtonIconNumeric = new ButtonFactory().createButton(
-    "numeric",
-    "margin-left"
+    'numeric',
+    'margin-left'
   ) as ButtonIconNumeric;
   marginRightButton: ButtonIconNumeric = new ButtonFactory().createButton(
-    "numeric",
-    "margin-right"
+    'numeric',
+    'margin-right'
   ) as ButtonIconNumeric;
   marginTopButton: ButtonIconNumeric = new ButtonFactory().createButton(
-    "numeric",
-    "margin-top"
+    'numeric',
+    'margin-top'
   ) as ButtonIconNumeric;
   marginBottomButton: ButtonIconNumeric = new ButtonFactory().createButton(
-    "numeric",
-    "margin-bottom"
+    'numeric',
+    'margin-bottom'
   ) as ButtonIconNumeric;
 
   onItemChange(style: Style, itemType: ImpactedAttributeTypes) {

@@ -117,6 +117,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
   [ActionTypes.SET_SIDEBAR_MENU_BASED_ON_SELECTED_COMPONENT]({commit}, componentType: ComponentTypesString) {
     switch(componentType) {
       case 'image':
+        console.log('%c%s', 'color: #00ff88', 'image');
         commit(
           MutationTypes.SET_SIDEBAR_COMPONENT_MENU,
           'image-editor' as SidebarComponentMenus

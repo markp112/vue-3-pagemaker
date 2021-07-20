@@ -4,7 +4,7 @@
       <h2 class="page-heading ml-4">My Pages</h2>
       <div class="w-32">
         <base-button
-          class="mr-4"
+          class="mr-4 w-32"
           buttonType="primary"
           variant="solid"
           @onClick="createNewPage()"
