@@ -180,6 +180,11 @@ export class PageElement implements PageElementInterface {
     this._location.left = left;
   }
 
+  public updateLocation(newX: number, newY: number): void {
+    this.location.top.value = newY;
+    this.location.left.value = newX;
+  }
+
   constructStyle(styleName: StyleTags, value: string): Style {
     const style: Style = {
       style: styleName,

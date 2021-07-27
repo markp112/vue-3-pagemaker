@@ -121,6 +121,11 @@ export class ImageElement extends PageElement implements ImageElementInterface {
     return style;
   }
 
+  public updateLocation(newX: number, newY: number): void {
+    console.log('%c%s', 'color: #5200cc', 'image.updateLocation');
+    this._container.location.top.value = newY;
+    this._container.location.left.value = newX;
+  }
 
   public getImageStyle(): string {
     let style = '';

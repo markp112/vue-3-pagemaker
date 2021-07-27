@@ -67,11 +67,13 @@ export default class ImageComponent extends GenericComponentMixins {
 
   getImageStyles(): string {
     const image = this.thisComponent as ImageElement;
+    console.log('%c⧭', 'color: #ffa280', image.getImageStyle())
     return image.getImageStyle();
   }
 
   get getContainerStyles(): string {
     const image = this.thisComponent as ImageElement;
+    console.log('%c⧭', 'color: #eeff00', image.getContainerStyles)
     return image.getContainerStyles();
   }
 

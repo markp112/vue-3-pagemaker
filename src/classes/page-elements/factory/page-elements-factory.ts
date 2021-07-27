@@ -75,6 +75,8 @@ export class PageElementFactory {
       .setLocation(component.location)
       .buildAContainer();
     container.parentRef = container.parent.ref;
+    console.log('%c⧭', 'color: #994d75', container);
+
     return container;
   }
 
