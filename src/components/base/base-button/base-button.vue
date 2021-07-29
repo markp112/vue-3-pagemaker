@@ -1,18 +1,14 @@
 <template>
-  <span :class="getClasses()" @click="buttonClick()">
+  <span :class="getClasses()" @click="buttonClick($event)">
     <slot />
   </span>
 </template>
 
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
-
 export type ButtonTypes = 'primary' | 'secondary' | 'default';
-
 export type Variants = 'solid' | 'outline' | 'text';
-
 export type ButtonSize = 'small' | 'medium' | 'large';
-
 export type ButtonShape = 'rectangular' | 'circle';
 
 @Options({
@@ -45,7 +41,8 @@ export default class BaseButton extends Vue {
   buttonShape: ButtonShape = 'rectangular';
   colour = '';
 
-  buttonClick(): void {
+  buttonClick(event: MouseEvent): void {
+    event.stopPropagation();
     this.$emit('onClick');
   }
 

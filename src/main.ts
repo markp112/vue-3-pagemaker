@@ -5,7 +5,7 @@ import store from './store';
 import './index.css';
 import Firebase from "firebase/app";
 import "firebase/firestore";
-import { secrets } from "./firebase/config";
+import { secrets } from '../src/firebase/secrets';
 import "@/assets/styles/custom-styles.css";
 
 

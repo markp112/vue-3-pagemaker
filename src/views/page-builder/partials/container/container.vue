@@ -7,10 +7,9 @@
     :ref="$props.thisComponent.ref"
     @dragover.prevent
     @drop.prevent="onDrop($event)"
+    @mousedown="onMouseDown($event)"
     @click.prevent="onClick($event)"
-    @mousedown="startDragContainer($event)"
-    @mousemove="dragElement($event)"
-    @mouseup="stopDragContainer($event)"
+  
   >
     <component
       v-for="(pageElement, index) in getPageElements"
@@ -43,6 +42,7 @@ import { PageContainer } from '@/classes/page-elements/page-container/page-conta
 import { ValueAndUnit } from '@/common/types/value_and_unit/value_and_unit';
 import Resize from '@/components/base/resizable-anchors/resizable-anchors.vue';
 import { AllActionTypes } from '@/store';
+import { pageActionTypes } from '@/store/modules/page';
 import { mixins, Options } from 'vue-class-component';
 import { GenericComponentMixins } from '../../mixins/generic-component';
 import ButtonComponent from '../button-component/button-component.vue';
@@ -108,6 +108,15 @@ export default class Container extends mixins(GenericComponentMixins) {
     this.$emit('componentClicked');
   }
 
+  onMouseDown(event: MouseEvent) {
+    console.log('%c⧭', 'color: #733d00', 'onMouseDown')
+    event.stopPropagation();
+    this.startDragContainer(event);
+    // window.addEventListener('mousedown', this.startDragContainer);
+    window.addEventListener('mouseup', this.stopDragContainer);
+    window.addEventListener('mousemove', this.dragElement);
+  }
+
   stopDragContainer(event: MouseEvent): void {
     event.stopPropagation();
     const componentToDrag = this.$refs[
@@ -148,6 +157,8 @@ export default class Container extends mixins(GenericComponentMixins) {
           parent
         );
         parent.addNewElement(newComponent);
+    
+        this.store.dispatch(pageActionTypes.UPDATE_EDITED_COMPONENT, newComponent);
         this.store.dispatch(AllActionTypes.SET_DRAG_DROP_EVENT_HANDLED, true);
       }
     }

@@ -7,13 +7,6 @@ import { createStore } from 'vuex';
 import App from "@/App.vue";
 import { AUser } from '@/classes/base/user/user';
 
-// const $store = {
-//   state: {
-//       user:  AUser,
-//   },
-//   dispatch: jest.fn()
-// }
-
 const store = createStore({
   state() {
     return {
