@@ -1,5 +1,7 @@
+import { ALocation } from '@/classes/base/location/a-location';
 import { PageElementClasses, ROOT } from '@/classes/page-elements/factory/page-elements-factory';
 import { PageContainer } from '@/classes/page-elements/page-container/page-container';
+import { DeltaPositionChange } from '@/views/page-builder/models/mouse-position';
 import { MutationTree } from 'vuex';
 import { State } from '../state/state';
 
@@ -11,6 +13,7 @@ export enum MutationTypes {
   SET_PAGE_ELEMENTS = 'setPageElements',
   SET_EDITED_COMPONENT_REF = 'setEditedComponentRef',
   SET_SHOW_EDIT_DELETE = 'showEditDelete',
+  SET_LOCATION = 'setLocation',
 };
 
 export type Mutations<S = State> = {
@@ -21,21 +24,19 @@ export type Mutations<S = State> = {
   [MutationTypes.SET_PAGE_ELEMENTS](state: S, elements: PageElementClasses[]): void,
   [MutationTypes.SET_PAGE_ID](state: S, pageId: string): void,
   [MutationTypes.SET_SHOW_EDIT_DELETE](state: S, toggle: boolean): void,
+  [MutationTypes.SET_LOCATION](state: S, deltaChange: DeltaPositionChange): void,
 };
 
 export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.ADD_A_PAGE_ELEMENT](state, element) {
     if (element.parentRef === ROOT) {
-      console.log('%c%s', 'color: #40fff2', element.parentRef);
       // state.pageElements = [];
       state.pageElements.push(element);
     } else {
       // if (state.pageElements.length > 0) {
-        console.log('%c⧭', 'color: #73998c', element.parentRef);
         const index = state.pageElements.findIndex(elem => elem.ref === element.parentRef);
         // const theParent = state.pageElements.filter(elem => elem.ref === element.parentRef)[0] as PageContainer;
         const theParent = state.pageElements[index] as PageContainer;
-        console.log('%c⧭', 'color: #8c0038', theParent);
         theParent.addNewElement(element);
         state.pageElements.splice(index);
         state.pageElements.push(theParent);
@@ -67,6 +68,18 @@ export const mutations: MutationTree<State> & Mutations = {
 
   [MutationTypes.SET_SHOW_EDIT_DELETE](state, toggle) {
     state.showEditDelete = toggle;
+  },
+
+  [MutationTypes.SET_LOCATION](state, deltaChange) {
+    if (state.editedComponent) {
+      let currentLeft = Number(state.editedComponent.location.left.value);
+      let currentTop = Number(state.editedComponent?.location.top.value);
+      currentLeft += deltaChange.deltaX;
+      console.log('%c%s', 'color: #607339', currentLeft);
+      currentTop += deltaChange.deltaY;
+      console.log('%c%s', 'color: #40fff2', currentTop);
+      state.editedComponent.updateLocation(currentLeft, currentTop);
+    }
   }
 
 }

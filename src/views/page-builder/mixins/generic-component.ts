@@ -14,6 +14,9 @@ import { ClientCoordinates } from '../models/client-coordinates';
 import { MousePosition } from '@/classes/page-elements/types/mouse-position';
 import { pageActionTypes } from '@/store/modules/page';
 import { sidebarActionTypes } from '@/store/modules/sidebar';
+import { ALocation } from '@/classes/base/location/a-location';
+import store from '@/store';
+import { DeltaPositionChange } from '../models/mouse-position';
 
 
 @Options({
@@ -140,6 +143,7 @@ export class GenericComponentMixins extends Vue {
     this.thisComponent.addClass('absolute');
     this.isDragging = true;
     this.lastMousePosition = { x: event.pageX, y: event.pageY };
+    console.log('%c⧭', 'color: #7f2200', this.lastMousePosition);
     this.thisComponent.isAbsolute = true;
     componentToDrag.classList.add('cursor-move');
     (this.thisComponent as PageElement).addClass("z-50");
@@ -156,12 +160,16 @@ export class GenericComponentMixins extends Vue {
     if (!this.isDragging) return;
     event.stopPropagation;
     const currentMousePosition: MousePosition = { x: event.pageX, y: event.pageY };
-    const deltaX = currentMousePosition.x - this.lastMousePosition.x;
-    const deltaY = currentMousePosition.y - this.lastMousePosition.y;
-    this.thisComponent.location.top.value += deltaY;
-    this.thisComponent.location.left.value += deltaX;
+    const deltaChange: DeltaPositionChange = {
+      deltaX: currentMousePosition.x - this.lastMousePosition.x,
+      deltaY: currentMousePosition.y - this.lastMousePosition.y,
+    };
+    console.log('%c⧭', 'color: #ff6600', deltaChange);
     this.lastMousePosition.x = event.pageX;
     this.lastMousePosition.y = event.pageY;
+    const location = this.thisComponent.location;
+    store.dispatch(pageActionTypes.UPDATE_LOCATION, deltaChange);
+
   }
 
   getStyles(): string {

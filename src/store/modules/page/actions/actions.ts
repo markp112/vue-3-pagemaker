@@ -6,6 +6,7 @@ import { PageElementClasses } from '@/classes/page-elements/factory/page-element
 import { Notification } from '@/models/notification/notification';
 import { state } from '../state/state';
 import { FirebaseDataBuilder } from '@/classes/page-elements/firebase/builder/firebase-data-builder';
+import { DeltaPositionChange } from '@/views/page-builder/models/mouse-position';
 
 export enum ActionTypes {
   UPDATE_PAGE_ID = 'updatePageId',
@@ -16,6 +17,7 @@ export enum ActionTypes {
   DELETE_A_PAGE_ELEMENT = 'DeleteAPageElement',
   SAVE_PAGE_CONTENT = 'savePageContent',
   UPDATE_PAGE_ELEMENTS = 'updatePageElements',
+  UPDATE_LOCATION  = 'updateLocation',
 };
 
 type AugmentedActionContext = {
@@ -34,6 +36,7 @@ export interface Actions {
   [ActionTypes.UPDATE_PAGE_ELEMENTS]({ commit }: AugmentedActionContext, element: PageElementClasses[]): void,
   [ActionTypes.UPDATE_PAGE_ID]({ commit }: AugmentedActionContext, pageId: string): void,
   [ActionTypes.UPDATE_SHOW_EDIT_DELETE]({ commit }: AugmentedActionContext, toggle: boolean): void,
+  [ActionTypes.UPDATE_LOCATION]({ commit }: AugmentedActionContext, deltaChange: DeltaPositionChange) : void,
 };
 
 export const actions: ActionTree<State, RootState> & Actions = {
@@ -79,5 +82,9 @@ export const actions: ActionTree<State, RootState> & Actions = {
 
   [ActionTypes.UPDATE_SHOW_EDIT_DELETE]({ commit }, toggle) {
     commit(MutationTypes.SET_SHOW_EDIT_DELETE, toggle);
+  },
+
+  [ActionTypes.UPDATE_LOCATION]({ commit }, deltaChange) {
+    commit(MutationTypes.SET_LOCATION, deltaChange);
   },
 }

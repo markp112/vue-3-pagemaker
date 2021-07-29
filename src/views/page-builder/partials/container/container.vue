@@ -35,17 +35,14 @@
 <script lang="ts">
 import { ComponentCounter } from '@/classes/base/component-counter/component-counter';
 import { ADimension } from '@/classes/base/dimension/a-dimension';
-import { Dimension } from '@/classes/base/dimension/model/dimension';
 import {
   PageElementClasses,
-  PageElementFactory
+  PageElementFactory,
 } from '@/classes/page-elements/factory/page-elements-factory';
 import { PageContainer } from '@/classes/page-elements/page-container/page-container';
 import { ValueAndUnit } from '@/common/types/value_and_unit/value_and_unit';
 import Resize from '@/components/base/resizable-anchors/resizable-anchors.vue';
 import { AllActionTypes } from '@/store';
-import { pageActionTypes } from '@/store/modules/page';
-import { sidebarActionTypes } from '@/store/modules/sidebar';
 import { mixins, Options } from 'vue-class-component';
 import { GenericComponentMixins } from '../../mixins/generic-component';
 import ButtonComponent from '../button-component/button-component.vue';
@@ -65,27 +62,27 @@ export default class Container extends mixins(GenericComponentMixins) {
   private componentStyle = '';
   private componentCounter: ComponentCounter = ComponentCounter.getInstance();
 
-  created() {
+  created(): void {
     if (this.thisComponent) {
       this.thisComponent.setDefaultStyle();
     }
   }
 
-  mounted() {
+  mounted(): void {
     // -- convert width and height into pixels as initial dimension may be a percentage and cannot then be used
     // by the child component to get the actual width / height
     this.thisComponent.dimension.width = {
       value: this.$el.getBoundingClientRect().width,
-      unit: 'px'
+      unit: 'px',
     };
     this.thisComponent.dimension.height = {
       value: this.$el.getBoundingClientRect().height,
-      unit: 'px'
+      unit: 'px',
     };
   }
 
   getComponent(type: string): string {
-    switch(type) {
+    switch (type) {
       case 'image':
         return 'image-component';
       case 'text':
@@ -97,7 +94,6 @@ export default class Container extends mixins(GenericComponentMixins) {
     }
   }
   get getPageElements(): PageElementClasses[] {
-    console.log('%c⧭', 'color: #86bf60', (this.thisComponent as PageContainer).elements)
     return (this.thisComponent as PageContainer).elements;
   }
 
@@ -105,43 +101,43 @@ export default class Container extends mixins(GenericComponentMixins) {
     return this.componentStyle;
   }
 
-  onClick(ev: Event) {
+  onClick(ev: Event): void {
     ev.stopPropagation();
     this.setEditedComponentAndMenuState();
-    // this.store.dispatch(pageActionTypes.UPDATE_EDITED_COMPONENT, this.thisComponent);
-    // this.store.dispatch(sidebarActionTypes.SHOW_SIDEBAR_ACTIVE_MENU, false);
-    // this.store.dispatch(pageActionTypes.UPDATE_SHOW_EDIT_DELETE, true);
     this.showBorder = !this.showBorder;
     this.$emit('componentClicked');
   }
 
-  stopDragContainer(event: MouseEvent) {
+  stopDragContainer(event: MouseEvent): void {
     event.stopPropagation();
-    const componentToDrag = this.$refs[this.thisComponent.ref] as HTMLDivElement;
+    const componentToDrag = this.$refs[
+      this.thisComponent.ref
+    ] as HTMLDivElement;
     this.stopDrag(event, componentToDrag);
   }
 
-  startDragContainer(event: MouseEvent) {
+  startDragContainer(event: MouseEvent): void {
     event.stopPropagation();
-    const componentToDrag = this.$refs[this.thisComponent.ref] as HTMLDivElement;
+    const componentToDrag = this.$refs[
+      this.thisComponent.ref
+    ] as HTMLDivElement;
     this.startDrag(event, componentToDrag);
   }
 
-  componentClick(event: Event) {
+  componentClick(event: Event): void {
     event.stopPropagation();
+    this.isDragging = false;
   }
 
-  onDrop(event: DragEvent) {
+  onDrop(event: DragEvent): void {
     if (this.store.getters.isDragDropEventHandled) {
       return;
     }
     if (event) {
       const componentName = this.getComponentName(event);
-      console.log('%c⧭', 'color: #00e600', componentName)
       const id: number = this.componentCounter.getNextCounter();
       const ref = `${componentName}::${id}`;
       const component = this.store.getters.getSidebarElement(componentName);
-      console.log('%c⧭', 'color: #aa00ff', component)
       const parent = this.thisComponent as PageContainer; // when dropping a component this componet will be its parent
       if (component) {
         const componentFactory = new PageElementFactory();
@@ -159,21 +155,13 @@ export default class Container extends mixins(GenericComponentMixins) {
 
   getComponentName(event: DragEvent): string {
     const dataTransfer = event.dataTransfer;
-    return dataTransfer ? dataTransfer.getData("text") : "";
+    return dataTransfer ? dataTransfer.getData('text') : '';
   }
 
   getBoundingRect(): ADimension | null {
     if (!this.$el) return null;
     if (!this.$el.parentElement) return null;
     const parentElement = this.$el.parentElement as HTMLDivElement;
-    const boxLeft: ValueAndUnit = {
-      value: parentElement.getBoundingClientRect().left + pageXOffset,
-      unit: 'px',
-    };
-    const boxTop: ValueAndUnit = {
-      value: this.$el.getBoundingClientRect().top + pageYOffset,
-      unit: 'px',
-    };
     const boxWidth: ValueAndUnit = {
       value: parentElement.getBoundingClientRect().width,
       unit: 'px',
@@ -181,10 +169,6 @@ export default class Container extends mixins(GenericComponentMixins) {
     const boxHeight: ValueAndUnit = {
       value: this.$el.getBoundingClientRect().height,
       unit: 'px',
-    };
-    const boxDimension: Dimension = {
-      height: boxHeight,
-      width: boxWidth,
     };
     return new ADimension(boxHeight, boxWidth);
   }
@@ -205,7 +189,7 @@ export default class Container extends mixins(GenericComponentMixins) {
 }
 
 .triangle {
-  content: "";
+  content: '';
   position: absolute;
   bottom: -6px;
   right: -1px;
