@@ -38,7 +38,6 @@ export default class IconImage extends Vue {
 
   get getIcon(): string {
     try {
-      console.log('%c%s', 'color: #00258c', this.icon)
       const icon =
         this.icon !== ''
           ? require(`@/assets/icons/${this.icon}`)

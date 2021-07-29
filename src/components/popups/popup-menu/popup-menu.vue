@@ -10,7 +10,7 @@
       <li
         v-for="menuItem in $props.menuItems"
         :key="menuItem"
-        class="hover:cursor-pointer hover:bg-sitePrimary hover:text-onPrimary px-2"
+        class="hover:cursor-pointer hover:bg-site-primary hover:text-on-primary px-2"
         @click="menuItemClick($event, menuItem)"
       >
         {{ menuItem }}

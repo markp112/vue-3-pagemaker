@@ -105,7 +105,6 @@ implements PageContainerInterface {
         )[0];
       if (!existingElement) {
         this._elements.push(newElement);
-        console.log('%c⧭', 'color: #d0bfff', this._elements);
       } else {
         this._elements = this._elements.filter(element =>
             element.ref !== newElement.ref

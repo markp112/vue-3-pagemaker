@@ -4,6 +4,7 @@
     :id="thisComponent.ref"
     class="relative select-none overflow-hidden"
     :style="getContainerStyles"
+    @mousedown.prevent="onMouseDown"
     @click="onImageClick($event)"
   >
     <img
@@ -24,13 +25,13 @@
       :left="12"
       :top="12"
       @menuItemClicked="menuItemClicked($event)"
-      @closeClicked="menuCloseClicked()"
+      @closeClicked="menuCloseClicked"
     />
   </div>
 </template>
 
 <script lang="ts">
-import { Options } from 'vue-class-component';
+import { mixins, Options } from 'vue-class-component';
 import { ADimension } from '@/classes/base/dimension/a-dimension';
 import { PageElementBuilder } from '@/classes/page-elements/builder/page-element-builder';
 import {
@@ -57,9 +58,9 @@ import PopupMenu from '@/components/popups/popup-menu/popup-menu.vue';
     'popup-menu': PopupMenu,
   },
 })
-export default class ImageComponent extends GenericComponentMixins {
+export default class ImageComponent extends mixins(GenericComponentMixins) {
   name = 'imageComponent';
-  isPanImage = true;
+  ispanDragImage = true;
   showPopupMenu = false;
   popupMenuItems = ['Drag Image', 'Pan Image'];
   panOrDrag: ImageOrContainer = 'container';
@@ -67,13 +68,11 @@ export default class ImageComponent extends GenericComponentMixins {
 
   getImageStyles(): string {
     const image = this.thisComponent as ImageElement;
-    console.log('%c⧭', 'color: #ffa280', image.getImageStyle())
     return image.getImageStyle();
   }
 
   get getContainerStyles(): string {
     const image = this.thisComponent as ImageElement;
-    console.log('%c⧭', 'color: #eeff00', image.getContainerStyles)
     return image.getContainerStyles();
   }
 
@@ -85,7 +84,15 @@ export default class ImageComponent extends GenericComponentMixins {
     event.stopPropagation();
     this.lastMousePosition = { x: event.pageX, y: event.pageY };
     this.setEditedComponentAndMenuState();
-    this.showPopupMenu = true;
+    this.panOrDrag = 'container';
+    // this.showPopupMenu = true;
+  }
+
+  onMouseDown(event: MouseEvent) {
+    this.handleMouseDown(event);
+    window.addEventListener('mousedown', this.handleMouseDown);
+    window.addEventListener('mouseup', this.handleMouseUp);
+    window.addEventListener('mousemove', this.handleMouseMove);
   }
 
   menuItemClicked(option: string): void {
@@ -109,9 +116,8 @@ export default class ImageComponent extends GenericComponentMixins {
 
   onResizeImage(boxProperties: ClientCoordinates): void {
     if (this.isDragging) return;
-    const thisComponent = this.thisComponent;
     const boundingRect: ADimension | null = this.getElementDimension(
-      thisComponent.ref
+      this.thisComponent.ref
     );
     if (boundingRect) {
       const currentMousePosition = this.getMousePosition(
@@ -132,6 +138,7 @@ export default class ImageComponent extends GenericComponentMixins {
       );
       const image = this.thisComponent as ImageElement;
       image.containerDimensions = dimension;
+      image.scaledSize = dimension;
     }
   }
 
@@ -139,6 +146,7 @@ export default class ImageComponent extends GenericComponentMixins {
     event.stopPropagation();
     this.lastMousePosition = { x: event.pageX, y: event.pageY };
     this.isPanningDragging = true;
+    this.isDragging = false;
   }
 
   handleMouseUp(event: MouseEvent): void {
@@ -150,14 +158,16 @@ export default class ImageComponent extends GenericComponentMixins {
   }
 
   handleMouseMove(event: MouseEvent): void {
+    console.log('%c⧭', 'color: #0088cc', 'handleMouseMove')
+    event.stopPropagation();
     if (this.isPanningDragging) {
-      event.stopPropagation();
-      this.panImage(event);
+      this.panDragImage(event);
     }
   }
 
-  panImage(event: MouseEvent): void {
+  panDragImage(event: MouseEvent): void {
     const deltaChange = this.calcDeltaMouseChange(event);
+    console.log('%c⧭', 'color: #aa00ff', deltaChange, 'delta change')
     const image = this.thisComponent as ImageElement;
     image.pan(deltaChange, this.panOrDrag);
     this.lastMousePosition = {

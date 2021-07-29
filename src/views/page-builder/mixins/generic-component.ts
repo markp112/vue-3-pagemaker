@@ -14,7 +14,6 @@ import { ClientCoordinates } from '../models/client-coordinates';
 import { MousePosition } from '@/classes/page-elements/types/mouse-position';
 import { pageActionTypes } from '@/store/modules/page';
 import { sidebarActionTypes } from '@/store/modules/sidebar';
-import { ALocation } from '@/classes/base/location/a-location';
 import store from '@/store';
 import { DeltaPositionChange } from '../models/mouse-position';
 
@@ -92,13 +91,11 @@ export class GenericComponentMixins extends Vue {
 
   get isActive(): boolean {
     const editedComponent = this.store.getters.editedComponent;
-    console.log('%c⧭', 'color: #9c66cc', editedComponent);
     if (!editedComponent) return false;
     return editedComponent.ref === this.thisComponent.ref;
   }
 
   setEditedComponentAndMenuState() {
-    console.log('%c%s', 'color: #e50000', 'setEditedComponentAndMenuState');
     this.store.dispatch(pageActionTypes.UPDATE_EDITED_COMPONENT, this.thisComponent);
     this.store.dispatch(sidebarActionTypes.SET_SIDEBAR_MENU_BASED_ON_SELECTED_COMPONENT, this.thisComponent.type);
     this.store.dispatch(pageActionTypes.UPDATE_SHOW_EDIT_DELETE, true);
@@ -143,20 +140,20 @@ export class GenericComponentMixins extends Vue {
     this.thisComponent.addClass('absolute');
     this.isDragging = true;
     this.lastMousePosition = { x: event.pageX, y: event.pageY };
-    console.log('%c⧭', 'color: #7f2200', this.lastMousePosition);
     this.thisComponent.isAbsolute = true;
     componentToDrag.classList.add('cursor-move');
-    (this.thisComponent as PageElement).addClass("z-50");
+    (this.thisComponent as PageElement).addClass('z-50');
   }
 
   stopDrag(event: MouseEvent, componentToDrag: HTMLDivElement): void {
     event.stopPropagation;
     this.isDragging = false;
     componentToDrag.classList.remove('cursor-move');
-    (this.thisComponent as PageElement).removeClass("z-50");
+    (this.thisComponent as PageElement).removeClass('z-50');
   }
 
   dragElement(event: MouseEvent) {
+    console.log('%c%s', 'color: #d90000', 'dragElement');
     if (!this.isDragging) return;
     event.stopPropagation;
     const currentMousePosition: MousePosition = { x: event.pageX, y: event.pageY };
