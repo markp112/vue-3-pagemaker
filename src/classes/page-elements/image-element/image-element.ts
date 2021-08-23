@@ -181,8 +181,6 @@ export class ImageElement extends PageElement implements ImageElementInterface {
   }
 
   public pan(deltaMouse: MousePosition, itemToPan: ImageOrContainer) {
-    console.log('%c⧭', 'color: #00a3cc', deltaMouse);
-    console.log('%c%s', 'color: #00e600', itemToPan);
     if (itemToPan === 'image') {
       this.imageLocation.left.value += deltaMouse.x;
       this.imageLocation.top.value += deltaMouse.y;

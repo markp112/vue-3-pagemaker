@@ -45,6 +45,7 @@ export class ImageManipulator {
   }
 
   public zoom(direction: ZoomDirection): void {
+    console.log('%c⧭', 'color: #007300', this._imageElement.image)
     const zoom: Zoom = new Zoom(
       this._imageElement.image,
       this._imageElement.container

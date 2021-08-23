@@ -37,7 +37,6 @@ export class SiteDefaults implements SiteDefaultsInterface {
 
     return new Promise((resolve, reject) => {
       const siteAndUser: SiteAndUser = getSiteAndUserId();
-      console.log('%c⧭', 'color: #33cc99', siteAndUser);
       firestoreGetSiteDefaultSettings(siteAndUser)
         .then(response => {
           const siteDefaults: SiteDefaultsInterface = response as SiteDefaultsInterface;

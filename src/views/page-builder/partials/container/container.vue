@@ -157,8 +157,7 @@ export default class Container extends mixins(GenericComponentMixins) {
           parent
         );
         parent.addNewElement(newComponent);
-    
-        this.store.dispatch(pageActionTypes.UPDATE_EDITED_COMPONENT, newComponent);
+         this.store.dispatch(pageActionTypes.UPDATE_EDITED_COMPONENT, newComponent);
         this.store.dispatch(AllActionTypes.SET_DRAG_DROP_EVENT_HANDLED, true);
       }
     }

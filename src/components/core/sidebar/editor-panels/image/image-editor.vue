@@ -61,6 +61,7 @@ export default class ImageEditorSidebar extends Vue {
   getEditedComponent(): ImageElement {
     const editedComponent = this.store.getters.editedComponent;
     if (editedComponent) {
+      console.log('%c⧭', 'color: #f200e2', editedComponent)
       return editedComponent as ImageElement;
     }
     throw new Error(`${errorMessages.editedComponent.undefined}image-editor`);

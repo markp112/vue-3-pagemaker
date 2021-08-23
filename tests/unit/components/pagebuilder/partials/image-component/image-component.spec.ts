@@ -3,6 +3,7 @@ import { GenericComponentMixins } from '@/views/page-builder/mixins/generic-comp
 import { mount } from '@vue/test-utils';
 import { ImageElement } from '@/classes/page-elements/image-element/image-element';
 import { PageElementBuilder } from '@/classes/page-elements/builder/page-element-builder';
+import defaultSettings from '@/common/defaults/defaults';
 
 type propsData ={
     thisComponent: ImageElement,
@@ -23,12 +24,20 @@ describe('image-component', () => {
     beforeEach(() => {
     });
     
-    it('should render a default empty image', () => {
+    it('should render a default image which is the empty image placeholder', () => {
         const props: propsData = {
             thisComponent: new PageElementBuilder().buildAnImage(),
         }
         const imageComponent = createImageComponent(props);
-        expect(imageComponent.attributes('src')).toEqual('https://firebasestorage.googleapis.com/v0/b/page-maker-69fb1.appspot.com/o/hDkHXv0i06dVCPmIfRKefti9t4p1%2Fimages%2Fsite2.png?alt=media&token=46a82b23-1066-4c78-b70a-d7b69728e531');
+        expect(imageComponent.attributes('src')).toEqual(defaultSettings.imageDefaults.defaultImage);
+    });
+
+    it('should render an image with default dimensions all set the same', () => {
+        const props: propsData = {
+            thisComponent: new PageElementBuilder().buildAnImage(),
+        };
+        expect(props.thisComponent.naturalSize.height).toEqual(defaultSettings.imageDefaults.natural_height);
+        expect(props.thisComponent.naturalSize.width).toEqual(defaultSettings.imageDefaults.natural_width);
 
     })
 

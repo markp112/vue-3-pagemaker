@@ -14,6 +14,7 @@ import {
   ImageProps
 } from '../image-element/model/image-element-model';
 import { ImageElement } from '../image-element/image-element';
+import defaultSettings from '@/common/defaults/defaults';
 
 export class PageElementBuilder {
   private _name = ''; //name of the component
@@ -231,12 +232,11 @@ export class PageElementBuilder {
   }
 
   public buildAnImage(): ImageElement {
-    const NATURAL_HEIGHT: ValueAndUnit = { value: 200, unit: 'px' };
-    const NATURAL_WIDTH: ValueAndUnit = { value: 300, unit: 'px' };
     if (this._content === '') {
-      this._content =
-        'https://firebasestorage.googleapis.com/v0/b/page-maker-69fb1.appspot.com/o/assets%2Fimages%2Fimageplaceholder.png?alt=media&token=149d3e60-0fc4-49de-9e23-5fea91458240';
-
+      const imageDefaults = defaultSettings.imageDefaults;
+      const NATURAL_HEIGHT: ValueAndUnit = imageDefaults.natural_height as ValueAndUnit;
+      const NATURAL_WIDTH: ValueAndUnit = imageDefaults.natural_width as ValueAndUnit;
+      this._content = defaultSettings.imageDefaults.defaultImage;
       this._image.naturalSize = new ADimension(NATURAL_HEIGHT, NATURAL_WIDTH);
       this._image.scaledSize = new ADimension(NATURAL_HEIGHT, NATURAL_WIDTH);
       this._image.location = new ALocation();

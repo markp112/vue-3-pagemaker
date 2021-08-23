@@ -65,6 +65,7 @@ export default class ImageSizingToolbar extends Vue {
     const imageElement: ImageElement = this.store.getters
       .editedComponent as ImageElement;
     this.imageManipulator = new ImageManipulator(imageElement);
+    console.log('%c⧭', 'color: #731d1d', imageElement)
   }
 
   iconClicked(icon: string): void {
