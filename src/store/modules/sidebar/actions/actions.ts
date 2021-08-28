@@ -182,14 +182,21 @@ const getSideBarElement = (sidebarElement: SideBarElementFlattend): ASidebarElem
   aSidebarElement.classes = sidebarElement.classes;
   aSidebarElement.componentName = sidebarElement.componentName;
   aSidebarElement.componentRef = sidebarElement.componentRef;
-  aSidebarElement.dimension = new ADimension(
-    sidebarElement.dimension.height,
-    sidebarElement.dimension.width,
-  );
-  aSidebarElement.location = new ALocation(
-    sidebarElement.location.top,
-    sidebarElement.location.left,
-  );
+  if (sidebarElement.dimension) {
+    aSidebarElement.dimension = new ADimension(
+      sidebarElement.dimension.height,
+      sidebarElement.dimension.width,
+    );
+  }
+  else {
+    console.log(sidebarElement)
+  }
+  if (sidebarElement.location) {
+    aSidebarElement.location = new ALocation(
+      sidebarElement.location.top,
+      sidebarElement.location.left,
+    );
+  }
   aSidebarElement.isContainer = sidebarElement.isContainer;
   aSidebarElement.sidebarIcon = sidebarElement.sidebarIcon;
   aSidebarElement.type = sidebarElement.type;

@@ -20,14 +20,14 @@
       >
       </component>
       <edit-delete-option @deleteClicked="deleteClicked()"></edit-delete-option>
-      <transition>
+      <!-- <transition>
         <text-editor
           class="absolute bg-gray-200 w-full top-0 left-0 h-full"
           v-if="showTextModal"
           :content="editedComponentText"
         >
         </text-editor>
-      </transition>
+      </transition> -->
     </div>
   </section>
 </template>

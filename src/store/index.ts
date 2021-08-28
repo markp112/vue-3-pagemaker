@@ -6,7 +6,7 @@ import { SidebarModule, Store as sidebarStore, sidebarActionTypes, sidebarMutati
 import { PagesModule, Store as pagesStore, pagesActionTypes, pagesMutationTypes } from './modules/pages';
 import { PageModule, Store as pageStore, pageActionTypes, pageMutationTypes } from './modules/page';
 import { SnackbarModule, Store as snackbarStore, snackbarActionTypes, snackbarmutationTypes } from './modules/snackbar';
-import { State as NavMenuState } from './modules/nav-menu/state/nav-menu';
+import { State as NavMenuState } from './modules/nav-menu/state/state';
 import { State as AuthState } from './modules/auth/state/state';
 import { State as SitesState } from './modules/sites/state/state';
 import { State as SidebarState } from './modules/sidebar/state/state';

@@ -60,5 +60,5 @@ export const getters: GetterTree<State, RootState> & Getters = {
 
   isDragDropEventHandled(state): boolean {
     return state.dragDropEventHandled;
-  }
+  },
 }

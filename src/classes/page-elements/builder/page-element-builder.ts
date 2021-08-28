@@ -236,7 +236,7 @@ export class PageElementBuilder {
       const imageDefaults = defaultSettings.imageDefaults;
       const NATURAL_HEIGHT: ValueAndUnit = imageDefaults.natural_height as ValueAndUnit;
       const NATURAL_WIDTH: ValueAndUnit = imageDefaults.natural_width as ValueAndUnit;
-      this._content = defaultSettings.imageDefaults.defaultImage;
+      this._content = imageDefaults.defaultImage;
       this._image.naturalSize = new ADimension(NATURAL_HEIGHT, NATURAL_WIDTH);
       this._image.scaledSize = new ADimension(NATURAL_HEIGHT, NATURAL_WIDTH);
       this._image.location = new ALocation();

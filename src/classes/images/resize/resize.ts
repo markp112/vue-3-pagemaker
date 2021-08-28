@@ -5,28 +5,28 @@
 
 import { ADimension } from '@/classes/base/dimension/a-dimension';
 import { ImageElement } from '@/classes/page-elements/image-element/image-element';
-import { MousePostion } from '../image-manipulator/image-manipulator';
+import { ImageBase } from '../image-manipulator/image-base';
+import { MousePosition } from '../image-manipulator/image-base';
 
-export class ResizeImage {
-  private _imageElement: ImageElement;
+export class ResizeImage  extends ImageBase {
   private _imageContainer: ADimension;
 
   constructor(imageElement: ImageElement) {
-    this._imageElement = imageElement;
-    this._imageContainer = this._imageElement.containerDimensions;
+    super(imageElement)
+    this._imageContainer = this.imageElement.containerDimensions;
   }
 
-  public resize(deltaChange: MousePostion) {
+  public resize(deltaChange: MousePosition) {
     this._imageContainer.width.value += deltaChange.x;
     this._imageContainer.height.value += deltaChange.y;
     this._imageContainer = this.containWithinParentElement();
     this.setNewSizes(deltaChange);
   }
 
-  private setNewSizes(deltaChange: MousePostion) {
-    this._imageElement.scaledSize.width.value += deltaChange.x;
-    this._imageElement.scaledSize.height.value += deltaChange.y;
-    this._imageElement.containerDimensions = this._imageContainer;
+  private setNewSizes(deltaChange: MousePosition) {
+    this.imageElement.image.scaledSize.width.value += deltaChange.x;
+    this.imageElement.image.scaledSize.height.value += deltaChange.y;
+    this.imageElement.containerDimensions = this._imageContainer;
   }
 
   private containWithinParentElement(): ADimension {
@@ -36,18 +36,18 @@ export class ResizeImage {
     }
     if (
       checkedDimensions.height.value >
-      this._imageElement.parent.dimension.height.value
+      this.imageElement.parent.dimension.height.value
       ) {
-        checkedDimensions.height.value = this._imageElement.parent.dimension.height.value;
+        checkedDimensions.height.value = this.imageElement.parent.dimension.height.value;
       }
       if (checkedDimensions.width.value < 0) {
         checkedDimensions.width.value = 0;
       }
       if (
         checkedDimensions.width.value >
-        this._imageElement.parent.dimension.width.value
+        this.imageElement.parent.dimension.width.value
         ) {
-          checkedDimensions.width.value = this._imageElement.parent.dimension.width.value;
+          checkedDimensions.width.value = this.imageElement.parent.dimension.width.value;
         }
     return checkedDimensions;
   }

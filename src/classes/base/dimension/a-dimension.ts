@@ -9,8 +9,8 @@ export class ADimension implements Dimension {
   constructor();
   constructor(height: ValueAndUnit, width: ValueAndUnit);
   constructor(height?: ValueAndUnit, width?: ValueAndUnit) {
-    this._height = height ? height : { value: 0, unit: 'px' };
-    this._width = width ? width :  { value: 0, unit: 'px' };
+    this._height = height ? { value: height.value, unit: height.unit } : { value: 0, unit: 'px' };
+    this._width = width ? { value: width.value, unit: width.unit } :  { value: 0, unit: 'px' };
   }
 
   get height(): ValueAndUnit {

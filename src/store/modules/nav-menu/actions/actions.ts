@@ -1,7 +1,7 @@
 import { NavMenuItem } from '@/classes/base/navbar/nav-menu/NavMenuItem';
 import { ActionContext, ActionTree } from 'vuex';
 import {  Mutations, MutationTypes } from '../mutations/mutations';
-import { State } from '../state/nav-menu';
+import { State } from '../state/state';
 import { RootState } from '@/store';
 import { menuWhenLoggedIn, menuWhenLoggedOut } from '../menu-data/navMenuData';
 

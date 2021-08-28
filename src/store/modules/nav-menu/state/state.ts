@@ -2,7 +2,6 @@ import { NavMenuItem } from '../../../../classes/base/navbar/nav-menu/NavMenuIte
 
 type menuItems = NavMenuItem[];
 
-
 export type State = {
   navMenutItems: menuItems;
 };

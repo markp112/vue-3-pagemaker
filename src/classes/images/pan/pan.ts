@@ -1,10 +1,20 @@
 import { ALocation } from '@/classes/base/location/a-location';
+import { ImageElement } from '@/classes/page-elements/image-element/image-element';
 import { MousePosition } from '@/classes/page-elements/types/mouse-position';
+import { ImageBase } from '../image-manipulator/image-base';
 
-type NewType = MousePosition;
+export class Pan extends ImageBase {
 
-export class Pan {
-  pan(deltaMouse: NewType, location: ALocation): ALocation {
+  constructor(imageElement: ImageElement) {``
+    super(imageElement);
+  }
+
+  pan(deltaMouse: MousePosition, location: ALocation) {
+    const newLocation = this.calcNewPosition(deltaMouse, location);
+    this.setLocation(this.imageElement.image.location, newLocation)
+  }
+
+  private calcNewPosition(deltaMouse: MousePosition, location: ALocation): ALocation {
     const newLocation = new ALocation();
     newLocation.top.value = location.top.value + deltaMouse.y;
     newLocation.left.value = location.left.value + deltaMouse.x;

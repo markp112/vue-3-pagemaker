@@ -69,6 +69,9 @@ export default class ImageSizingToolbar extends Vue {
   }
 
   iconClicked(icon: string): void {
+    if (icon === 'vertical' || icon === 'horizontal') {
+      throw new Error('Not Implemented')
+    } else {}
     this.imageManipulator.applyAction(icon as ZoomDirection | StretchDirection);
   }
 }
