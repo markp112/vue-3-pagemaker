@@ -16,11 +16,13 @@ export class ResizeImage  extends ImageBase {
     this._imageContainer = this.imageElement.containerDimensions;
   }
 
-  public resize(deltaChange: MousePosition) {
-    this._imageContainer.width.value += deltaChange.x;
-    this._imageContainer.height.value += deltaChange.y;
+  public resize(currentMousePosition: MousePosition) {
+    const deltaMouse: MousePosition = this.getDeltaChange(currentMousePosition);
+    this.lastMousePosition = currentMousePosition;
+    this._imageContainer.width.value += deltaMouse.x;
+    this._imageContainer.height.value += deltaMouse.y;
     this._imageContainer = this.containWithinParentElement();
-    this.setNewSizes(deltaChange);
+    this.setNewSizes(deltaMouse);
   }
 
   private setNewSizes(deltaChange: MousePosition) {

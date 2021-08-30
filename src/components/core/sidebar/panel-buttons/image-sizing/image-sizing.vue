@@ -5,7 +5,7 @@
       :key="index"
       class="ml-2 mb-2"
       :icon="icon.icon"
-      @iconClick="iconClicked(icon.classDef)"
+      @iconClick="iconClicked(icon.className)"
       :tooltip="icon.toolTip"
     />
   </div>
@@ -19,6 +19,8 @@ import { SidebarIcon } from '@/classes/sidebar/classes/sidebar-icon';
 import { ImageElement } from '@/classes/page-elements/image-element/image-element';
 import { StretchDirection, ZoomDirection } from '@/classes/images/types';
 import IconImage from '@/components/base/icon/icon.vue';
+import { Zoom } from '@/classes/images/zoom/zoom';
+import { StretchImage } from '@/classes/images/image-manipulator/stretch-image/stretch-image';
 
 @Options({
   components: {
@@ -38,7 +40,7 @@ export default class ImageSizingToolbar extends Vue {
     'vertical',
     'stretch vertically'
   );
-  sizeToFit = new SidebarIcon('resize2-32.png', 'zoomTofit', 'size to fit');
+  sizeToFit = new SidebarIcon('resize2-32.png', 'zoomToFit', 'size to fit');
   zoomOut = new SidebarIcon('zoom_out-32.png', 'out', 'zoom out');
   zoomIn = new SidebarIcon('zoom_in-32.png', 'in', 'zoom in');
   zoomTo50 = new SidebarIcon('50-32.png', '50', 'scale to 50%');
@@ -46,7 +48,7 @@ export default class ImageSizingToolbar extends Vue {
   i16x16 = new SidebarIcon('16-32.png', '16', '16x16');
   i24x24 = new SidebarIcon('24-32.png', '24', '24x24');
   i32x32 = new SidebarIcon('32-32.png', '32', '32x32');
-  i48x48 = new SidebarIcon('48-32.png', '32', '48x48');
+  i48x48 = new SidebarIcon('48-32.png', '48', '48x48');
   icons: SidebarIcon[] = [
     this.horizontalStretch,
     this.verticalStretch,
@@ -61,18 +63,16 @@ export default class ImageSizingToolbar extends Vue {
     this.i48x48,
   ];
 
-  created(): void {
-    const imageElement: ImageElement = this.store.getters
-      .editedComponent as ImageElement;
-    this.imageManipulator = new ImageManipulator(imageElement);
-    console.log('%c⧭', 'color: #731d1d', imageElement)
-  }
-
   iconClicked(icon: string): void {
     if (icon === 'vertical' || icon === 'horizontal') {
-      throw new Error('Not Implemented')
-    } else {}
-    this.imageManipulator.applyAction(icon as ZoomDirection | StretchDirection);
+      const stretchImage = new StretchImage(this.store.getters
+        .editedComponent as ImageElement);
+        stretchImage.stretchImage(icon as StretchDirection)
+    } else {
+      const zoom = new Zoom(this.store.getters
+        .editedComponent as ImageElement);
+      zoom.zoom(icon as ZoomDirection)
+    }
   }
 }
 </script>

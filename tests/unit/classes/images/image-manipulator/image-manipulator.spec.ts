@@ -1,37 +1,62 @@
-import { ImageBase } from '@/classes/images/image-manipulator/image-base';
-import { PageElementBuilder } from '@/classes/page-elements/builder/page-element-builder';
-import { ImageElement } from '@/classes/page-elements/image-element/image-element';
+import { ALocation } from "@/classes/base/location/a-location";
+import { ImageManipulator } from "@/classes/images/image-manipulator/image-manipulator"
+import Pan from "@/classes/images/pan/pan";
+import { ImageElement } from "@/classes/page-elements/image-element/image-element";
+import { MousePosition } from "@/classes/page-elements/types/mouse-position";
+import { mocked } from 'ts-jest/utils'; 
+import { instance, mock, verify } from "ts-mockito";
+import buildAnImage from "../common/common";
 
-function buildAnImage(name: string): ImageElement {
-    return new PageElementBuilder()
-    .setName(name)
-    .buildAnImage();
-}
+// jest.mock('@/classes/images/pan/pan');
 
-describe('ImageBase', () => {
-    let imageBase: ImageBase;
-    const IMAGE_NAME = 'my image';
-    
+
+
+// jest.mock('@/classes/images/pan/pan', () => {
+  //   return {
+    //     Pan: jest.fn().mockImplementation(() => {
+      //       return {
+        //         constructor:(imageElement: ImageElement) =>  {},
+        //         pan:(deltaMouse: MousePosition, location: ALocation) => {},
+        //       }
+        //     })
+        //   }
+        // });
+        
+        
+        
+        // const mockedPan = mocked(Pan, true);
+        
+        
+// const mockedPan = <jest.Mock<Pan>>Pan;
+
+const mousePosition: MousePosition ={ x: 1, y: 0 };
+
+describe('ImageManipulator', () => {
+  let imageManipulator: ImageManipulator;
+
+  let imageElement: ImageElement | null;
 
     beforeEach(() => {
-        const imageElement: ImageElement =buildAnImage(IMAGE_NAME);
-        imageBase = new ImageBase(imageElement)
+      // mockedPan.mockClear();
+      imageElement = buildAnImage();
     });
 
-    it('should create class with the image element passed in', () => {
-        expect(imageBase.imageElement).not.toBeNull();
-        expect(imageBase.imageElement.name).toBe(IMAGE_NAME);
-    })
+    afterEach(() => {
+        imageElement = null;
+    });
 
-    it('should have a default last mouse position set to 0', () => {
-        expect(imageBase.lastMousePosition.x).toBe(0);
-        expect(imageBase.lastMousePosition.y).toBe(0);
-    })
+    const deltaMouse: MousePosition = { x:1, y: 0 };
 
-    it('should allow a last mouse position to be set', () => {
-        imageBase.lastMousePosition = {x: 100, y: 200};
-        expect(imageBase.lastMousePosition.x).toEqual(100);
-        expect(imageBase.lastMousePosition.y).toEqual(200);
+    it('should when apply is called with pan call the pan.pan method', () => {
+      if (imageElement) {
+        // const pan = new Pan(imageElement);
+        const mockedPan: Pan = mock(Pan);
+        const pan: Pan = instance(mockedPan)
+        
+        imageManipulator = new ImageManipulator(mockedPan);
+        imageManipulator.apply('pan', mousePosition);
+        verify(mockedPan.pan(mousePosition)).called();
+      }
+    });
 
-    })
 })

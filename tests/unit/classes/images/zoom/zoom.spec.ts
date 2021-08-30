@@ -1,21 +1,8 @@
 import { ADimension } from "@/classes/base/dimension/a-dimension"
-import { ALocation } from "@/classes/base/location/a-location";
 import { Zoom } from "@/classes/images/zoom/zoom";
-import { PageElementBuilder } from "@/classes/page-elements/builder/page-element-builder"
 import { ImageElement } from "@/classes/page-elements/image-element/image-element"
-import { ValueAndUnit } from "@/common/types/value_and_unit/value_and_unit"
+import buildAnImage, { height, width } from "../common/common";
 
-const height: ValueAndUnit = { value: 768, unit: 'px' };
-const width: ValueAndUnit = { value: 1024, unit: 'px' };
-
-function buildAnImage(): ImageElement {
-    return new PageElementBuilder()
-        .setContent('dummy.png')
-        .setNaturalSize(new ADimension(height, width))
-        .setScaledSize(new ADimension())
-        .setLocation(new ALocation())
-        .buildAnImage();
-}
 
 describe('Zoom', () => {
     

@@ -2,6 +2,7 @@
   <div class="relative w-8">
     <img
       :id="$props.id"
+      class="hover: cursor-pointer"
       :class="$props.classDef"
       :src="getIcon"
       @click="iconClick"
@@ -50,6 +51,7 @@ export default class IconImage extends Vue {
   }
 
   iconClick(): void {
+    console.log('%c⧭', 'color: #731d6d', this.icon)
     return this.$emit('iconClick', this.icon);
   }
 

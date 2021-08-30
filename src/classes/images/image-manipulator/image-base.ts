@@ -39,7 +39,20 @@ export class ImageBase {
             location.top.value = param2.top.value;
         } else {
             location.top.value = param2;
-            if (param3) location.left.value = param3;
+            console.log('%c⧭', 'color: #e57373', param3);
+            if (typeof param3 ==='number' ) {
+                location.left.value = param3;
+                console.log('%c⧭', 'color: #997326', location.left.value);
+
+            }
         }
+    }
+
+    protected getDeltaChange(currentMousePosition: MousePosition): MousePosition {
+        const newPosition: MousePosition = {
+            x: currentMousePosition.x - this.lastMousePosition.x,
+            y: currentMousePosition.y - this.lastMousePosition.y
+        };
+        return newPosition;
     }
 }

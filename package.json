@@ -15,6 +15,7 @@
     "core-js": "^3.6.5",
     "dayjs": "^1.10.5",
     "firebase": "^8.4.2",
+    "ts-mockito": "^2.6.1",
     "vue": "^3.1.4",
     "vue-class-component": "^8.0.0-0",
     "vue-router": "^4.0.0-0",

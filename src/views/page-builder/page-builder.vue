@@ -114,7 +114,6 @@ export default class PageBuilder extends Vue {
     }
     if (event) {
       const componentName = this.getComponentName(event);
-      console.log('%c⧭', 'color: #7f7700', componentName)
       const component = this.store.getters.getSidebarAllItems.filter(
         element => element.componentName === componentName)[0];
       const id = this.componentCounter.getNextCounter();

@@ -90,6 +90,7 @@ export class PageElementBuilder {
     this._location = location;
     return this;
   }
+
   setDimension(dimension: ADimension): PageElementBuilder {
     this._dimension = dimension;
     return this;
@@ -233,6 +234,7 @@ export class PageElementBuilder {
 
   public buildAnImage(): ImageElement {
     if (this._content === '') {
+      console.log('%c⧭', 'color: #731d1d', this._content);
       const imageDefaults = defaultSettings.imageDefaults;
       const NATURAL_HEIGHT: ValueAndUnit = imageDefaults.natural_height as ValueAndUnit;
       const NATURAL_WIDTH: ValueAndUnit = imageDefaults.natural_width as ValueAndUnit;

@@ -3,13 +3,16 @@ import { ImageElement } from '@/classes/page-elements/image-element/image-elemen
 import { MousePosition } from '@/classes/page-elements/types/mouse-position';
 import { ImageBase } from '../image-manipulator/image-base';
 
-export class Pan extends ImageBase {
+export default class Pan extends ImageBase {
 
-  constructor(imageElement: ImageElement) {``
+  constructor(imageElement: ImageElement) {
     super(imageElement);
   }
 
-  pan(deltaMouse: MousePosition, location: ALocation) {
+  pan(currentMousePosition: MousePosition) {
+    const deltaMouse: MousePosition = this.getDeltaChange(currentMousePosition);
+    this.lastMousePosition = currentMousePosition;
+    const location =  this.imageElement.image.location;
     const newLocation = this.calcNewPosition(deltaMouse, location);
     this.setLocation(this.imageElement.image.location, newLocation)
   }
