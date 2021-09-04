@@ -7,6 +7,7 @@ import { Notification } from '@/models/notification/notification';
 import { state } from '../state/state';
 import { FirebaseDataBuilder } from '@/classes/page-elements/firebase/builder/firebase-data-builder';
 import { DeltaPositionChange } from '@/views/page-builder/models/mouse-position';
+import { Image } from '@/classes/page-elements/image-raw/image-raw';
 
 export enum ActionTypes {
   UPDATE_PAGE_ID = 'updatePageId',
@@ -17,7 +18,11 @@ export enum ActionTypes {
   DELETE_A_PAGE_ELEMENT = 'DeleteAPageElement',
   SAVE_PAGE_CONTENT = 'savePageContent',
   UPDATE_PAGE_ELEMENTS = 'updatePageElements',
+  UPDATE_CONTENT = 'updateComponentContent',
   UPDATE_LOCATION  = 'updateLocation',
+  UPDATE_IMAGE = 'updateImage',
+  UPDATE_PAN_FLAG = 'updatePanFlag',
+  UPDATE_DRAG_FLAG = 'updateDragFlag',
 };
 
 type AugmentedActionContext = {
@@ -37,6 +42,10 @@ export interface Actions {
   [ActionTypes.UPDATE_PAGE_ID]({ commit }: AugmentedActionContext, pageId: string): void,
   [ActionTypes.UPDATE_SHOW_EDIT_DELETE]({ commit }: AugmentedActionContext, toggle: boolean): void,
   [ActionTypes.UPDATE_LOCATION]({ commit }: AugmentedActionContext, deltaChange: DeltaPositionChange) : void,
+  [ActionTypes.UPDATE_CONTENT]({ commit }: AugmentedActionContext, content: string) : void,
+  [ActionTypes.UPDATE_IMAGE]({ commit }: AugmentedActionContext, image: Image) : void,
+  [ActionTypes.UPDATE_PAN_FLAG]({ commit }: AugmentedActionContext, toggle: boolean) : void,
+  [ActionTypes.UPDATE_DRAG_FLAG]({ commit }: AugmentedActionContext, toggle: boolean) : void,
 };
 
 export const actions: ActionTree<State, RootState> & Actions = {
@@ -86,5 +95,21 @@ export const actions: ActionTree<State, RootState> & Actions = {
 
   [ActionTypes.UPDATE_LOCATION]({ commit }, deltaChange) {
     commit(MutationTypes.SET_LOCATION, deltaChange);
+  },
+
+  [ActionTypes.UPDATE_CONTENT]({ commit }, content) {
+    commit(MutationTypes.SET_COMPONENT_CONTENT, content)
+  },
+
+  [ActionTypes.UPDATE_IMAGE]({ commit }, image) {
+    commit(MutationTypes.SET_IMAGE, image)
+  },
+
+  [ActionTypes.UPDATE_PAN_FLAG]({ commit }, toggle) {
+    commit(MutationTypes.SET_PAN_FLAG, toggle)
+  },
+
+  [ActionTypes.UPDATE_DRAG_FLAG]({ commit }, toggle) {
+    commit(MutationTypes.SET_DRAG_FLAG, toggle)
   },
 }

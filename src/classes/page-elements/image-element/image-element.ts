@@ -118,7 +118,6 @@ export class ImageElement extends PageElement implements ImageElementInterface {
         style += `${element.style}:${element.value};`;
       });
     }
-    console.log('%c⧭', 'color: #ff0000', style);
     return style;
   }
 

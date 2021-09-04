@@ -38,6 +38,26 @@ describe('Zoom', () => {
         expect(imageElement.image.location.top.value).toEqual(imageElement.naturalSize.height.value / 2)
         expect(imageElement.image.location.left.value).toEqual(imageElement.naturalSize.width.value / 2)
     });
+
+    it('should when zoom is called with any zoom not change the natural size', () => {
+        const naturalSize = imageElement.image.naturalSize;
+        expect(naturalSize.height.value).toBe(768);
+        expect(naturalSize.width.value).toBe(1024);
+        zoom.zoom('100');
+        expect(naturalSize.height.value).toBe(768);
+        expect(naturalSize.width.value).toBe(1024);
+        zoom.zoom('50');
+        expect(naturalSize.height.value).toBe(768);
+        expect(naturalSize.width.value).toBe(1024);
+        zoom.zoom('zoomToFit');
+        expect(imageElement.image.naturalSize.height.value).toBe(768);
+        expect(imageElement.image.naturalSize.width.value).toBe(1024);
+        zoom.zoom('100');
+        expect(imageElement.image.naturalSize.height.value).toBe(768);
+        expect(imageElement.image.naturalSize.width.value).toBe(1024);
+
+        
+    })
     
     it('should when zoom is called with out, reduce the size of the scaled image dimension by a ratio of 1.1', () => {
         const scaler = 1.1;

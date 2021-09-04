@@ -2,10 +2,9 @@ import { ALocation } from "@/classes/base/location/a-location";
 import { ImageElement } from "@/classes/page-elements/image-element/image-element";
 
 export interface MousePosition {
-  x: number;
-  y: number;
+    x: number;
+    y: number;
 }
-
 
 export class ImageBase {
     #lastMousePosition: MousePosition = {
@@ -39,11 +38,10 @@ export class ImageBase {
             location.top.value = param2.top.value;
         } else {
             location.top.value = param2;
-            console.log('%c⧭', 'color: #e57373', param3);
-            if (typeof param3 ==='number' ) {
+            console.log('%c%s', 'color: #00258c', param2);
+            if (typeof param3 === 'number' ) {
                 location.left.value = param3;
-                console.log('%c⧭', 'color: #997326', location.left.value);
-
+                console.log('%c%s', 'color: #994d75', param3);
             }
         }
     }

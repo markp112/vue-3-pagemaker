@@ -153,7 +153,6 @@ export class GenericComponentMixins extends Vue {
   }
 
   dragElement(event: MouseEvent) {
-    console.log('%c%s', 'color: #d90000', 'dragElement');
     if (!this.isDragging) return;
     event.stopPropagation;
     const currentMousePosition: MousePosition = { x: event.pageX, y: event.pageY };
@@ -161,10 +160,8 @@ export class GenericComponentMixins extends Vue {
       deltaX: currentMousePosition.x - this.lastMousePosition.x,
       deltaY: currentMousePosition.y - this.lastMousePosition.y,
     };
-    console.log('%c⧭', 'color: #ff6600', deltaChange);
     this.lastMousePosition.x = event.pageX;
     this.lastMousePosition.y = event.pageY;
-    const location = this.thisComponent.location;
     store.dispatch(pageActionTypes.UPDATE_LOCATION, deltaChange);
 
   }

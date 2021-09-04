@@ -3,6 +3,10 @@
     <span class="flex flex-row justify-end mr-2 mb-4">
       <close-button @onClick="closeButtonClick"></close-button>
     </span>
+    <image-pan-drag 
+      @panClicked="panImage($event)"
+      @dragClicked="dragImage($event)"
+    />
     <sidebar-accordian accordianTitle="Image" class="mb-4">
       <upload-image :urlEdited="currentImageUrl" @image-url="urlChanged">
       </upload-image>
@@ -37,6 +41,9 @@ import errorMessages from '@/common/errors/error-message';
 import { pageActionTypes } from '@/store/modules/page';
 import { sidebarActionTypes } from '@/store/modules/sidebar';
 import ImageSizingToolbar from '../../panel-buttons/image-sizing/image-sizing.vue';
+import { Image } from '@/classes/page-elements/image-raw/image-raw';
+import ImageDragPan from '@/components/core/sidebar/panel-buttons/image-pan-drag/image-pan-drag.vue';
+
 
 @Options({
   components: {
@@ -46,6 +53,7 @@ import ImageSizingToolbar from '../../panel-buttons/image-sizing/image-sizing.vu
     'colour-select': ColourSelect,
     'sidebar-accordian': Accordian,
     'image-sizing-toolbar': ImageSizingToolbar,
+    'image-pan-drag': ImageDragPan,
   }
 })
 export default class ImageEditorSidebar extends Vue {
@@ -61,18 +69,25 @@ export default class ImageEditorSidebar extends Vue {
   getEditedComponent(): ImageElement {
     const editedComponent = this.store.getters.editedComponent;
     if (editedComponent) {
-      console.log('%c⧭', 'color: #f200e2', editedComponent)
       return editedComponent as ImageElement;
     }
     throw new Error(`${errorMessages.editedComponent.undefined}image-editor`);
   }
 
-  urlChanged(image: ImageElement): void {
-    this.store.dispatch(pageActionTypes.UPDATE_EDITED_COMPONENT, image);
+  urlChanged(image: Image): void {
+    this.store.dispatch(pageActionTypes.UPDATE_IMAGE, image);
   }
 
   closeButtonClick(): void {
     this.store.dispatch(sidebarActionTypes.SHOW_COMPONENT_ICONS, true);
+  }
+
+  panImage(event: boolean) {
+    this.store.dispatch(pageActionTypes.UPDATE_PAN_FLAG, event)
+  }
+
+  dragImage(event: boolean) {
+    this.store.dispatch(pageActionTypes.UPDATE_DRAG_FLAG, event)
   }
 }
 </script>

@@ -8,6 +8,8 @@ export type Getters = {
   editedComponent(state: State): PageElementClasses | undefined,
   getPageElements(state: State): PageElementClasses[],
   showEditDelete(state: State): boolean,
+  getPanFlag(state: State): boolean,
+  getDragFlag(state: State): boolean,
 
 };
 
@@ -29,14 +31,13 @@ export const getters: GetterTree<State, RootState> & Getters = {
     return state.showEditDelete;
   },
 
+  getPanFlag(state) {
+    return state.panFlag;
+  },
 
-
-  // getPageComponent(state: State): (componentName: string): Page => PageElementClasses | undefined {
-
-  // //   return (componentName: string) =>  {
-  // //     return (state.pageElements.filter(pageElement => pageElement.name === componentName)[0] as PageElementClasses);
-  // //   }
-  // // }
+  getDragFlag(state) {
+    return state.dragFlag;
+  },
 }
 
 const compare = (a: PageElementClasses, b: PageElementClasses) => {

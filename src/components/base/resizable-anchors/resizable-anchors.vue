@@ -66,6 +66,7 @@ export default class Resize extends Vue {
   }
 
   handleDown(ev: MouseEvent) {
+    console.log('%c⧭', 'color: #735656', ev)
     if (!this.isActive) return;
     if (!this.isSizing) {
       this.resizeStarted(ev);
@@ -76,7 +77,7 @@ export default class Resize extends Vue {
     window.addEventListener("mousemove", this.handleMouseMove);
     window.addEventListener("mouseup", this.handleMouseUp);
     this.isSizing = true;
-    this.$emit('resizeStarted');
+    this.$emit('resizeStarted', ev);
   }
 
   emitResize(clientCoordinates: ClientCoordinates) {

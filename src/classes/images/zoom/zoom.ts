@@ -2,7 +2,7 @@ import { ADimension } from '@/classes/base/dimension/a-dimension';
 import { ImageElement } from '@/classes/page-elements/image-element/image-element';
 import { ImageBase } from '../image-manipulator/image-base';
 import { ZoomDirection } from '../types';
-import { Point, calcLocation } from './calcLocation';
+import { Point, calcDimensionChange, calcNewLocation } from './calcLocation';
 
 export type SimpleDimension = { 
   width: number,
@@ -25,11 +25,8 @@ export class Zoom extends ImageBase {
   }
 
   zoom(direction: ZoomDirection) {
-    console.log('%c%s', 'color: #f200e2', 'zoom', direction);
     switch (direction) {
       case 'out':
-        this.handleZoomInOut(direction);
-        break;
       case 'in':
         this.handleZoomInOut(direction);
         break;
@@ -52,6 +49,8 @@ export class Zoom extends ImageBase {
   }
 
   private calcNewDimensions(dimension: ADimension, operator: Operators, scaler: number): SimpleDimension {
+    console.log('%c%s', 'color: #7f7700', dimension.width.value);
+    console.log('%c%s', 'color: #423e07', dimension.height.value);
     const newDimensions: SimpleDimension = { width: 0, height: 0 };
     switch(operator) {
       case '*': 
@@ -80,8 +79,10 @@ export class Zoom extends ImageBase {
     const scaledSize = this.getScaledSize();
     const operator: Operators = direction === 'in' ? '*' : '/';
     const newDimension = this.calcNewDimensions(scaledSize, operator, SCALE);
-    const deltaChange: Point = calcLocation(newDimension, this.imageElement.image.scaledSize);
-    this.setLocation(this.imageElement.image.location, deltaChange.y, deltaChange.x);
+    const deltaChange: Point = calcDimensionChange(newDimension, this.imageElement.image.scaledSize);
+    const newLocation: Point = calcNewLocation(this.imageElement.image.location, deltaChange);
+    console.log('%c⧭', 'color: #00ff88', deltaChange);
+    this.setLocation(this.imageElement.image.location, newLocation.y, newLocation.x);
     this.setDimensions(this.imageElement.image.scaledSize, newDimension);
   }
 
@@ -102,9 +103,7 @@ export class Zoom extends ImageBase {
   }
 
   private handleZoomToHalf() {
-    console.log('%c⧭', 'color: #007300', this.imageElement.image.naturalSize);
     const newDimension = this.calcNewDimensions(this.imageElement.image.naturalSize, '/', 2);
-    console.log('%c⧭', 'color: #807160', this.imageElement.image.naturalSize);
     this.setDimensions(this.imageElement.image.scaledSize, newDimension);
     this.setLocation(this.imageElement.image.location, 
       this.imageElement.image.naturalSize.height.value / 2,
@@ -113,7 +112,8 @@ export class Zoom extends ImageBase {
   }
 
   private handleZoomTo100Percent() {
-    this.imageElement.scaledSize = this.imageElement.image.naturalSize;
+    this.imageElement.scaledSize.width.value = this.imageElement.image.naturalSize.width.value;
+    this.imageElement.scaledSize.height.value = this.imageElement.image.naturalSize.height.value;
     this.setLocation(this.imageElement.image.location, 0, 0);
   }
 

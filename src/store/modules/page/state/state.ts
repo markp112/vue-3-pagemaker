@@ -5,6 +5,8 @@ export type State = {
   pageElements: PageElementClasses[];
   editedComponent: PageElementClasses | undefined;
   showEditDelete: boolean;
+  panFlag: boolean;
+  dragFlag: boolean;
 };
 
 export const state: State = {
@@ -12,4 +14,6 @@ export const state: State = {
   pageElements: [],
   editedComponent: undefined,
   showEditDelete: false,
+  panFlag: false,
+  dragFlag: false,
 };
