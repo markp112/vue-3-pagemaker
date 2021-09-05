@@ -6,4 +6,4 @@ import { ValueAndUnit } from '@/common/types/value_and_unit/value_and_unit';
  export interface Location {
   top: ValueAndUnit,
   left: ValueAndUnit,
-}
+};

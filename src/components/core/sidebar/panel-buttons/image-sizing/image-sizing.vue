@@ -14,13 +14,12 @@
 <script lang="ts">
 import { Vue, Options } from 'vue-class-component';
 import { useStore } from '@/store';
-import { ImageManipulator } from '@/classes/images/image-manipulator/image-manipulator';
 import { SidebarIcon } from '@/classes/sidebar/classes/sidebar-icon';
 import { ImageElement } from '@/classes/page-elements/image-element/image-element';
 import { StretchDirection, ZoomDirection } from '@/classes/images/types';
 import IconImage from '@/components/base/icon/icon.vue';
 import { Zoom } from '@/classes/images/zoom/zoom';
-import { StretchImage } from '@/classes/images/image-manipulator/stretch-image/stretch-image';
+import { StretchImage } from '@/classes/images/stretch-image/stretch-image';
 
 @Options({
   components: {
@@ -28,7 +27,6 @@ import { StretchImage } from '@/classes/images/image-manipulator/stretch-image/s
   },
 })
 export default class ImageSizingToolbar extends Vue {
-  imageManipulator!: ImageManipulator;
   store = useStore();
   horizontalStretch: SidebarIcon = new SidebarIcon(
     'arrow_bidirectional-32.png',

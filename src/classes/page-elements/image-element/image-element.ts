@@ -7,9 +7,6 @@ import { ImageElementFirebaseData } from '../firebase/model/firebase-model';
 import { PageElement } from '../page-element-base/page-element-base';
 import { ContainerProps, ImageElementInterface, ImageProps } from './model/image-element-model';
 import { Image } from '../image-raw/image-raw';
-import { MousePosition } from '../types/mouse-position';
-
-export type ImageOrContainer = 'container' | 'image';
 
 export class ImageElement extends PageElement implements ImageElementInterface {
   private _ratio: number;
@@ -122,7 +119,6 @@ export class ImageElement extends PageElement implements ImageElementInterface {
   }
 
   public updateLocation(newX: number, newY: number): void {
-    console.log('%c%s', 'color: #5200cc', 'image.updateLocation');
     this._container.location.top.value = newY;
     this._container.location.left.value = newX;
   }
@@ -179,14 +175,4 @@ export class ImageElement extends PageElement implements ImageElementInterface {
     return Math.min(width / height, height / width);
   }
 
-  public pan(deltaMouse: MousePosition, itemToPan: ImageOrContainer) {
-    if (itemToPan === 'image') {
-      this.imageLocation.left.value += deltaMouse.x;
-      this.imageLocation.top.value += deltaMouse.y;
-    }
-    else if (itemToPan === 'container') {
-      this.containerLocation.left.value += deltaMouse.x;
-      this.containerLocation.top.value += deltaMouse.y;
-    }
-  }
 }

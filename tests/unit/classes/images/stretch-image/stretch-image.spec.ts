@@ -1,4 +1,4 @@
-import { StretchImage } from "@/classes/images/image-manipulator/stretch-image/stretch-image";
+import { StretchImage } from "@/classes/images/stretch-image/stretch-image";
 import { ImageElement } from "@/classes/page-elements/image-element/image-element";
 import buildAnImage from "../common/common";
 

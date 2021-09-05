@@ -1,6 +1,6 @@
 import { ImageElement } from "@/classes/page-elements/image-element/image-element";
-import { StretchDirection } from "../../types";
-import { ImageBase } from "../image-base";
+import { StretchDirection } from "../types";
+import { ImageBase } from "../image-manipulator/image-base";
 
 export class StretchImage extends ImageBase {
 

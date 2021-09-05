@@ -1,33 +1,34 @@
 import { ALocation } from "@/classes/base/location/a-location";
 import { ImageElement } from "@/classes/page-elements/image-element/image-element";
+// import { ImageBaseProps } from '../model/image-base-props';
 
 export interface MousePosition {
     x: number;
     y: number;
 }
 
-export class ImageBase {
-    #lastMousePosition: MousePosition = {
+export class ImageBase  {
+   private _lastMousePosition: MousePosition = {
         x: 0,
         y: 0,
     };
 
-    #imageElement: ImageElement;
+    private _imageElement: ImageElement;
 
     constructor(imageElement: ImageElement) {
-        this.#imageElement = imageElement;
+        this._imageElement = imageElement;
     }
 
     get lastMousePosition(): MousePosition {
-        return this.#lastMousePosition;
+        return this._lastMousePosition;
     }
 
     set lastMousePosition(mousePosition: MousePosition) {
-        this.#lastMousePosition = mousePosition;
+        this._lastMousePosition = mousePosition;
     }
 
     get imageElement(): ImageElement {
-        return this.#imageElement;
+        return this._imageElement;
     }
 
     protected setLocation(location: ALocation, newLocation: ALocation): void
@@ -52,5 +53,14 @@ export class ImageBase {
             y: currentMousePosition.y - this.lastMousePosition.y
         };
         return newPosition;
+    }
+
+    protected calcNewPosition(deltaMouse: MousePosition, location: ALocation): ALocation {
+        const newLocation = new ALocation();
+        newLocation.top.value = location.top.value + deltaMouse.y;
+        newLocation.left.value = location.left.value + deltaMouse.x;
+        newLocation.top.unit = location.top.unit;
+        newLocation.left.unit = location.left.unit;
+        return newLocation;
     }
 }

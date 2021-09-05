@@ -34,12 +34,18 @@ export default class ImageDragPan extends Vue {
     this.dragEnabled = !this.dragEnabled;
     this.panEnabled = this.dragEnabled ? false : this.panEnabled;
     this.$emit('dragClicked', this.dragEnabled);
+    if (this.dragEnabled) {
+      this.$emit('panClicked', this.panEnabled);
+    }
   }
 
   panImage() {
     this.panEnabled = !this.panEnabled;
     this.dragEnabled = this.panEnabled ? false : this.dragEnabled;
     this.$emit('panClicked', this.panEnabled);
+    if (this.panEnabled) {
+      this.$emit('dragClicked', this.dragEnabled);
+    }
   }
 
   get panIcon (): string {
@@ -49,38 +55,6 @@ export default class ImageDragPan extends Vue {
   get dragIcon(): string {
     return this.dragEnabled ? 'move-enabled-32.png' : 'move-32.png'
   }
-
-  // addEventListeners(): void {
-  //   window.addEventListener('mousedown', this.handleMouseDown);
-  //   window.addEventListener('mouseup', this.handleMouseUp);
-  //   window.addEventListener('mousemove', this.handleMouseMove);
-  // }
-
-  // removeEventListeners(): void {
-  //   window.removeEventListener('mousemove', this.handleMouseMove);
-  //   window.removeEventListener('mouseup', this.handleMouseUp);
-  //   window.removeEventListener('mousedown', this.handleMouseDown);
-  // }
-
-  //   handleMouseDown(event: MouseEvent): void {
-  //   event.stopPropagation();
-  //   this.lastMousePosition = { x: event.pageX, y: event.pageY };
-  //   this.isPanningDragging = true;
-  //   this.isDragging = false;
-  // }
-
-  // handleMouseUp(event: MouseEvent): void {
-  //   event.stopPropagation();
-    
-  //   this.isPanningDragging = false;
-  // }
-
-  // handleMouseMove(event: MouseEvent): void {
-  //   event.stopPropagation();
-  //   if (this.isPanningDragging) {
-  //     this.panDragImage(event);
-  //   }
-  // }
 
 }
 </script>
