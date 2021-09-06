@@ -1,5 +1,5 @@
 import { CommitOptions, DispatchOptions, Module, Store as VuexStore } from 'vuex';
-import { State, state } from './state/nav-menu';
+import { State, state } from './state/state';
 import { Getters, getters } from './getters/getters';
 import { Actions, actions, ActionTypes } from './actions/actions';
 import { Mutations, mutations, MutationTypes  } from './mutations/mutations';

@@ -2,6 +2,7 @@
   <div class="relative w-8">
     <img
       :id="$props.id"
+      class="hover: cursor-pointer"
       :class="$props.classDef"
       :src="getIcon"
       @click="iconClick"
@@ -41,14 +42,16 @@ export default class IconImage extends Vue {
       const icon =
         this.icon !== ''
           ? require(`@/assets/icons/${this.icon}`)
-          : require(`@/assets/icons/${'emoji_waiting-32.png'}`);
+          : require(`@/assets/icons/emoji_waiting-32.png`);
       return icon;
     } catch (error) {
+      console.log(`${errorMessages.files.icons.missingIcon}${this.icon}`);
       throw new Error(`${errorMessages.files.icons.missingIcon}${this.icon}`);
     }
   }
 
   iconClick(): void {
+    console.log('%c⧭', 'color: #731d6d', this.icon)
     return this.$emit('iconClick', this.icon);
   }
 

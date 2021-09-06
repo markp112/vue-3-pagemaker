@@ -1,6 +1,6 @@
 import { MutationTree } from 'vuex';
 import { NavMenuItem } from '../../../../classes/base/navbar/nav-menu/NavMenuItem';
-import { State } from '../state/nav-menu';
+import { State } from '../state/state';
 
 export enum MutationTypes {
   ADD_NAV_MENU_ITEM = 'Add_Nav_Menu_Item',

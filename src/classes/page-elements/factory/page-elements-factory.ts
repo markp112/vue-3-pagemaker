@@ -6,6 +6,7 @@ import { ButtonElement } from '../button-element/button-element';
 import { ImageElement } from '../image-element/image-element';
 import { PageContainer } from '../page-container/page-container';
 import { TextElement } from '../text-element/text-element';
+import defaultSettings from '@/common/defaults/defaults';
 
 export type PageElementClasses =
   | ButtonElement
@@ -146,20 +147,18 @@ export class PageElementFactory {
     if (component.dimension.height.value > parent.dimension.height.value) {
       component.dimension.height.value = parent.dimension.height.value;
     }
+    console.log("buildAnImageElement")
     const imageElement: ImageElement = new PageElementBuilder()
       .setName(component.componentName)
       .setParent(parent)
       .setIsContainer(false)
       .setDimension(component.dimension)
       .setLocation(component.location)
-      .setContainerDimensions(new ADimension({ value: 83, unit: 'px' }, { value: 100 , unit: 'px' }))
       .setContainerLocation(new ALocation())
       .setComponentHtmlTag(component.componentRef)
       .setClassDefintion(component.classes)
       .setRef(ref)
       .setType(component.type)
-      .setNaturalSize(new ADimension({ value: 250, unit: 'px' }, { value: 300 , unit: 'px' }))
-      .setScaledSize(new ADimension({ value: 83, unit: 'px' }, { value: 100 , unit: 'px' }))
       .setImageLocation(new ALocation())
       .buildAnImage();
     imageElement.parentRef = imageElement.parent.ref;
@@ -170,7 +169,7 @@ export class PageElementFactory {
   }
 
   private buildRootContainer(ref: string): PageContainer {
-    const dimension = new ADimension({value: 1080, unit: 'px' }, { value: 1920, unit: 'px'});
+    const dimension = new ADimension({ value: 1080, unit: 'px' }, { value: 1920, unit: 'px' });
     const container: PageContainer = this.getBuilder()
       .setName(ROOT)
       .setRef(ref)

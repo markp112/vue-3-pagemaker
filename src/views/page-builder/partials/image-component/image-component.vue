@@ -18,32 +18,24 @@
       :parentContainerDimensions="thisComponent.Dimensions"
       @resizeStarted="resizeStarted($event)"
       @onResize="onResizeImage($event)"
-    />
-    <popup-menu
-      v-if="showPopupMenu"
-      :menuItems="popupMenuItems"
-      :left="12"
-      :top="12"
-      @menuItemClicked="menuItemClicked($event)"
-      @closeClicked="menuCloseClicked"
+      @resizeStopped="resizeStopped()"
     />
   </div>
 </template>
 
 <script lang="ts">
 import { mixins, Options } from 'vue-class-component';
-import { ADimension } from '@/classes/base/dimension/a-dimension';
 import { PageElementBuilder } from '@/classes/page-elements/builder/page-element-builder';
-import {
-  ImageElement,
-  ImageOrContainer,
-} from '@/classes/page-elements/image-element/image-element';
+import { ImageElement } from '@/classes/page-elements/image-element/image-element';
 import { MousePosition } from '@/classes/page-elements/types/mouse-position';
 import { GenericComponentMixins } from '../../mixins/generic-component';
 import { ClientCoordinates } from '../../models/client-coordinates';
-import { Dimension } from '@/classes/base/dimension/model/dimension';
 import Resize from '@/components/base/resizable-anchors/resizable-anchors.vue';
-import PopupMenu from '@/components/popups/popup-menu/popup-menu.vue';
+import { useStore } from '@/store';
+import Pan from '@/classes/images/pan/pan';
+import DragImage from '@/classes/images/drag/drag';
+import ImageManipulation from '@/classes/images/model/image-manipulation';
+import { ResizeImage } from '@/classes/images/resize/resize';
 
 @Options({
   props: {
@@ -55,20 +47,49 @@ import PopupMenu from '@/components/popups/popup-menu/popup-menu.vue';
   },
   components: {
     resizeable: Resize,
-    'popup-menu': PopupMenu,
   },
 })
 export default class ImageComponent extends mixins(GenericComponentMixins) {
   name = 'imageComponent';
-  ispanDragImage = true;
-  showPopupMenu = false;
-  popupMenuItems = ['Drag Image', 'Pan Image'];
-  panOrDrag: ImageOrContainer = 'container';
-  isPanningDragging = false;
+  store = useStore();
+  imageManipulator: ImageManipulation | undefined;
+  isSizing = false;
 
-  getImageStyles(): string {
-    const image = this.thisComponent as ImageElement;
-    return image.getImageStyle();
+  get isPanning(): boolean {
+    return this.store.getters.getPanFlag;
+  }
+
+  get isImageDragging(): boolean {
+    return this.store.getters.getDragFlag;
+  }
+
+  get isPanningDragging(): boolean {
+    return this.isPanning || this.isImageDragging;
+  }
+
+  get getImageManipulator(): ImageManipulation | undefined {
+    if (this.isPanning) {
+      if (this.imageManipulator && this.imageManipulator.imageManipulationType === 'pan') {
+        return this.imageManipulator as Pan;
+      } else {
+        return new Pan(this.thisComponent as ImageElement);
+      }
+    } 
+    if (this.isImageDragging) {
+      if (this.imageManipulator && this.imageManipulator.imageManipulationType === 'drag') {
+        return this.imageManipulator as DragImage;
+      } else {
+        return new DragImage(this.thisComponent as ImageElement);
+      }
+    }
+    if (this.isSizing) {
+      if (this.imageManipulator && this.imageManipulator.imageManipulationType === 'resize') {
+        return this.imageManipulator as ResizeImage;
+      } else {
+        return new ResizeImage(this.thisComponent as ImageElement);
+      }
+    }
+    return undefined;
   }
 
   get getContainerStyles(): string {
@@ -80,73 +101,56 @@ export default class ImageComponent extends mixins(GenericComponentMixins) {
     return (this.thisComponent as ImageElement).content;
   }
 
+  getImageStyles(): string {
+    const image = this.thisComponent as ImageElement;
+    return image.getImageStyle();
+  }
+
+  setLastMousePosition(event: MouseEvent): void {
+    const lastMousePosition = { x: event.pageX, y: event.pageY };
+    this.imageManipulator = this.getImageManipulator;
+    if (this.imageManipulator) {
+      this.imageManipulator.lastMousePosition = lastMousePosition;
+    }
+  }
+
   onImageClick(event: MouseEvent): void {
     event.stopPropagation();
-    this.lastMousePosition = { x: event.pageX, y: event.pageY };
+    this.setLastMousePosition(event);
     this.setEditedComponentAndMenuState();
-    this.panOrDrag = 'container';
-    // this.showPopupMenu = true;
   }
 
-  onMouseDown(event: MouseEvent) {
-    this.handleMouseDown(event);
-    window.addEventListener('mousedown', this.handleMouseDown);
-    window.addEventListener('mouseup', this.handleMouseUp);
-    window.addEventListener('mousemove', this.handleMouseMove);
-  }
-
-  menuItemClicked(option: string): void {
-    this.showPopupMenu = false;
-    switch (option) {
-      case 'Pan Image':
-        this.panOrDrag = 'image';
-        break;
-      case 'Drag Image':
-        this.panOrDrag = 'container';
-        break;
+  onMouseDown(event: MouseEvent): void {
+    if (this.isPanningDragging) {
+      this.setLastMousePosition(event);
+      this.handleMouseDown(event);
+      window.addEventListener('mouseup', this.handleMouseUp);
+      window.addEventListener('mousemove', this.handleMouseMove);
     }
-    window.addEventListener('mousedown', this.handleMouseDown);
-    window.addEventListener('mouseup', this.handleMouseUp);
-    window.addEventListener('mousemove', this.handleMouseMove);
   }
 
-  menuCloseClicked(): void {
-    this.showPopupMenu = false;
+  resizeStarted(event: MouseEvent) {
+    if (this.isPanningDragging) return;
+    this.isSizing = true;
+    this.setLastMousePosition(event);
   }
 
-  onResizeImage(boxProperties: ClientCoordinates): void {
-    if (this.isDragging) return;
-    const boundingRect: ADimension | null = this.getElementDimension(
-      this.thisComponent.ref
-    );
-    if (boundingRect) {
-      const currentMousePosition = this.getMousePosition(
-        boxProperties.clientX,
-        boxProperties.clientY
-      );
-      const changeX = currentMousePosition.x - this.lastMousePosition.x;
-      const changeY = currentMousePosition.y - this.lastMousePosition.y;
-      this.lastMousePosition = { ...currentMousePosition };
-      const boxDimensions: Dimension = this.calculateNewDimensions(
-        boundingRect,
-        changeY,
-        changeX
-      );
-      const dimension: ADimension = new ADimension(
-        boxDimensions.height,
-        boxDimensions.width
-      );
-      const image = this.thisComponent as ImageElement;
-      image.containerDimensions = dimension;
-      image.scaledSize = dimension;
-    }
+  onResizeImage(mousePosition: ClientCoordinates): void {
+    if (!this.isSizing) return;
+      const currentMousePosition: MousePosition = {
+        x: mousePosition.clientX,
+        y: mousePosition.clientY,
+      }; 
+      this.imageManipulator?.applyAction(currentMousePosition);
+  }
+
+  resizeStopped() {
+    this.isSizing = false;
   }
 
   handleMouseDown(event: MouseEvent): void {
     event.stopPropagation();
-    this.lastMousePosition = { x: event.pageX, y: event.pageY };
-    this.isPanningDragging = true;
-    this.isDragging = false;
+    this.setLastMousePosition(event);
   }
 
   handleMouseUp(event: MouseEvent): void {
@@ -154,11 +158,9 @@ export default class ImageComponent extends mixins(GenericComponentMixins) {
     window.removeEventListener('mousemove', this.handleMouseMove);
     window.removeEventListener('mouseup', this.handleMouseUp);
     window.removeEventListener('mousedown', this.handleMouseDown);
-    this.isPanningDragging = false;
   }
 
   handleMouseMove(event: MouseEvent): void {
-    console.log('%c⧭', 'color: #0088cc', 'handleMouseMove')
     event.stopPropagation();
     if (this.isPanningDragging) {
       this.panDragImage(event);
@@ -166,21 +168,12 @@ export default class ImageComponent extends mixins(GenericComponentMixins) {
   }
 
   panDragImage(event: MouseEvent): void {
-    const deltaChange = this.calcDeltaMouseChange(event);
-    console.log('%c⧭', 'color: #aa00ff', deltaChange, 'delta change')
-    const image = this.thisComponent as ImageElement;
-    image.pan(deltaChange, this.panOrDrag);
-    this.lastMousePosition = {
+    const currentMousePosition: MousePosition = {
       x: event.pageX,
       y: event.pageY,
     };
+    this.imageManipulator?.applyAction(currentMousePosition);
   }
 
-  private calcDeltaMouseChange(event: MouseEvent): MousePosition {
-    return {
-      x: event.pageX - this.lastMousePosition.x,
-      y: event.pageY - this.lastMousePosition.y,
-    };
-  }
 }
 </script>

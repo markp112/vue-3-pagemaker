@@ -69,7 +69,7 @@ export default class IconPicker extends Vue {
     this.icons.push(`icons8-button-36.png`);
     this.icons.push(`check_mark-32.png`);
     this.icons.push(`send_container-32.png`);
-  }
+  };
 
   getPath(image: string): string {
     return require(`@/assets/icons/${image}`);

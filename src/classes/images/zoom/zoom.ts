@@ -1,93 +1,120 @@
 import { ADimension } from '@/classes/base/dimension/a-dimension';
-import { ALocation } from '@/classes/base/location/a-location';
-import { ContainerProps, ImageProps } from '@/classes/page-elements/image-element/model/image-element-model';
+import { ImageElement } from '@/classes/page-elements/image-element/image-element';
+import { ImageBase } from '../image-manipulator/image-base';
 import { ZoomDirection } from '../types';
+import { Point, calcDimensionChange, calcNewLocation } from './calcLocation';
 
-export class Zoom {
-  private _imageProps: ImageProps;
-  private _containerProps: ContainerProps;
-  private scaledDimensions: ADimension = new ADimension();
+export type SimpleDimension = { 
+  width: number,
+  height: number,
+};
 
-  constructor(
-    imageProps: ImageProps,
-    containerProps: ContainerProps
-  ) {
-    this._imageProps = imageProps;
-    this._containerProps = containerProps;
+type Operators = '*' | '/' | '=';
+
+export class Zoom extends ImageBase {
+
+  constructor(imageElement: ImageElement) {
+    super(imageElement)
   }
 
-  setContainerProps(dimensionValue: number): void {
-    this._containerProps.naturalSize.height.value = dimensionValue;
-    this._containerProps.naturalSize.width.value = dimensionValue;
+  private getScaledSize(): ADimension {
+    const scaledSize = this.imageElement.image.scaledSize;
+    return scaledSize.width.value === 0 && scaledSize.height.value === 0 
+      ? this.imageElement.image.naturalSize 
+      : scaledSize;
   }
 
-  setImageProps(dimensionValue: number): void {
-    this.scaledDimensions.height.value = dimensionValue;
-    this.scaledDimensions.width.value = dimensionValue;
-  }
-
-  setLocation(location: number): void {
-    this._imageProps.location.left.value = location;
-        this._imageProps.location.top.value = location;
-  }
-
-  zoom(direction: ZoomDirection):
-      { dimensions: ADimension; location: ALocation, containerDimensions: ADimension } {
-    const SCALE = 1.1 as const;
+  zoom(direction: ZoomDirection) {
     switch (direction) {
       case 'out':
-        this.setImageProps(this._imageProps.scaledSize.height.value / SCALE);
-        this.calcLocation();
-        break;
       case 'in':
-        this.setImageProps(this._imageProps.scaledSize.height.value * SCALE);
-        this.calcLocation();
+        this.handleZoomInOut(direction);
         break;
       case '100':
-        this.setImageProps(this._imageProps.naturalSize.height.value);
-        this.setLocation(-this.scaledDimensions.width / 2);
+        this.handleZoomTo100Percent();
         break;
       case '50':
-        this.setImageProps(this._imageProps.naturalSize.height.value / 2);
-        this.setLocation(-this.scaledDimensions.width / 2);
+        this.handleZoomToHalf();
         break;
       case '48':
-        this.setImageProps(48);
-        this.setContainerProps(48);
-        this.setLocation(0);
-        break;
       case '32':
-        this.setImageProps(32);
-        this.setContainerProps(32);
-        this.setLocation(0);
-        break;
       case '24':
-        this.setImageProps(24);
-        this.setContainerProps(24);
-        this.setLocation(0);
-        break;
       case '16':
-        this.setImageProps(16);
-        this.setContainerProps(16);
-        this.setLocation(0);
+        this.handleSizeToIcon(direction);
         break;
       case 'zoomToFit':
-        this.scaledDimensions.height.value = this._containerProps.naturalSize.height.value;
-        this.scaledDimensions.width.value = this._containerProps.naturalSize.width.value;
-        this.setLocation(0);
+        this.handleZoomToFit();
         break;
     }
-    return {
-      dimensions: this.scaledDimensions,
-      location: this._imageProps.location,
-      containerDimensions: this._containerProps.naturalSize,
-    };
   }
 
-  private calcLocation() {
-    const deltaX = (this.scaledDimensions.width.value - this._imageProps.scaledSize.width.value) / 2;
-    const deltaY = (this.scaledDimensions.height.value - this._imageProps.scaledSize.height.value) / 2;
-    this._imageProps.location.left.value -= deltaX;
-    this._imageProps.location.top.value -= deltaY;
+  private calcNewDimensions(dimension: ADimension, operator: Operators, scaler: number): SimpleDimension {
+    console.log('%c%s', 'color: #7f7700', dimension.width.value);
+    console.log('%c%s', 'color: #423e07', dimension.height.value);
+    const newDimensions: SimpleDimension = { width: 0, height: 0 };
+    switch(operator) {
+      case '*': 
+        newDimensions.width = dimension.width.value * scaler;
+        newDimensions.height = dimension.height.value * scaler;
+        break;
+      case '/':
+        newDimensions.width = dimension.width.value / scaler;
+        newDimensions.height = dimension.height.value / scaler;
+        break;
+      case '=':
+        newDimensions.width = scaler;
+        newDimensions.height = scaler;
+        break;
+    }
+    return newDimensions;
   }
+
+  private setDimensions(dimension: ADimension, newDimension: SimpleDimension) {
+    dimension.height.value = newDimension.height;
+    dimension.width.value = newDimension.width;
+  }
+
+  private handleZoomInOut(direction: ZoomDirection) {
+    const SCALE = 1.1 as const;
+    const scaledSize = this.getScaledSize();
+    const operator: Operators = direction === 'in' ? '*' : '/';
+    const newDimension = this.calcNewDimensions(scaledSize, operator, SCALE);
+    const deltaChange: Point = calcDimensionChange(newDimension, this.imageElement.image.scaledSize);
+    const newLocation: Point = calcNewLocation(this.imageElement.image.location, deltaChange);
+    console.log('%c⧭', 'color: #00ff88', deltaChange);
+    this.setLocation(this.imageElement.image.location, newLocation.y, newLocation.x);
+    this.setDimensions(this.imageElement.image.scaledSize, newDimension);
+  }
+
+  private handleSizeToIcon(direction: ZoomDirection) {
+    const size = parseInt(direction);
+    const newDimension = this.calcNewDimensions(this.imageElement.image.scaledSize, '=', size);
+    this.setDimensions(this.imageElement.image.scaledSize, newDimension);
+    this.setLocation(this.imageElement.location, 0, 0);
+  }
+
+  private handleZoomToFit() {
+      const newDimension = {
+        width: this.imageElement.container.naturalSize.width.value,
+        height: this.imageElement.container.naturalSize.height.value
+      };
+      this.setDimensions(this.imageElement.image.scaledSize, newDimension);
+      this.setLocation(this.imageElement.image.location, 0, 0);
+  }
+
+  private handleZoomToHalf() {
+    const newDimension = this.calcNewDimensions(this.imageElement.image.naturalSize, '/', 2);
+    this.setDimensions(this.imageElement.image.scaledSize, newDimension);
+    this.setLocation(this.imageElement.image.location, 
+      this.imageElement.image.naturalSize.height.value / 2,
+      this.imageElement.image.naturalSize.width.value / 2
+    );
+  }
+
+  private handleZoomTo100Percent() {
+    this.imageElement.scaledSize.width.value = this.imageElement.image.naturalSize.width.value;
+    this.imageElement.scaledSize.height.value = this.imageElement.image.naturalSize.height.value;
+    this.setLocation(this.imageElement.image.location, 0, 0);
+  }
+
 }

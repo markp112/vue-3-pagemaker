@@ -99,7 +99,6 @@ export class FirebaseDataBuilder {
   }
 
   public retrievePageDataFromFirestore(pageName: string) {
-    console.log('%c%s', 'color: #7f2200', 'retrievePageDataFromFirestore');
     let pageData: FirebasePageDataTypes[] = [];
     const data: PageIdentity = this.getPageIdentity(pageName);
     this.firestorePage.LoadPageData(data)
@@ -110,7 +109,6 @@ export class FirebaseDataBuilder {
           "ROOT"
         ) as PageContainer;
         this.buildPageElements(pageData, rootComponent);
-        console.log('%c⧭', 'color: #ffa280', rootComponent);
         this.store.dispatch(pageActionTypes.UPDATE_PAGE_ELEMENTS, rootComponent.elements)
       })
       .catch(err => {
@@ -167,6 +165,8 @@ export class FirebaseDataBuilder {
     parentComponent: PageContainer,
     item: FirebasePageDataTypes
   ): PageContainer {
+    const location = this.getLocation(item);
+    const dimension = this.getDimension(item);
     const pageContainer: PageContainer = new PageElementBuilder()
       .setActionEvent(
         new AnActionEvent(
@@ -174,8 +174,8 @@ export class FirebaseDataBuilder {
           item.actionEvent.eventAction
         )
       )
-      .setLocation(new ALocation(item.location.top, item.location.left))
-      .setDimension(new ADimension(item.dimension.height, item.dimension.width))
+      .setLocation(location)
+      .setDimension(dimension)
       .setRef(item.ref)
       .setIsContainer(item.isContainer)
       .setName(item.name)
@@ -194,6 +194,8 @@ export class FirebaseDataBuilder {
     parentComponent: PageContainer,
     item: FirebasePageDataTypes
   ): ButtonElement {
+    const location = this.getLocation(item);
+    const dimension = this.getDimension(item);
     const pageElement: ButtonElement = new PageElementBuilder()
       .setActionEvent(
         new AnActionEvent(
@@ -201,8 +203,8 @@ export class FirebaseDataBuilder {
           item.actionEvent.eventAction
         )
       )
-      .setLocation(new ALocation(item.location.top, item.location.left))
-      .setDimension(new ADimension(item.dimension.height, item.dimension.width))
+      .setLocation(location)
+      .setDimension(dimension)
       .setRef(item.ref)
       .setIsContainer(item.isContainer)
       .setName(item.name)
@@ -222,6 +224,8 @@ export class FirebaseDataBuilder {
     parentComponent: PageContainer,
     item: ImageElementFirebaseData
   ): ImageElement {
+    const location = this.getLocation(item);
+    const dimension = this.getDimension(item);
     const pageElement: ImageElement = new PageElementBuilder()
       .setActionEvent(
         new AnActionEvent(
@@ -229,8 +233,8 @@ export class FirebaseDataBuilder {
           item.actionEvent.eventAction
         )
       )
-      .setLocation(new ALocation(item.location.top, item.location.left))
-      .setDimension(new ADimension(item.dimension.height, item.dimension.width))
+      .setLocation(location)
+      .setDimension(dimension)
       .setRef(item.ref)
       .setIsContainer(item.isContainer)
       .setName(item.name)
@@ -252,6 +256,8 @@ export class FirebaseDataBuilder {
     parentComponent: PageContainer,
     item: FirebasePageDataTypes
   ): TextElement {
+    const location = this.getLocation(item);
+    const dimension = this.getDimension(item);
     const pageElement: TextElement = new PageElementBuilder()
       .setActionEvent(
         new AnActionEvent(
@@ -259,8 +265,8 @@ export class FirebaseDataBuilder {
           item.actionEvent.eventAction
         )
       )
-      .setLocation(new ALocation(item.location.top, item.location.left))
-      .setDimension(new ADimension(item.dimension.height, item.dimension.width))
+      .setLocation(location)
+      .setDimension(dimension)
       .setRef(item.ref)
       .setIsContainer(item.isContainer)
       .setName(item.name)
@@ -283,4 +289,13 @@ export class FirebaseDataBuilder {
       pageId: pageName
     };
   }
+
+  private getLocation(item: FirebasePageDataTypes): ALocation {
+    return item.location ? new ALocation(item.location.top, item.location.left) : new ALocation();
+  }
+
+  private getDimension(item: FirebasePageDataTypes): ADimension {
+    return item.dimension ? new ADimension(item.dimension.height, item.dimension.width) : new ADimension();
+  }
+
 }

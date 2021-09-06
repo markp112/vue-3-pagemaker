@@ -20,14 +20,14 @@
       >
       </component>
       <edit-delete-option @deleteClicked="deleteClicked()"></edit-delete-option>
-      <transition>
+      <!-- <transition>
         <text-editor
           class="absolute bg-gray-200 w-full top-0 left-0 h-full"
           v-if="showTextModal"
           :content="editedComponentText"
         >
         </text-editor>
-      </transition>
+      </transition> -->
     </div>
   </section>
 </template>
@@ -114,7 +114,6 @@ export default class PageBuilder extends Vue {
     }
     if (event) {
       const componentName = this.getComponentName(event);
-      console.log('%c⧭', 'color: #7f7700', componentName)
       const component = this.store.getters.getSidebarAllItems.filter(
         element => element.componentName === componentName)[0];
       const id = this.componentCounter.getNextCounter();

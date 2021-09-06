@@ -17,18 +17,32 @@
   </section>
 </template>
 
-<script>
+<script lang="ts">
+
 import { Vue, Options } from "vue-class-component";
+
+type InitialState = 'open' | 'closed';
 
 @Options({
   props: {
-    accordianTitle: { default: "" }
+    accordianTitle: { default: "" },
+    initialState: {
+      default: (): InitialState => {
+        return 'closed'
+      },
+    },
   }
 })
 export default class Accordian extends Vue {
   name = 'accordian';
   accordianTitle = '';
   active = false;
+  initialState = 'closed';
+
+  mounted() {
+    this.active = this.initialState === 'open';
+
+  }
 }
 </script>
 

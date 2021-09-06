@@ -63,6 +63,7 @@ export default class Resize extends Vue {
     this.isSizing = false;
     window.removeEventListener('mousemove', this.handleMouseMove);
     window.removeEventListener('mouseup', this.handleMouseUp);
+    this.$emit('resizeStopped');
   }
 
   handleDown(ev: MouseEvent) {
@@ -76,7 +77,7 @@ export default class Resize extends Vue {
     window.addEventListener("mousemove", this.handleMouseMove);
     window.addEventListener("mouseup", this.handleMouseUp);
     this.isSizing = true;
-    this.$emit('resizeStarted');
+    this.$emit('resizeStarted', ev);
   }
 
   emitResize(clientCoordinates: ClientCoordinates) {
@@ -87,8 +88,8 @@ export default class Resize extends Vue {
     ev.stopPropagation;
     if (this.isSizing) {
       const clientCoordinates: ClientCoordinates = {
-        clientX: ev.screenX,
-        clientY: ev.screenY,
+        clientX: ev.pageX,
+        clientY: ev.pageY,
         offsetWidth: (this.$el as HTMLDivElement).offsetWidth,
         offsetHeight: (this.$el as HTMLDivElement).offsetHeight
       };

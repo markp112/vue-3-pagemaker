@@ -1,15 +1,15 @@
 <template>
   <div class="flex flex-col justify-center align-middle w-full text-sm relative">
     <input
-      class="w-full app-input-field text-siteDark mb-1"
+      class="w-full app-input-field text-site-primary-dark mb-1"
       type="file"
       @change="setImage($event.target.name, $event.target.files)"
       accept="image/png, image/jpeg"
     />
     <input
-      class="w-full app-input-field text-sm text-siteDark  mb-1"
+      class="w-full app-input-field text-sm text-site-primary-dark  mb-1"
       type="text"
-      @input="getImageFromUrl"
+      @change="getImageFromUrl()"
       placeholder="or paste URL"
       name="url"
       v-model="url"
@@ -24,7 +24,7 @@
     >
       <h3
         v-if="url ===''"
-        class="z-10 fixed font-bold text-siteDark flex-row flex-wrap justify-start p-1 mb-1 block"
+        class="z-10 fixed font-bold text-site-primary-dark flex-row flex-wrap justify-start p-1 mb-1 block"
       >
         Upload a file by dropping it here
       </h3>
@@ -121,7 +121,7 @@ export default class UploadImage extends Vue {
     image.content = this.url;
     image.naturalSize.width.value = img.naturalWidth;
     image.naturalSize.height.value = img.naturalHeight;
-    this.$emit('imageUrl',image);
+    this.$emit('imageUrl', image);
   }
 
   dragOver() {

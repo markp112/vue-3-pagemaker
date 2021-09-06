@@ -1,6 +1,6 @@
 import { NavMenuItem } from '@/classes/base/navbar/nav-menu/NavMenuItem';
 import { GetterTree } from 'vuex';
-import { State } from '../state/nav-menu';
+import { State } from '../state/state';
 import { RootState } from '@/store';
 
 export type Getters = {
