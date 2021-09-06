@@ -39,10 +39,8 @@ export class ImageBase  {
             location.top.value = param2.top.value;
         } else {
             location.top.value = param2;
-            console.log('%c%s', 'color: #00258c', param2);
             if (typeof param3 === 'number' ) {
                 location.left.value = param3;
-                console.log('%c%s', 'color: #994d75', param3);
             }
         }
     }
