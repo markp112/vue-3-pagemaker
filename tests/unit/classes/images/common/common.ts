@@ -9,12 +9,17 @@ export const width: ValueAndUnit = { value: 1024, unit: 'px' };
 
 export default function buildAnImage(): ImageElement {
   const location: ALocation = new ALocation({ value: 8, unit: 'px' }, { value: 10, unit: 'px' });
-  const containerDimension = new ADimension({ value: 1240, unit: 'px'}, { value: 800, unit: 'px'})
+  const containerDimension = new ADimension({ value: 1240, unit: 'px'}, { value: 800, unit: 'px'});
+  const parent = new PageElementBuilder()
+    .setIsContainer(true)
+    .setDimension(new ADimension(height, width))
+    .buildAContainer();
   return new PageElementBuilder()
     .setContent('dummy.png')
     .setNaturalSize(new ADimension(height, width))
     .setScaledSize(new ADimension())
     .setImageLocation(location)
     .setContainerDimensions(containerDimension)
+    .setParent(parent)
     .buildAnImage();
 }
