@@ -41,6 +41,7 @@ export class ImageBase  {
             location.top.value = param2;
             if (typeof param3 === 'number' ) {
                 location.left.value = param3;
+                location.top.value = param2;
             }
         }
     }

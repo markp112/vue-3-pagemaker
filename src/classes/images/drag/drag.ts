@@ -10,11 +10,11 @@ export default class DragImage extends ImageBase implements ImageManipulation {
   constructor(imageElement: ImageElement) {
     super(imageElement);
   }
-
+  
   applyAction(currentMousePosition: MousePosition): void {
     const deltaMouse: MousePosition = this.getDeltaChange(currentMousePosition);
     this.lastMousePosition = currentMousePosition;
-    const location =  this.imageElement.container.location;
+    const location = this.imageElement.container.location;
     const newLocation = this.calcNewPosition(deltaMouse, location);
     this.setLocation(this.imageElement.container.location, newLocation);
   }
