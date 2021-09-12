@@ -40,11 +40,11 @@ export const getters: GetterTree<State, RootState> & Getters = {
   },
 
   getSidebarAllElements(state)  {
-    return  state.sidebarElements;
+    return state.sidebarElements;
   },
 
   getSidebarElement:(state: State) => (componentName: string): ASidebarElement | undefined => {
-    return  state.sidebarElements.getComponentByName(componentName);
+    return state.sidebarElements.getComponentByName(componentName);
   },
   // getPageComponent: (state: State) => (componentName: string): PageElementClasses => {
   //   const element = state.pageElements.filter(pageElement => pageElement.name === componentName)[0];

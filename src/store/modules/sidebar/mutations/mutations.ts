@@ -24,7 +24,7 @@ export type Mutations<S = State> = {
 
 };
 
-export const mutations: MutationTree<State> & Mutations ={
+export const mutations: MutationTree<State> & Mutations = {
   [MutationTypes.ADD_SIDEBAR_ELEMENT](state: State, sidebarElement: ASidebarElement) {
     state.sidebarElements.add(sidebarElement);
   },
@@ -52,4 +52,4 @@ export const mutations: MutationTree<State> & Mutations ={
   [MutationTypes.SET_DRAG_DROP_EVENT_HANDLED](state: State, isHandled: boolean) {
     state.dragDropEventHandled = isHandled;
   },
-}
+};

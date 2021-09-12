@@ -20,14 +20,13 @@
       @onClick.prevent="componentClick($event)"
       @dragover.prevent
       @drop.prevent="onDrop"
-    >
-    </component>
+    />
     <resizeable
       :isActive="isActive"
       :parentContainerDimensions="getBoundingRect()"
       @resizeStarted="resizeStarted($event)"
       @onResize="onResize($event)"
-    ></resizeable>
+    />
   </div>
 </template>
 
@@ -144,6 +143,7 @@ export default class Container extends mixins(GenericComponentMixins) {
     }
     if (event) {
       const componentName = this.getComponentName(event);
+      console.log('%c%s', 'color: #733d00', componentName)
       const id: number = this.componentCounter.getNextCounter();
       const ref = `${componentName}::${id}`;
       const component = this.store.getters.getSidebarElement(componentName);
@@ -157,7 +157,7 @@ export default class Container extends mixins(GenericComponentMixins) {
           parent
         );
         parent.addNewElement(newComponent);
-         this.store.dispatch(pageActionTypes.UPDATE_EDITED_COMPONENT, newComponent);
+        this.store.dispatch(pageActionTypes.UPDATE_EDITED_COMPONENT, newComponent);
         this.store.dispatch(AllActionTypes.SET_DRAG_DROP_EVENT_HANDLED, true);
       }
     }

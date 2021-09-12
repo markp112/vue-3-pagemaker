@@ -76,8 +76,6 @@ export class PageElementFactory {
       .setLocation(component.location)
       .buildAContainer();
     container.parentRef = container.parent.ref;
-    console.log('%c⧭', 'color: #994d75', container);
-
     return container;
   }
 
@@ -147,7 +145,6 @@ export class PageElementFactory {
     if (component.dimension.height.value > parent.dimension.height.value) {
       component.dimension.height.value = parent.dimension.height.value;
     }
-    console.log("buildAnImageElement")
     const imageElement: ImageElement = new PageElementBuilder()
       .setName(component.componentName)
       .setParent(parent)
