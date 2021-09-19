@@ -50,7 +50,7 @@ export default class FontSelect extends Vue {
   fontList: FontItemInterface[] = [];
   
   created() {
-    // this.fontList = this.fonts.getListofFonts();
+    this.fontList = this.fonts.getListofFonts();
   }
   
   show() {
@@ -72,7 +72,7 @@ export default class FontSelect extends Vue {
   }
 
   get listOfFonts(): FontItemInterface[] {
-    return this.fonts.getListofFonts();
+    return this.fontList;
   }
 }
 </script>
