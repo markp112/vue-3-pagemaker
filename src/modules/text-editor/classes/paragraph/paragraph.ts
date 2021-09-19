@@ -1,6 +1,9 @@
 import Guid from "@/common/guid/guid";
 
 export default class Paragraph {
+  newLine() {
+    throw new Error('Method not implemented.');
+  }
   #hasUnderline: boolean;
   #id = '';
 

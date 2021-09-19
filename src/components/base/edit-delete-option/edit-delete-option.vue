@@ -63,7 +63,7 @@ export default class EditDeleteOption extends Vue {
 
   editPenClick(): void {
     this.store.dispatch(pageActionTypes.UPDATE_SHOW_EDIT_DELETE, false);
-    this.store.dispatch(sidebarActionTypes.SHOW_TEXT_MODAL, false);
+    this.store.dispatch(sidebarActionTypes.SHOW_TEXT_MODAL, true);
     // SidebarModule.updateSidebarEditor(true);
   }
 

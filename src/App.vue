@@ -61,7 +61,6 @@ export default class MainApp extends Vue {
   snackbarController = SnackbarController.getInstance();
 
   created() {
-    console.log('Created');
     if (this.store.getters.isExistingUser) {
       this.store.dispatch(authActionTypes.SET_USER_FROM_LOCAL_STORAGE, true);
       this.store.dispatch(AllActionTypes.CREATE_NAV_MENU_SIGNED_IN, true);

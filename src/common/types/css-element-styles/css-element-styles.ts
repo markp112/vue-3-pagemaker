@@ -1,23 +1,24 @@
 // ** TO DO - merge this types to a single type.
 
 export type CssStyleTypes =
-  | "background-color"
-  | "color"
-  | "border-color"
-  | "borderEdge"
-  | "border-radius"
-  | "borderStyle"
-  | "borderWidth"
-  | "fontFamily"
-  | "fontSize"
-  | "fontWeight"
-  | "italic"
-  | "not-italic"
-  | "shadow"
-  | "underline"
-  | "no-underline"
-  | "transparency"
-  | "undefined";
+  | 'background-color'
+  | 'color'
+  | 'border-color'
+  | 'borderEdge'
+  | 'border-radius'
+  | 'borderStyle'
+  | 'borderWidth'
+  | 'fontFamily'
+  | 'fontSize'
+  | 'fontWeight'
+  | 'italic'
+  | 'not-italic'
+  | 'shadow'
+  | 'underline'
+  | 'no-underline'
+  | 'transparency'
+  | 'textDecoration'
+  | 'undefined';
 
   export type StyleTags =
   | 'color'

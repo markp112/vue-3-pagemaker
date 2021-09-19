@@ -21,7 +21,7 @@
           @selectChange="onFontWeightChange"
         >
         </icon-select>
-        <icon-toggle-button :thisIconButton="italicButton" @onChange="onItalicClick" ></icon-toggle-button>
+        <icon-toggle-button :thisIconButton="italicButton" @onChange="onItalicClick" />
         <icon-toggle-button :thisIconButton="underLineButton" @onChange="onUnderlineClick" ></icon-toggle-button>
         <indent-outdent
           @onIndentClick="onIndentClick"
@@ -40,7 +40,7 @@
       contenteditable="plaintext-only"
       ref="texteditorcontent"
       @mouseup="getSelection()"
-      @keydown="onKeyDown"
+      @keydown="onKeyDown()"
       >
     </div>
     
@@ -53,18 +53,16 @@
  */
 
 import { Vue, Options } from 'vue-class-component';
-// import ParagraphComponent from './paragraph/paragraph.vue';
-import IconSelect from '@/components/base/pickers/icon-select/icon-select.vue';
-import FontSelect from '@/components/base/pickers/font-selector/font-selector.vue';
-import DropDown from '@/components/base/pickers/drop-down/drop-down.vue';
-import { Indents } from '@/classes/dom/range/range-base';
-import { Paragraph } from '@/classes/dom/range/commands/newLine';
-import { RH } from '@/classes/dom/range/RH';
-import { AlignText } from '@/classes/dom/range/commands/align-text';
-// import { ButtonIconNumeric } from '@/models/styles/button-icon/button-numeric-list/button-numeric-list';
-// import { StyleElement, TextAttributes } from '@/classes/text-attributes/text-attributes';
+import ParagraphComponent from './components/paragraph/paragraph.vue';
+import IconSelect from '@/components/pickers/icon-select/icon-select.vue';
+import FontSelect from '@/components/pickers/font-picker/font-picker.vue';
+import DropDown from '@/components/pickers/drop-down/drop-down.vue';
+
+import { Paragraph } from './classes/range/commands/newline/newline';
+import { AlignText } from '@/modules/text-editor/classes/range/commands/align-text/align-text';
+import { RH } from '@/modules/text-editor/classes/range/rh';
+import { Indents } from '@/modules/text-editor/classes/range/range-base';
 // import { TextModule } from '@/store/text-editor/text-editor';
-// import { TextElement } from '@/classes/page-element/page-components/text-element/TextElement';
 import { Style } from '@/classes/base/style/style';
 import { StyleTags } from '@/common/types/css-element-styles/css-element-styles';
 import { ButtonFactory } from '@/classes/buttons/sidebar-panel/factory';
@@ -72,7 +70,7 @@ import { pageActionTypes } from '@/store/modules/page';
 import { useStore } from '@/store';
 import { sidebarActionTypes } from '@/store/modules/sidebar';
 import TextAlignment from './editor-buttons/justify/justify.vue';
-import IndentOutdent from './indent/indent.vue';
+import IndentOutdent from './editor-buttons/indent/indent.vue';
 import CloseButton from '@/components/base/base-button/close-button/close-button.vue';
 import ColourSelect from '@/components/pickers/colour-picker/colour-selector/colour-selector.vue';
 import IconToggleButton from '@/components/base/icon-buttons/icon-toggle/icon-toggle-button.vue';
@@ -94,7 +92,7 @@ import { textEditorActionTypes } from '@/store/modules/text-editor';
     'font-select': FontSelect,
     'icon-toggle-button': IconToggleButton,
     'drop-down': DropDown,
-    // 'paragraph-component': ParagraphComponent,
+    'paragraph-component': ParagraphComponent,
   },
   props: {
     content: { default: '' },
@@ -107,14 +105,14 @@ export default class TextEditor extends Vue {
   rangeClone: Range = new Range();
   isFontItalic = false;
   isFontUnderlined = false;
-  // fontWeightIconList = fontWeightIconList;
+  fontWeightIconList = fontWeightIconList;
   fontWeightButton: ButtonIconClassList = new ButtonFactory().createButton('class-list', 'font-weight') as ButtonIconClassList;
   italicButton: ButtonIconClassInterface = new ButtonFactory().createButton('class', 'italic-button') as ButtonIconClassInterface;
   underLineButton: ButtonIconClassInterface = new ButtonFactory().createButton('class', 'underline-button') as ButtonIconClassInterface;
   fontSizeButton: ButtonIconNumeric = new ButtonFactory().createButton('numeric', 'font-size') as ButtonIconNumeric;
   store = useStore();
 
-  mounted() {
+mounted() {
     this.store.dispatch(textEditorActionTypes.BUILD_PARAGRAPHS, this.content);
     this.reset();
   }
@@ -127,8 +125,12 @@ export default class TextEditor extends Vue {
 
   reset() {
     const textEditor: HTMLDivElement = this.$refs.texteditorcontent as HTMLDivElement;
-    textEditor.childNodes.forEach(node => node.remove());
-    textEditor.innerHTML = this.content;
+    if (textEditor) {
+      if (textEditor.hasChildNodes()) {
+        textEditor.childNodes.forEach(node => node.remove());
+      }
+      textEditor.innerHTML = this.content;
+    }
   }
 
   mouseOut(event: MouseEvent) {
@@ -210,7 +212,7 @@ export default class TextEditor extends Vue {
   }
 
   onFontWeightChange(iconElement:  Style): void {
-    const textAttributes: TextAttributes = TextAttributes.getInstance();
+    // const textAttributes: TextAttributes = TextAttributes.getInstance();
     this.setStyle('font-weight', iconElement.value, 'class');
   }
 

@@ -214,7 +214,7 @@ import BaseButton from '@/components/base/base-button/base-button.vue';
 import SubmitCancel from '@/components/base/base-button/submit-cancel/submit-cancel.vue';
 import IconPicker from '@/components/pickers/icon-picker/icon-picker.vue';
 import InvalidForm from '@/components/base/notifications/invalid-form/invalid-form.vue';
-import IconImage from '@/components/base/icon/icon.vue';
+import IconImage from '@/components/base/icon/icon-image.vue';
 import TextInput from '@/components/base/form-controls/text-input/text-input.vue';
 import SelectInput from '@/components/base/form-controls/select/select-input.vue';
 import { reactive } from '@vue/reactivity';

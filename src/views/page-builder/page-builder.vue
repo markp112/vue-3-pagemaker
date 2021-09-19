@@ -36,13 +36,13 @@
 import { Vue, Options } from 'vue-class-component';
 import { AllActionTypes, useStore } from '@/store';
 import { ComponentCounter } from '@/classes/base/component-counter/component-counter';
-import TextEditor from '@/components/base/text/text-editor/text-editor.vue';
 import { PageElementClasses, PageElementFactory } from '@/classes/page-elements/factory/page-elements-factory';
 import { PageContainer } from '@/classes/page-elements/page-container/page-container';
 import { FirebaseDataBuilder } from '@/classes/page-elements/firebase/builder/firebase-data-builder';
 import { pageActionTypes } from '@/store/modules/page';
 import Container from './partials/container/container.vue';
 import EditDeleteOption from '@/components/base/edit-delete-option/edit-delete-option.vue';
+import TextEditor from '@/modules/text-editor/text-editor.vue';
 
 const PARENT = 'ROOT';
 
@@ -99,13 +99,18 @@ export default class PageBuilder extends Vue {
       return this.store.getters.getPageElements;
   }
 
-  get showTextModal(): boolean {
+  showTextModal(): boolean {
+    console.log('%c%s', 'color: #917399', this.store.getters.showTextModal)
     return this.store.getters.showTextModal;
   }
 
   get editedComponentText(): string {
-    const content = this.store.getters.editedComponent!.content;
-    return content ? content : '';
+    const editedComponent = this.store.getters.editedComponent;
+    if (editedComponent) {
+      return editedComponent.content;
+    } else {
+      return '';
+    }
   }
 
   onDrop(event: DragEvent): void {

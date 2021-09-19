@@ -19,7 +19,7 @@
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
-import Icon from '@/components/base/icon/icon.vue';
+import Icon from '@/components/base/icon/icon-image.vue';
 
 @Options({
   components: {

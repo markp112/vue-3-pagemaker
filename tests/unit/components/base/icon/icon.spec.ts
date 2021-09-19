@@ -1,5 +1,5 @@
 import { DOMWrapper, mount } from '@vue/test-utils';
-import IconImage from '@/components/base/icon/icon.vue';
+import IconImage from '@/components/base/icon/icon-image.vue';
 import Tooltip from '@/components/base/notifications/tooltip/tooltip.vue';
 import Vue from 'vue';
 

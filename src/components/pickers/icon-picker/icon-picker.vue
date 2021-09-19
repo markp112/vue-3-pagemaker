@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import {Vue, Options } from "vue-class-component";
-import IconImage from "@/components/base/icon/icon.vue";
+import IconImage from "@/components/base/icon/icon-image.vue";
 import BaseButton from '@/components/base/base-button/base-button.vue';
 
 @Options({

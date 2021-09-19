@@ -72,7 +72,7 @@ import { Vue, Options } from 'vue-class-component';
 import { AllActionTypes, useStore } from '@/store';
 import { ASidebarElement } from '@/classes/sidebar-element/sidebar-element/aSidebar-element';
 import DraggableIcon from '../draggable-icon/draggable-con.vue';
-import IconImage from '@/components/base/icon/icon.vue';
+import IconImage from '@/components/base/icon/icon-image.vue';
 import { Notification } from '@/models/notification/notification';
 import { pageActionTypes } from '@/store/modules/page';
 import { showTheSnackbar } from '@/common/show-snackbar/show-snackbar';

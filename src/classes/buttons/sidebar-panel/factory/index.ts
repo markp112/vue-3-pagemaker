@@ -62,7 +62,9 @@ export class ButtonFactory {
 
   private buildClass(
     whichButton: ButtonRequestTypes
-  ): ButtonIconClassInterface {
+    ): ButtonIconClassInterface {
+    console.log('%c⧭', 'color: #1d5673', whichButton);
+
     return new ButtonIconClassWrapper().build(whichButton);
   }
 
