@@ -51,7 +51,6 @@ export interface FilesInterface {
   "900"?: string;
   "900italic"?: string;
 }
-
 export class Fonts {
   private static instance: Fonts;
 
