@@ -112,4 +112,4 @@ export const actions: ActionTree<State, RootState> & Actions = {
   [ActionTypes.UPDATE_DRAG_FLAG]({ commit }, toggle) {
     commit(MutationTypes.SET_DRAG_FLAG, toggle)
   },
-}
+};

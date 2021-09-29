@@ -23,8 +23,8 @@
         <span class="font-filter" @click="filterFonts('sans-serif')">ss</span>
       </div>
       <ul class="dropdown-menu-background flex flex-col items-start w-48 h-64 shadow-lg overflow-y-scroll"
-        @scroll="onListScroll"
-        @mousewheel="onListScroll"
+        ref='fontList'
+        @mousewheel="onListScroll($event)"
       >
         <li v-for="font in listOfFonts"
           :key="font.fontName" 
@@ -57,24 +57,18 @@ export default class FontSelect extends Vue {
   fontList: FontItemInterface[] = this.fonts.getListofFonts() as FontItemInterface[];
   ifiniteScroll: ScrollInfinite<FontItemInterface> = new ScrollInfinite<FontItemInterface>(this.DROP_DOWN_ITEMS, this.fontList);
   
-  
   show() {
     this.toggleSelectOptions = !this.toggleSelectOptions;
   }
 
-  onListScroll(event: WheelEvent | TouchEvent) {
-    console.log('%c⧭', 'color: #997326', event as WheelEvent, 'fred')
-    if (this.isWheelEvent(event)) {
+  onListScroll(event: WheelEvent) {
+    if (event.deltaY > 0) {
       this.ifiniteScroll.scrollForward();
     } else {
       this.ifiniteScroll.scrollBackward();
     }
   }
 
-  isWheelEvent(event: WheelEvent | TouchEvent):event is WheelEvent {
-    console.log('%c%s', 'color: #735656', event.type)
-    return (event.type === 'wheel' || event.type === 'mousewheel');
-  }
 
   fontClicked(fontName: string) {
     this.show();
@@ -88,6 +82,8 @@ export default class FontSelect extends Vue {
 
   filterFonts(filterBy: string) {
     this.fontList = this.fonts.filterFonts(filterBy);
+    this.ifiniteScroll = new ScrollInfinite<FontItemInterface>(this.DROP_DOWN_ITEMS, this.fontList);
+
   }
 
   get listOfFonts(): FontItemInterface[] {
