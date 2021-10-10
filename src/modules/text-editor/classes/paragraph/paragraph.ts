@@ -1,30 +1,28 @@
 import Guid from "@/common/guid/guid";
 
 export default class Paragraph {
-  newLine() {
-    throw new Error('Method not implemented.');
-  }
-  #hasUnderline: boolean;
-  #id = '';
+  _content = '';
 
-  constructor(hasUnderline: boolean, id = Guid.newSmallGuid()) {
-    this.#hasUnderline = hasUnderline;
-    this.#id = id;
+  constructor(content: string) {
+    this._content = content;
   }
 
   get hasUnderline(): boolean {
-    return this.#hasUnderline;
-  }
-
-  set hasUnderline(hasUnderline: boolean) {
-    this.#hasUnderline = hasUnderline;
+    return this._content.includes('underline');
   }
 
   get id(): string {
-    return this.#id;
+    const startOfId = this._content.indexOf('id') + 4;
+    const endOfId = this._content.indexOf('"', startOfId);
+    return this._content.substring(startOfId, endOfId)
   }
 
-  set id(id: string) {
-    this.#id = id;
+  get content(): string {
+    return this._content;
   }
+
+  set content(content: string) {
+    this._content = content;
+  }
+
 };

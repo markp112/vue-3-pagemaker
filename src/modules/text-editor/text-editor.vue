@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-32 border border-gray-100 z-50 shadow-lg m-0" v-if="show">
+  <div class="w-full h-32 border border-gray-100 z-50 shadow-lg m-0">
     <div class="w-full h-12 flex flex-row justify-between" ref="text-editor-toolbar">
       <div class="sidebar-button-panel">
         <span
@@ -21,7 +21,7 @@
           @selectChange="onFontWeightChange"
         >
         </icon-select>
-        <icon-toggle-button :thisIconButton="italicButton" @onChange="onItalicClick" />
+        <icon-toggle-button :thisIconButton="italicButton" @onChange="onItalicClick($event)" />
         <icon-toggle-button :thisIconButton="underLineButton" @onChange="onUnderlineClick" ></icon-toggle-button>
         <indent-outdent
           @onIndentClick="onIndentClick"
@@ -36,9 +36,9 @@
     </div>
     <div
       id="texteditorcontent"
+      ref="texteditorcontent"
       class="bg-white h-full p-1"
       contenteditable="plaintext-only"
-      ref="texteditorcontent"
       @mouseup="getSelection()"
       @keydown="onKeyDown()"
       >
@@ -81,6 +81,7 @@ import { ButtonIconNumeric } from '@/classes/buttons/sidebar-panel/button-types/
 import { TextAttributes } from '@/classes/sidebar/text-attributes/text-attributes';
 import { TextElement } from '@/classes/page-elements/text-element/text-element';
 import { textEditorActionTypes } from '@/store/modules/text-editor';
+import { Paragraphs } from './classes/paragraphs/paragraphs';
 
 @Options({
   components: {
@@ -93,9 +94,6 @@ import { textEditorActionTypes } from '@/store/modules/text-editor';
     'icon-toggle-button': IconToggleButton,
     'drop-down': DropDown,
     'paragraph-component': ParagraphComponent,
-  },
-  props: {
-    content: { default: '' },
   },
 })
 export default class TextEditor extends Vue {
@@ -111,9 +109,14 @@ export default class TextEditor extends Vue {
   underLineButton: ButtonIconClassInterface = new ButtonFactory().createButton('class', 'underline-button') as ButtonIconClassInterface;
   fontSizeButton: ButtonIconNumeric = new ButtonFactory().createButton('numeric', 'font-size') as ButtonIconNumeric;
   store = useStore();
+  paragraphs = new Paragraphs('');
 
-mounted() {
-    this.store.dispatch(textEditorActionTypes.BUILD_PARAGRAPHS, this.content);
+  mounted() {
+    const editedComponent = this.store.getters.editedComponent;
+    if (editedComponent) {
+      this.content = editedComponent.content;
+      this.paragraphs = new Paragraphs(this.content);
+    }
     this.reset();
   }
 
@@ -121,15 +124,16 @@ mounted() {
     const textEditor: HTMLParagraphElement = this.$refs.texteditorcontent as HTMLParagraphElement;
     this.store.dispatch(pageActionTypes.UPDATE_CONTENT, textEditor.innerHTML);
     this.store.dispatch(sidebarActionTypes.SHOW_TEXT_MODAL, false);
+    this.$router.push('/pageBuilder');
   }
 
   reset() {
-    const textEditor: HTMLDivElement = this.$refs.texteditorcontent as HTMLDivElement;
+    const textEditor = this.$refs.texteditorcontent as HTMLDivElement;
     if (textEditor) {
       if (textEditor.hasChildNodes()) {
         textEditor.childNodes.forEach(node => node.remove());
       }
-      textEditor.innerHTML = this.content;
+      textEditor.innerHTML = this.paragraphs.getParagraphsAsString();
     }
   }
 
@@ -217,6 +221,7 @@ mounted() {
   }
 
   onItalicClick(style: Style): void {
+    console.log('%c⧭', 'color: #ffa280', style)
     this.setStyle('font-style', style.value, 'class');
   }
   onUnderlineClick(style: Style): void {

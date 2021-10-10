@@ -2,7 +2,7 @@
  <div class="sidebar-button-container">
     <img
       :src="getPath()"
-      class="text-accent-600 cursor-pointer hover:bg-gray-600"
+      class="text-accent-2 cursor-pointer hover:bg-gray-600"
       :class="{ 'bg-secondary-100': isActive }"
       @click="onClick" 
     />
@@ -37,8 +37,12 @@ import { StyleTags, CssStyleTypes } from '@/common/types/css-element-styles/css-
       style: styleValue, 
       value: styleValue ,
       unit: 'px',
-    }
-    this.$emit('onchange', style);
+    };
+    this.emitOnChange(style);
+  }
+
+  emitOnChange(style: Style) {
+    this.$emit('onChange', style);
   }
 
   getPath(): string {
@@ -49,7 +53,6 @@ import { StyleTags, CssStyleTypes } from '@/common/types/css-element-styles/css-
       }
     } 
       return '';
-    
   }
 
   getStyle(): StyleTags | CssStyleTypes {

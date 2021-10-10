@@ -40,8 +40,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
     paras.forEach(para => {
       const hasUnderline = para.includes('underline');
       if (para !== '') {
-        const id = getId(para);
-        const paragraph = new Paragraph(hasUnderline, id);
+        const paragraph = new Paragraph(para);
         commit(MutationTypes.ADD, paragraph);
       }
     })
@@ -49,7 +48,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
 
   [ActionTypes.CREATE_PARAGRAPH]({commit},boolean) {
     return new Promise((resolve) => {
-      const paragraph = new Paragraph(false);
+      const paragraph = new Paragraph('');
       commit(MutationTypes.ADD, paragraph);
       resolve(paragraph.id);
     })

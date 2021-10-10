@@ -5,5 +5,5 @@ export type State = {
 };
 
 export const state: State = {
-  textEditorParagraphs: new Paragraphs(),
+  textEditorParagraphs: new Paragraphs(''),
 };

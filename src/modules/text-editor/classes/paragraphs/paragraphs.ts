@@ -4,23 +4,39 @@ import Paragraph from "../paragraph/paragraph";
  * @description maintains a list of the paragraphs in the text editor each paragraph is given a unique id 
  */
 export class Paragraphs {
-  private paragraphs: Paragraph[] = [];
+  paragraphs: Paragraph[] = [];
 
-  length() {
+  length(): number {
     return this.paragraphs.length;
   }
 
-  add(paragraph: Paragraph) {
-    if (!this.getParagraph(paragraph.id)) {
+  constructor(htmlContent: string) {
+    this.build(htmlContent);
+  }
+
+  add(paragraph: Paragraph): void {
+    const doesParagraphExist = this.getParagraph(paragraph.id);
+    if (!doesParagraphExist) {
       this.paragraphs.push(paragraph);
     }
+  }
+
+  private build(htmlContent: string) {
+    const paras = htmlContent.split('<p');
+    console.log('%c⧭', 'color: #364cd9', paras);
+    paras.forEach(para => {
+      if (para !== '') {
+        const paragraph = new Paragraph(`<p${para}`);
+        this.add(paragraph);
+      }
+    })
   }
 
   clear() {
     this.paragraphs = [];
   }
 
-  remove(id: string){
+  remove(id: string): void {
     this.paragraphs = this.paragraphs.filter(para => para.id !== id);
   }
 
@@ -28,12 +44,12 @@ export class Paragraphs {
     return this.paragraphs.filter(para => para.id === id)[0];
   }
 
-  countOfUnderline(ids: string[]) {
-    let count = 0;
-    ids.forEach(element => {
-      const underline = this.getParagraph(element).hasUnderline;
-      count += underline ? 1 : 0;
-    });
-    return count;
+  getParagraphs(): Paragraph[] {
+    return this.paragraphs;
   }
+
+  getParagraphsAsString(): string {
+    return this.paragraphs.map(para => para.content).join('');
+  }
+
 };

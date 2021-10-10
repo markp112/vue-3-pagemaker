@@ -20,14 +20,14 @@
       >
       </component>
       <edit-delete-option @deleteClicked="deleteClicked()"></edit-delete-option>
-      <transition>
+      <!-- <transition>
         <text-editor
+          v-show="showTextModal"
           class="absolute bg-gray-200 w-full top-0 left-0 h-full"
-          v-if="showTextModal"
           :content="editedComponentText"
         >
         </text-editor>
-      </transition>
+      </transition> -->
     </div>
   </section>
 </template>
@@ -42,7 +42,7 @@ import { FirebaseDataBuilder } from '@/classes/page-elements/firebase/builder/fi
 import { pageActionTypes } from '@/store/modules/page';
 import Container from './partials/container/container.vue';
 import EditDeleteOption from '@/components/base/edit-delete-option/edit-delete-option.vue';
-import TextEditor from '@/modules/text-editor/text-editor.vue';
+// import TextEditor from '@/modules/text-editor/text-editor.vue';
 
 const PARENT = 'ROOT';
 
@@ -52,7 +52,7 @@ const PARENT = 'ROOT';
   },
   components: {
     'edit-delete-option': EditDeleteOption,
-    'text-editor': TextEditor,
+    // 'text-editor': TextEditor,
     container: Container
   }
 })
@@ -99,13 +99,18 @@ export default class PageBuilder extends Vue {
       return this.store.getters.getPageElements;
   }
 
-  showTextModal(): boolean {
-    console.log('%c%s', 'color: #917399', this.store.getters.showTextModal)
-    return this.store.getters.showTextModal;
-  }
+  // showTextModal(): boolean {
+  //   console.log('%c%s', 'color: #917399', this.store.getters.showTextModal)
+  //   const isShowTextModal = this.store.getters.showTextModal;
+  //   if (isShowTextModal) {
+  //     this.$router.push('/texteditor')
+  //   }
+  //   return false;
+  // }
 
   get editedComponentText(): string {
     const editedComponent = this.store.getters.editedComponent;
+    console.log('%c⧭', 'color: #00ff88', editedComponent)
     if (editedComponent) {
       return editedComponent.content;
     } else {
