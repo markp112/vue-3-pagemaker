@@ -1,5 +1,7 @@
 pipeline {
-  agent any 
+  agent {
+    dockerfile true
+  }
 
   stages {
       stage('checkout') {
@@ -10,9 +12,13 @@ pipeline {
       }
 
       stage('Stage-1 Build') {
+        
         steps {
           echo "Starting Build...."
-          sh 'docker-compose build'
+          sh '''
+            docker build -t pageMaker-3:${BUILD_NUMBER} . 
+            docker tag pageMaker-3:${BUILD_NUMBER} pageMaker-3:latest 
+          '''
         }
       }
   }
