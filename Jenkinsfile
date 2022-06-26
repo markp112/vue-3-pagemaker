@@ -7,9 +7,9 @@ pipeline {
         checkout scm
       }
 
-      stage('Stage-" Build') {
+      stage('Stage-1" Build') {
         steps {
-          echo "Starting Build....")
+          echo "Starting Build...."
           sh 'docker-compose build'
         }
       }
