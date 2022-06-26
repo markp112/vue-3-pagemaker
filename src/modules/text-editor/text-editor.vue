@@ -82,6 +82,7 @@ import { TextAttributes } from '@/classes/sidebar/text-attributes/text-attribute
 import { TextElement } from '@/classes/page-elements/text-element/text-element';
 import { textEditorActionTypes } from '@/store/modules/text-editor';
 import { Paragraphs } from './classes/paragraphs/paragraphs';
+import { RangeFactory } from './classes/range/model/factory/factory';
 
 @Options({
   components: {
@@ -206,6 +207,7 @@ export default class TextEditor extends Vue {
       const style: Style = { style: styleName, value: value };
       this.rangeClone = this.range.cloneRange();
       const rh = new RH(this.range);
+      console.log('%c⧭', 'color: #cc7033', this.range)
       rh.applyStyle('span', style, classOrStyle);
       this.restoreSelection(this.rangeClone);
   }
@@ -216,7 +218,6 @@ export default class TextEditor extends Vue {
   }
 
   onFontWeightChange(iconElement:  Style): void {
-    // const textAttributes: TextAttributes = TextAttributes.getInstance();
     this.setStyle('font-weight', iconElement.value, 'class');
   }
 
@@ -224,9 +225,14 @@ export default class TextEditor extends Vue {
     console.log('%c⧭', 'color: #ffa280', style)
     this.setStyle('font-style', style.value, 'class');
   }
+
   onUnderlineClick(style: Style): void {
     console.log('%c⧭', 'color: #e5de73', style)
-    this.setStyle('text-decoration', style.value, 'class');
+    // this.setStyle('text-decoration', style.value, 'class');
+    this.rangeClone = this.range.cloneRange();
+    const factory = new RangeFactory(this.rangeClone, 'underline');
+    factory.process('span');
+
   }
 
   onFontSizeChange(style: Style): void {

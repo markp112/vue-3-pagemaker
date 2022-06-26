@@ -2,7 +2,7 @@
   <section class="h-full">
     <h2 class="page-heading">Editing: {{ title }} Page</h2>
     <div
-      :id="id"
+      :id="componentid"
       class="relative p-4 w-full h-full border page-background"
       ref="ROOT"
       @dragover.prevent
@@ -48,7 +48,7 @@ const PARENT = 'ROOT';
 
 @Options({
   props: {
-    id: { default: '' }
+    componentid: { default: '' }
   },
   components: {
     'edit-delete-option': EditDeleteOption,

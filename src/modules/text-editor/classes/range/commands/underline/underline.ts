@@ -25,11 +25,14 @@ export class Underline extends RHBase {
   
   constructor(range: Range) {
     super(range);
+    console.log('%c⧭', 'color: #00a3cc', range);
   }
   
   public process(htmlTag: HTMLTags) {
     this.isElementUnderlined = this.getNodesInSelectionUnderlineStatus();
+    console.log('%c⧭', 'color: #00e600', this.isElementUnderlined);
     const hasUnderline = this.isElementUnderlined.startContent && this.isElementUnderlined.endContent && this.isAllUnderlined();
+    console.log('%c⧭', 'color: #ff0000', hasUnderline);
     if (hasUnderline) {
       this.removeUnderline();
     } else {
@@ -43,6 +46,7 @@ export class Underline extends RHBase {
       endContent: this.isParentUnderlined(this.range.endContainer),
       selectedContent: this.isParentUnderlined(this.range.commonAncestorContainer),
     };
+    console.log('%c⧭', 'color: #e50000', selectedContent);
     return selectedContent;
   }
 
@@ -62,6 +66,7 @@ export class Underline extends RHBase {
   private hasClassUnderline(node: Node): boolean {
     const spanElement = node as HTMLSpanElement;
     const className = spanElement.className;
+    console.log('%c⧭', 'color: #aa00ff', className);
     if (className) {
       return className.includes('underline');
     }
@@ -72,7 +77,6 @@ export class Underline extends RHBase {
   private removeUnderline() {
     const removeUnderline = new RemoveUnderline(this.range);
     removeUnderline.process();
-
   }
 
   isAllUnderlined(): boolean {

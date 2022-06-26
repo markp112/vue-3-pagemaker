@@ -24,6 +24,7 @@ export class RemoveUnderline extends RHBase {
   }
 
   process() {
+    console.log('%c⧭', 'color: #5200cc', 'process');
     this.underlineNode = this.getParentNodeWithUnderline(this.range.commonAncestorContainer);
     if (this.underlineNode) {
       this.initialiseNodes();

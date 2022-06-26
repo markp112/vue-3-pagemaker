@@ -11,6 +11,8 @@ export class RangeRow extends RHBase {
   }
 
   process(htmlTag: HTMLTags, style: Style, classOrStyle: ClassOrStyle) {
+    console.log('%c⧭', 'color: #86bf60', classOrStyle);
+    console.log('%c%s', 'color: #f27999', 'process');
     if (!this.range) throw new Error('RH: Range not set');
     if (classOrStyle === 'class') {
       if (style.value.includes('underline')) {

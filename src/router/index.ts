@@ -20,11 +20,11 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/login',
     name: 'login',
-    component:() =>
+    component: () =>
       import ('../views/auth/login.vue'),
       meta: {
         breadcrumb: [{ name: 'home', link: 'home' }, { name: 'login' },]
-    }
+      }
   },
   {
     path: '/sites',

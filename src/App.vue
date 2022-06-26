@@ -61,13 +61,13 @@ export default class MainApp extends Vue {
   snackbarController = SnackbarController.getInstance();
 
   created() {
-    if (this.store.getters.isExistingUser) {
-      this.store.dispatch(authActionTypes.SET_USER_FROM_LOCAL_STORAGE, true);
-      this.store.dispatch(AllActionTypes.CREATE_NAV_MENU_SIGNED_IN, true);
-      this.$router.push('/sites');
-    } else {
+    // if (this.store.getters.isExistingUser) {
+    //   this.store.dispatch(authActionTypes.SET_USER_FROM_LOCAL_STORAGE, true);
+    //   this.store.dispatch(AllActionTypes.CREATE_NAV_MENU_SIGNED_IN, true);
+    //   this.$router.push('/sites');
+    // } else {
       this.store.dispatch(AllActionTypes.CREATE_NAV_MENU_SIGNED_OUT, true);
-    }
+    // }
   }
 
   get showSnackbar() {
