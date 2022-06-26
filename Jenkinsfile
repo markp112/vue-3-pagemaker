@@ -2,9 +2,14 @@ pipeline {
   agent any 
 
   stages {
-      stage('Stage-1 Build') {
+      stage('checkout') {
+        echo "Checking out source code"
+        checkout scm
+      }
+
+      stage('Stage-" Build') {
         steps {
-          echo("Stage 1 Build Started")
+          echo "Starting Build....")
           sh 'docker-compose build'
         }
       }
