@@ -3,11 +3,13 @@ pipeline {
 
   stages {
       stage('checkout') {
-        echo "Checking out source code"
-        checkout scm
+        steps{
+          echo "Checking out source code"
+          checkout scm
+        }
       }
 
-      stage('Stage-1" Build') {
+      stage('Stage-1 Build') {
         steps {
           echo "Starting Build...."
           sh 'docker-compose build'
