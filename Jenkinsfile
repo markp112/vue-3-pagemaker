@@ -16,9 +16,8 @@ pipeline {
           echo "Starting Build...."
         }
       }
-
+  }
   environment {
     VERSION= "1.0.0"
     }
   }
-}
