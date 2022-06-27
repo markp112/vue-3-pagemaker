@@ -14,10 +14,11 @@ pipeline {
       stage('Stage-1 Build') {
         steps {
           echo "Starting Build...."
+        }
       }
-  }
 
   environment {
     VERSION= "1.0.0"
+    }
   }
 }
