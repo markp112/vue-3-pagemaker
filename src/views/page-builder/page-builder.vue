@@ -2,7 +2,7 @@
   <section class="h-full">
     <h2 class="page-heading">Editing: {{ title }} Page</h2>
     <div
-      :id="id"
+      :id="componentid"
       class="relative p-4 w-full h-full border page-background"
       ref="ROOT"
       @dragover.prevent
@@ -22,8 +22,8 @@
       <edit-delete-option @deleteClicked="deleteClicked()"></edit-delete-option>
       <!-- <transition>
         <text-editor
+          v-show="showTextModal"
           class="absolute bg-gray-200 w-full top-0 left-0 h-full"
-          v-if="showTextModal"
           :content="editedComponentText"
         >
         </text-editor>
@@ -33,40 +33,40 @@
 </template>
 
 <script lang="ts">
-import { Vue, Options } from "vue-class-component";
+import { Vue, Options } from 'vue-class-component';
 import { AllActionTypes, useStore } from '@/store';
-import { ComponentCounter } from "@/classes/base/component-counter/component-counter";
-// import TextEditor from "@/components/base/text/text-editor/text-editor.vue";
+import { ComponentCounter } from '@/classes/base/component-counter/component-counter';
 import { PageElementClasses, PageElementFactory } from '@/classes/page-elements/factory/page-elements-factory';
 import { PageContainer } from '@/classes/page-elements/page-container/page-container';
 import { FirebaseDataBuilder } from '@/classes/page-elements/firebase/builder/firebase-data-builder';
 import { pageActionTypes } from '@/store/modules/page';
 import Container from './partials/container/container.vue';
 import EditDeleteOption from '@/components/base/edit-delete-option/edit-delete-option.vue';
+// import TextEditor from '@/modules/text-editor/text-editor.vue';
 
-const PARENT = "ROOT";
+const PARENT = 'ROOT';
 
 @Options({
   props: {
-    id: { default: "" }
+    componentid: { default: '' }
   },
   components: {
-    "edit-delete-option": EditDeleteOption,
-    // "text-editor": TextEditor,
+    'edit-delete-option': EditDeleteOption,
+    // 'text-editor': TextEditor,
     container: Container
   }
 })
 export default class PageBuilder extends Vue {
-  name = "page-builder";
+  name = 'page-builder';
   title: string | string[] = '';
-  bgColour = "bg-gray-200";
+  bgColour = 'bg-gray-200';
   showModal = false;
   store = useStore();
 
   private componentCounter: ComponentCounter = ComponentCounter.getInstance();
   private componentFactory: PageElementFactory = new PageElementFactory();
   private rootComponent: PageContainer = this.componentFactory.createElement(
-    "rootContainer",
+    'rootContainer',
     PARENT
   ) as PageContainer;
 
@@ -89,7 +89,7 @@ export default class PageBuilder extends Vue {
   }
 
   getStyleDimension(style: string): number {
-    if (style === "") {
+    if (style === '') {
       return 0;
     }
     return parseInt(style.substring(0, style.length - 2));
@@ -99,13 +99,23 @@ export default class PageBuilder extends Vue {
       return this.store.getters.getPageElements;
   }
 
-  // get showTextModal(): boolean {
-  //   return this.$store.getters.showTextModal;
+  // showTextModal(): boolean {
+  //   console.log('%c%s', 'color: #917399', this.store.getters.showTextModal)
+  //   const isShowTextModal = this.store.getters.showTextModal;
+  //   if (isShowTextModal) {
+  //     this.$router.push('/texteditor')
+  //   }
+  //   return false;
   // }
 
   get editedComponentText(): string {
-    const content = this.store.getters.editedComponent!.content;
-    return content ? content : '';
+    const editedComponent = this.store.getters.editedComponent;
+    console.log('%c⧭', 'color: #00ff88', editedComponent)
+    if (editedComponent) {
+      return editedComponent.content;
+    } else {
+      return '';
+    }
   }
 
   onDrop(event: DragEvent): void {
@@ -132,11 +142,10 @@ export default class PageBuilder extends Vue {
 
   getComponentName(event: DragEvent): string {
     const dataTransfer = event.dataTransfer;
-    return dataTransfer ? dataTransfer.getData("text") : "";
+    return dataTransfer ? dataTransfer.getData('text') : '';
   }
 
   deleteClicked(): void {
-    console.log('%c%s', 'color: #ff0000', 'deleteClicked')
     this.store.dispatch(pageActionTypes.DELETE_A_PAGE_ELEMENT, true);
   }
 

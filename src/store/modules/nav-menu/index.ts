@@ -5,8 +5,6 @@ import { Actions, actions, ActionTypes } from './actions/actions';
 import { Mutations, mutations, MutationTypes  } from './mutations/mutations';
 import { RootState } from '@/store';
 
-export { State };
-
 export type NavStore <S = State> =
   Omit<VuexStore<S>, 'commit'| 'getters' | 'dispatch'>
   & {

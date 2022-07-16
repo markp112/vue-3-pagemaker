@@ -49,8 +49,6 @@ export class Zoom extends ImageBase {
   }
 
   private calcNewDimensions(dimension: ADimension, operator: Operators, scaler: number): SimpleDimension {
-    console.log('%c%s', 'color: #7f7700', dimension.width.value);
-    console.log('%c%s', 'color: #423e07', dimension.height.value);
     const newDimensions: SimpleDimension = { width: 0, height: 0 };
     switch(operator) {
       case '*': 
@@ -81,7 +79,6 @@ export class Zoom extends ImageBase {
     const newDimension = this.calcNewDimensions(scaledSize, operator, SCALE);
     const deltaChange: Point = calcDimensionChange(newDimension, this.imageElement.image.scaledSize);
     const newLocation: Point = calcNewLocation(this.imageElement.image.location, deltaChange);
-    console.log('%c⧭', 'color: #00ff88', deltaChange);
     this.setLocation(this.imageElement.image.location, newLocation.y, newLocation.x);
     this.setDimensions(this.imageElement.image.scaledSize, newDimension);
   }

@@ -234,7 +234,6 @@ export class PageElementBuilder {
 
   public buildAnImage(): ImageElement {
     if (this._content === '') {
-      console.log('%c⧭', 'color: #731d1d', this._content);
       const imageDefaults = defaultSettings.imageDefaults;
       const NATURAL_HEIGHT: ValueAndUnit = imageDefaults.natural_height as ValueAndUnit;
       const NATURAL_WIDTH: ValueAndUnit = imageDefaults.natural_width as ValueAndUnit;

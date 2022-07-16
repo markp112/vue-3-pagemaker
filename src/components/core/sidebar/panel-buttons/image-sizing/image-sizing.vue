@@ -17,7 +17,7 @@ import { useStore } from '@/store';
 import { SidebarIcon } from '@/classes/sidebar/classes/sidebar-icon';
 import { ImageElement } from '@/classes/page-elements/image-element/image-element';
 import { StretchDirection, ZoomDirection } from '@/classes/images/types';
-import IconImage from '@/components/base/icon/icon.vue';
+import IconImage from '@/components/base/icon/icon-image.vue';
 import { Zoom } from '@/classes/images/zoom/zoom';
 import { StretchImage } from '@/classes/images/stretch-image/stretch-image';
 

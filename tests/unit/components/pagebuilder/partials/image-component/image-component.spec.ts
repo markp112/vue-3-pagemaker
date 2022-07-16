@@ -12,7 +12,7 @@ type propsData ={
 const mixin: GenericComponentMixins = new GenericComponentMixins();
 
 const createImageComponent = (propsData: propsData) =>
- mount(ImageComponent, {
+    mount(ImageComponent, {
     
     props: propsData,
     // global: {

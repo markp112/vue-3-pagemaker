@@ -164,6 +164,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
   },
 
   [ActionTypes.SHOW_TEXT_MODAL]({commit}, showTextModal: boolean) {
+    console.log('%c%s', 'color: #d90000', showTextModal);
     commit(MutationTypes.SET_SHOW_TEXT_MODAL, showTextModal);
   },
 

@@ -6,6 +6,7 @@ import { SidebarModule, Store as sidebarStore, sidebarActionTypes, sidebarMutati
 import { PagesModule, Store as pagesStore, pagesActionTypes, pagesMutationTypes } from './modules/pages';
 import { PageModule, Store as pageStore, pageActionTypes, pageMutationTypes } from './modules/page';
 import { SnackbarModule, Store as snackbarStore, snackbarActionTypes, snackbarmutationTypes } from './modules/snackbar';
+import { TextEditorModule, Store as textEditorStore, textEditorActionTypes, textEditorMutationTypes} from './modules/text-editor';
 import { State as NavMenuState } from './modules/nav-menu/state/state';
 import { State as AuthState } from './modules/auth/state/state';
 import { State as SitesState } from './modules/sites/state/state';
@@ -13,6 +14,7 @@ import { State as SidebarState } from './modules/sidebar/state/state';
 import { State as PagesState } from './modules/pages/state/state';
 import { State as PageState } from './modules/page/state/state';
 import { State as snackbarState } from './modules/snackbar/state/state';
+import { State as textEditorState } from './modules/text-editor/state/state'
 
 export type RootState = {
   navMenu: NavMenuState,
@@ -22,6 +24,7 @@ export type RootState = {
   pages: PagesState,
   page: PageState,
   snackbar: snackbarState,
+  textEditor: textEditorState,
 }
 
 export type Store =
@@ -32,6 +35,7 @@ export type Store =
   & pagesStore<Pick<RootState, 'pages'>>
   & pageStore<Pick<RootState, 'page'>>
   & snackbarStore<Pick<RootState, 'snackbar'>>
+  & textEditorStore<Pick<RootState, 'textEditor'>>
 
 
 
@@ -46,7 +50,7 @@ export const store = createStore({
     PagesModule,
     PageModule,
     SnackbarModule,
-
+    TextEditorModule,
   }
 });
 
@@ -64,6 +68,7 @@ export const AllActionTypes = {
   ...pagesActionTypes,
   ...pageActionTypes,
   ...snackbarActionTypes,
+  ...textEditorActionTypes,
 };
 
 export const AllMutationTypes = {
@@ -74,4 +79,5 @@ export const AllMutationTypes = {
   ...pagesMutationTypes,
   ...pageMutationTypes,
   ...snackbarmutationTypes,
+  ...textEditorMutationTypes,
 };

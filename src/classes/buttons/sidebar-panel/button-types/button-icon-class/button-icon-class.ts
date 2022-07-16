@@ -1,4 +1,5 @@
 import { ImpactedAttributeTypes } from '@/classes/sidebar/button-event-manager/button-event-manager';
+import { CssStyleTypes } from '@/common/types/css-element-styles/css-element-styles';
 import { ButtonRequestTypes } from '../../types';
 import { ButtonIconClassInterface } from '../model';
 import { IconType, ComponentNames } from '../types';
@@ -7,8 +8,8 @@ export class ButtonIconClassBuilder {
   _styledElement: ImpactedAttributeTypes = 'undefined';
   _iconImage = '';
   _tooltip = '';
-  _classNameActive = '';
-  _classNameInActive = '';
+  _classNameActive: CssStyleTypes = 'undefined';
+  _classNameInActive: CssStyleTypes = 'undefined';
   _iconIsTypeOf: IconType = 'class';
   _componentName: ComponentNames = 'icon-picker';
 
@@ -29,12 +30,12 @@ export class ButtonIconClassBuilder {
     return this;
   }
 
-  withClassNameActive(className: string) {
+  withClassNameActive(className: CssStyleTypes) {
     this._classNameActive = className;
     return this;
   }
 
-  withClassNameInActive(className: string) {
+  withClassNameInActive(className: CssStyleTypes) {
     this._classNameInActive = className;
     return this;
   }

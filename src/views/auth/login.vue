@@ -1,11 +1,11 @@
 <template>
   <div>
     <horizontal-image-text>
-      <template v-slot:image-content>
+      <template v-slot:image-content class="">
         <img
           src="@/assets/images/bank-vault.jpg"
           alt="picture of a bank vault"
-          class="object-cover w-3/6 h-full"
+          class="object-fit"
         />
       </template>
       <template v-slot:text-content>
@@ -59,7 +59,7 @@ export default class Login extends Vue {
             this.formErrors.push("Invalid aUser name or password");
         } else {
           this.formErrors = [];
-          this.formErrors.push(err);
+          this.formErrors.push(err as string);
         }
       }
   }
@@ -69,3 +69,7 @@ export default class Login extends Vue {
   }
 }
 </script>
+
+<style lang="sass" scoped>
+
+</style>

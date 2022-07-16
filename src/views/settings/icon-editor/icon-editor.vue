@@ -27,7 +27,7 @@
         </ul>
       </div>
       <div class="ml-5 mt-5 w-9/12">
-        <form submit.prevent>
+        <form>
           <div class="dimensions">
             <text-input
               :initialValue="editorComponent.componentName"
@@ -71,7 +71,7 @@
             </span>
             <div>
               <div
-                v-if="editorComponent.sidebarIcon.icon !== ''"
+                v-if="editorComponent.sidebarIcon !== ''"
                 class="inline-block"
               >
                 <icon-image
@@ -214,7 +214,7 @@ import BaseButton from '@/components/base/base-button/base-button.vue';
 import SubmitCancel from '@/components/base/base-button/submit-cancel/submit-cancel.vue';
 import IconPicker from '@/components/pickers/icon-picker/icon-picker.vue';
 import InvalidForm from '@/components/base/notifications/invalid-form/invalid-form.vue';
-import IconImage from '@/components/base/icon/icon.vue';
+import IconImage from '@/components/base/icon/icon-image.vue';
 import TextInput from '@/components/base/form-controls/text-input/text-input.vue';
 import SelectInput from '@/components/base/form-controls/select/select-input.vue';
 import { reactive } from '@vue/reactivity';
@@ -297,6 +297,10 @@ export default class SidebarIconEditor extends Vue {
           showTheSnackbar('Error', notification.message, 'error');
         }
       });
+  }
+
+  cancelClick(): void {
+    throw new Error('not implemented')
   }
 
   get icons(): ASidebarElement[] {

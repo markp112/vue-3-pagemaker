@@ -1,19 +1,3 @@
-// import { ButtonRequestTypes } from '@/models/styles/button-factory/button-factory';
-// import {
-//   ButtonIconClassList,
-//   ButtonIconClassListBuilder
-// } from '@/models/styles/builders/button-icon-class-list';
-// import {
-//   shadowIconList,
-//   borderEdgeIconList,
-//   lineStyleIconList,
-//   fontWeightIconList,
-//   IconPickerInterface
-// } from '@/models/components/icon-picker-models';
-// import { ButtonIconClassInterface } from '../button-icon/button-icon';
-// import { ButtonIconClassBuilder } from './button-icon-class-builder';
-// import { StyleTypes } from '@/classes/text-attributes/text-attributes';
-// import { ImpactedAttributeTypes } from '@/classes/sidebarButtonEventManager/sidebarButtonEventManager';
 
 import { ImpactedAttributeTypes } from '@/classes/sidebar/button-event-manager/button-event-manager';
 import { CssStyleTypes } from '@/common/types/css-element-styles/css-element-styles';

@@ -1,23 +1,58 @@
 // ** TO DO - merge this types to a single type.
 
 export type CssStyleTypes =
-  | "background-color"
-  | "color"
-  | "border-color"
-  | "borderEdge"
-  | "border-radius"
-  | "borderStyle"
-  | "borderWidth"
-  | "fontFamily"
-  | "fontSize"
-  | "fontWeight"
-  | "italic"
-  | "not-italic"
-  | "shadow"
-  | "underline"
-  | "no-underline"
-  | "transparency"
-  | "undefined";
+  | 'background-color'
+  | 'color'
+  | 'border-color'
+  | 'borderEdge'
+  | 'border-radius'
+  | 'borderStyle'
+  | 'borderWidth'
+  | 'fontFamily'
+  | 'fontSize'
+  | 'fontWeight'
+  | 'italic'
+  | 'not-italic'
+  | 'shadow'
+  | 'underline'
+  | 'no-underline'
+  | 'transparency'
+  | 'textDecoration'
+  | 'shadow-xs'
+  | 'shadow-sm'
+  | 'shadow-md'
+  | 'shadow-lg'
+  | 'shadow-xl'
+  | 'shadow-2xl'
+  | 'shadow-inner'
+  | 'shadow-outline'
+  | 'shadow-none'
+  | 'solid'
+  | 'dotted'
+  | 'dashed'
+  | 'double'
+  | 'inset'
+  | 'outset'
+  | 'ridge'
+  | 'groove'
+  | 'font-hairline'
+  | 'font-thin'
+  | 'font-light'
+  | 'font-normal'
+  | 'font-medium'
+  | 'font-semibold'
+  | 'font-bold'
+  | 'font-extrabold'
+  | 'font-black'
+  | 'border'
+  | 'top'
+  | 'bottom'
+  | 'left'
+  | 'right'
+  | 'none'
+  | 'hidden'
+  | ''
+  | 'undefined';
 
   export type StyleTags =
   | 'color'

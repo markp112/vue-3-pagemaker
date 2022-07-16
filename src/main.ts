@@ -7,6 +7,7 @@ import Firebase from "firebase/app";
 import "firebase/firestore";
 import { secrets } from '@/firebase/secrets';
 import "@/assets/styles/custom-styles.css";
+import { Fonts } from './classes/base/fonts/fonts';
 
 export const firebaseApp = Firebase.initializeApp(secrets.google);
 
@@ -29,7 +30,11 @@ firebaseApp
     }
   });
 
-createApp(App)
-  .use(store)
-  .use(router)
-  .mount("#app");
+const fonts = Fonts.getInstance();
+
+export const app = createApp(App);
+
+app.use(store);
+app.use(router)
+app.mount("#app");
+app.config.globalProperties.$fonts = fonts;

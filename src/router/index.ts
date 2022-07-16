@@ -6,6 +6,7 @@ import PageList from '@/views/page-list/page-list.vue';
 import PageEditor from '@/views/maintain-page/page.vue';
 import PageBuilder from '@/views/page-builder/page-builder.vue';
 import SidebarIconEditor from '@/views/settings/icon-editor/icon-editor.vue';
+import TextEditor from '@/modules/text-editor/text-editor.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -19,11 +20,11 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/login',
     name: 'login',
-    component:() =>
+    component: () =>
       import ('../views/auth/login.vue'),
       meta: {
         breadcrumb: [{ name: 'home', link: 'home' }, { name: 'login' },]
-    }
+      }
   },
   {
     path: '/sites',
@@ -82,6 +83,20 @@ const routes: Array<RouteRecordRaw> = [
         { name: 'page-builder' }
       ]
     },
+  },
+  {
+    path: '/texteditor',
+    name: 'text-editor',
+    component: TextEditor,
+    meta: {
+      breadcrumb: [
+        { name: 'home', link: 'home' },
+        { name: 'sites', link: 'sites' },
+        { name: 'page list', link: 'pageList' },
+        { name: 'page-builder', link: 'pageBuilder' },
+        { name: 'text-editor'}
+      ]
+    }
   },
   {
     path: '/iconEditor',

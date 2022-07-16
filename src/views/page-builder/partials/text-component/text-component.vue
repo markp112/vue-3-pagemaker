@@ -10,9 +10,9 @@
       @mousemove="dragElement($event)"
       @mouseup="stopDragText($event)"
     >
-      <text-data :content="this.thisComponent.content"> </text-data>
+      <text-data :content="thisComponent.content"> </text-data>
       <resizeable
-        :isActive="isActive()"
+        :isActive="isActive"
         :parentContainerDimensions="thisComponent.parent.boxDimensions"
         @resizeStarted="resizeStarted($event)"
         @onResize="onResize($event)"
@@ -23,7 +23,7 @@
 
 <script lang="ts">
 
-import { Vue, Options, mixins } from 'vue-class-component';
+import { Options, mixins } from 'vue-class-component';
 import { PageElementBuilder } from '@/classes/page-elements/builder/page-element-builder';
 import { TextElement } from '@/classes/page-elements/text-element/text-element';
 import TextData from './text-data/text-data.vue';
@@ -45,8 +45,10 @@ import { GenericComponentMixins } from '../../mixins/generic-component';
 })
 export default class TextComponent extends mixins(GenericComponentMixins) {
   name = 'textComponent';
+  
 
   created() {
+    console.log('%c⧭', 'color: #0088cc', (this.thisComponent))
     if (this.thisComponent.styles.length === 0) {
       this.thisComponent.setDefaultStyle();
     }

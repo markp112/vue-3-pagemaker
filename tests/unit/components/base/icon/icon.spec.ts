@@ -1,7 +1,6 @@
 import { DOMWrapper, mount } from '@vue/test-utils';
-import IconImage from '@/components/base/icon/icon.vue';
+import IconImage from '@/components/base/icon/icon-image.vue';
 import Tooltip from '@/components/base/notifications/tooltip/tooltip.vue';
-import Vue from 'vue';
 
 type PropsData = {
   icon: string,
@@ -12,13 +11,13 @@ type PropsData = {
 };
 
 const createIcon = (propsData: PropsData) => mount(IconImage, { props: propsData });
-  const props: PropsData = {
-    icon: 'elephant.png',
-    classdef: '',
-    id: '123',
-    tooltip: 'a tip',
-    iconClick: () => {},
-  }
+const props: PropsData = {
+  icon: 'elephant.png',
+  classdef: '',
+  id: '123',
+  tooltip: 'a tip',
+  iconClick: () => {},
+}
 describe('IconImage', () => {
   it('Should render an image element', () => {
     const icon = createIcon(props);
