@@ -27,7 +27,7 @@
         </ul>
       </div>
       <div class="ml-5 mt-5 w-9/12">
-        <form submit.prevent>
+        <form>
           <div class="dimensions">
             <text-input
               :initialValue="editorComponent.componentName"
@@ -71,7 +71,7 @@
             </span>
             <div>
               <div
-                v-if="editorComponent.sidebarIcon.icon !== ''"
+                v-if="editorComponent.sidebarIcon !== ''"
                 class="inline-block"
               >
                 <icon-image
@@ -297,6 +297,10 @@ export default class SidebarIconEditor extends Vue {
           showTheSnackbar('Error', notification.message, 'error');
         }
       });
+  }
+
+  cancelClick(): void {
+    throw new Error('not implemented')
   }
 
   get icons(): ASidebarElement[] {
