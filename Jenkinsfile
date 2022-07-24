@@ -58,7 +58,7 @@ pipeline {
         unstash 'dist.tar.gz'
         unstash 'Dockerfile'
         unstash 'nginx.conf'
-        sh 'docker build -t registry.gitlab.com/markp112/pagemaker:latest .'
+        sh 'docker build -t registry.gitlab.com/markp112/pagemaker:latestgit  .'
       }
     }
     
