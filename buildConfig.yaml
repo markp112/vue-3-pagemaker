@@ -1,0 +1,20 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  labels:
+    app.kubernetes.io/name: page-maker-3
+  name: page-maker-3
+spec:
+  output:
+    to:
+      kind: DockerImage
+      name: docker.io/markp11/pqgemaker:latest
+  source:
+    # Expect a local directory to be streamed to OpenShift as a build source
+    type: Binary
+    binary: {}
+  strategy:
+    type: Docker
+    dockerStrategy:
+      # Find the image build instructions in ./Dockerfile
+      dockerfilePath: Dockerfile
